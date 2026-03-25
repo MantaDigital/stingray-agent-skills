@@ -7,6 +7,9 @@ on:
       - master
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -16,6 +19,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Advisory skills-ref validation
+        continue-on-error: true
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install "git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref"
+          skills-ref validate skills/stingray
 
       - name: Validate Public Repo
         run: ./scripts/validate-public.sh

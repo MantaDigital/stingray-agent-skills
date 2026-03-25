@@ -1,6 +1,12 @@
 ---
 name: stingray
 description: Operate a user's Stingray crypto research account via REST API with a personal access token (sa_pat_...). Use when the user asks to check account status, research assets, manage watchlist or portfolio, create or adjust alerts, use web or Telegram or WhatsApp chat, manage referrals, check credits, or rotate API tokens. Do not use for PAT creation, billing, admin, or webhook operations.
+license: Apache-2.0
+compatibility: Requires shell access and outbound HTTPS access to app.stingray.fi; optimized for terminal-capable agents such as Claude Code, Codex, OpenClaw, and GitHub Copilot coding agents.
+metadata:
+  author: Stingray
+  organization: MantaDigital
+  version: 0.1.1
 ---
 
 # Stingray
@@ -20,7 +26,7 @@ else
 fi
 ```
 
-If the credentials file is missing, ask the user to complete First-Time Setup below.
+If the credentials file is missing, ask the user to complete the credential setup steps below.
 
 ### First-Time Setup
 

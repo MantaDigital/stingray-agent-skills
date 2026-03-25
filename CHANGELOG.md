@@ -1,8 +1,15 @@
 # Changelog
 
+## 0.1.1 - 2026-03-25
+
+- Flattened the public repo to the canonical `skills/stingray` layout.
+- Replaced the old human guide file with a standard skill-level `README.md`.
+- Removed the redundant nested Claude `plugin.json`.
+- Reworked public docs to use GitHub-valid relative links and brand-facing metadata.
+- Pinned public validation to `skills@1.4.6` and added advisory `skills-ref` validation in CI.
+
 ## 0.1.0 - 2026-03-25
 
 - Initial public release of the Stingray cross-agent skills collection.
 - Added the public Stingray skill package with setup guide and reference docs.
-- Added Claude marketplace metadata and plugin manifest.
-- Added public validation checks for structure, discovery, and forbidden references.
+- Added Claude marketplace metadata and public validation checks.
