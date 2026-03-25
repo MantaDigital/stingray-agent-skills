@@ -17,6 +17,11 @@ if rg -n 'HsuryX|ruoyang|Ruoyang|/workspace/|apps/agent-server|apps/skills/sting
   exit 1
 fi
 
+if rg -n 'public-safe|internal QA|private fixtures|mono-repo|source of truth|operator identity|pinned public skill ref|do not ship here' README.md CHANGELOG.md AGENTS.md CONTRIBUTING.md skills/stingray/README.md; then
+  echo "[FAIL] unnecessary internal disclosure detected"
+  exit 1
+fi
+
 npx -y skills@1.4.6 add . --list >/dev/null
 
 echo "[OK] public repo validation passed"

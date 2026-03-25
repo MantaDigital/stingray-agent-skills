@@ -2,8 +2,6 @@
 
 Official Stingray skills for Claude Code, GitHub Copilot, OpenClaw, Codex, and other `SKILL.md`-compatible agents.
 
-This repository publishes only the public-safe Stingray skill bundle. Internal QA, private fixtures, and mono-repo implementation notes do not ship here.
-
 ## Install
 
 ### Claude Code
@@ -63,14 +61,6 @@ Common locations:
         ├── SKILL.md
         └── references/
 ```
-
-## Release Flow
-
-1. Update this repository.
-2. Tag and release a new version.
-3. Update the pinned public skill ref in `stingray-mono`.
-4. Re-run mono `skills-validate`.
-5. Update the landing page only if public install paths or structure changed.
 
 ## Support
 
