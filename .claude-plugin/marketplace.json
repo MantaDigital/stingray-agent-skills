@@ -1,0 +1,33 @@
+{
+  "name": "stingray-agent-skills",
+  "owner": {
+    "name": "StingrayTeam",
+    "email": "dev@mantadigital.io"
+  },
+  "metadata": {
+    "description": "Official Stingray agent skills for Claude Code and other SKILL.md-compatible agents",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "stingray",
+      "source": "./stingray",
+      "description": "Official Stingray market research and account operations skill for watchlists, portfolios, alerts, chats, referrals, and PAT hygiene.",
+      "version": "0.1.0",
+      "author": {
+        "name": "StingrayTeam"
+      },
+      "keywords": [
+        "stingray",
+        "crypto",
+        "market-research",
+        "alerts",
+        "watchlist",
+        "portfolio"
+      ],
+      "category": "integration",
+      "license": "Apache-2.0",
+      "strict": false
+    }
+  ]
+}
