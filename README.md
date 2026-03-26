@@ -1,17 +1,10 @@
 # Stingray Agent Skills
 
-Official Stingray skills for Claude Code, GitHub Copilot, OpenClaw, Codex, and other `SKILL.md`-compatible agents.
+Official Stingray skills for `skills.sh` and other `SKILL.md`-compatible agents.
 
 ## Install
 
-### Claude Code
-
-```bash
-/plugin marketplace add MantaDigital/stingray-agent-skills
-/plugin install stingray@stingray-agent-skills
-```
-
-### Cross-Agent With `skills.sh`
+### With `skills.sh`
 
 ```bash
 npx skills add MantaDigital/stingray-agent-skills --skill stingray --agent claude-code
@@ -26,7 +19,6 @@ Copy [`skills/stingray`](skills/stingray) into the target agent's skills directo
 
 Common locations:
 
-- Claude Code: `.claude/skills/stingray`
 - GitHub Copilot: `.github/skills/stingray`
 - Other agents: use the agent's documented `skills` directory or the installer above
 
@@ -35,14 +27,11 @@ Common locations:
 - [`skills/stingray/SKILL.md`](skills/stingray/SKILL.md): agent entrypoint
 - [`skills/stingray/README.md`](skills/stingray/README.md): human quickstart
 - [`skills/stingray/references`](skills/stingray/references): public reference set loaded on demand
-- [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json): Claude marketplace metadata
 
 ## Repository Layout
 
 ```text
 .
-├── .claude-plugin/
-│   └── marketplace.json
 ├── .github/
 │   └── workflows/
 │       └── validate.yml

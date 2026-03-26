@@ -12,7 +12,6 @@
 - `skills/stingray/SKILL.md`: agent instructions
 - `skills/stingray/README.md`: human quickstart
 - `skills/stingray/references/`: on-demand supporting docs
-- `.claude-plugin/marketplace.json`: Claude marketplace compatibility
 
 ## Release Process
 

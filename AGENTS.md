@@ -3,7 +3,6 @@
 ## Rules
 
 - Keep the public skill bundle at `skills/stingray/`.
-- Keep Claude-specific metadata under `.claude-plugin/`.
 - Keep the core skill bundle vendor-neutral and `SKILL.md`-compatible.
 - Use relative links only in committed docs.
 - Keep public copy focused on installation and usage.
