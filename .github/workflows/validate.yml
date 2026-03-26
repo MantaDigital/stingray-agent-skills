@@ -28,8 +28,8 @@ jobs:
         continue-on-error: true
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install "git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref"
-          skills-ref validate skills/stingray
+          python3 -m pip install "git+https://github.com/agentskills/agentskills.git@b5ce2a438123f9f9c9b167c5af297c048f15395b#subdirectory=skills-ref"
+          python3 -m skills_ref.cli validate skills/stingray
 
       - name: Validate Public Repo
         run: ./scripts/validate-public.sh

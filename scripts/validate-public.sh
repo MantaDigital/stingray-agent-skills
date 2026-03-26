@@ -22,8 +22,8 @@ if rg -n 'public-safe|internal QA|private fixtures|mono-repo|source of truth|ope
   exit 1
 fi
 
-if rg -n '/plugin marketplace|/plugin install|Claude marketplace|marketplace metadata' README.md AGENTS.md CONTRIBUTING.md skills/stingray/README.md; then
-  echo "[FAIL] hidden Claude Marketplace copy detected"
+if rg -n '/plugin marketplace|/plugin install|Claude marketplace|marketplace metadata|Vercel Skills|Claude Code and other|for Claude Code and other SKILL.md-compatible agents' README.md AGENTS.md CONTRIBUTING.md skills/stingray/README.md; then
+  echo "[FAIL] stale install-story wording detected"
   exit 1
 fi
 

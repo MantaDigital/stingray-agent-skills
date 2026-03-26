@@ -1,26 +1,26 @@
 # Stingray Agent Skills
 
-Official Stingray skills for `skills.sh` and other `SKILL.md`-compatible agents.
+Official Stingray skills for `SKILL.md`-compatible agents.
 
 ## Install
 
-### With `skills.sh`
+### Recommended: Ask Your Agent
+
+Ask your agent:
+
+```text
+Install the Stingray skill from MantaDigital/stingray-agent-skills globally for all my supported coding agents using npx skills, then confirm it installed correctly.
+```
+
+### With `skills.sh` / `npx skills`
 
 ```bash
-npx skills add MantaDigital/stingray-agent-skills --skill stingray --agent claude-code
-npx skills add MantaDigital/stingray-agent-skills --skill stingray --agent github-copilot
-npx skills add MantaDigital/stingray-agent-skills --skill stingray --agent openclaw
-npx skills add MantaDigital/stingray-agent-skills --skill stingray --agent codex
+npx skills add MantaDigital/stingray-agent-skills -g --agent '*' --skill stingray -y
 ```
 
 ### Manual Copy
 
-Copy [`skills/stingray`](skills/stingray) into the target agent's skills directory.
-
-Common locations:
-
-- GitHub Copilot: `.github/skills/stingray`
-- Other agents: use the agent's documented `skills` directory or the installer above
+Copy [`skills/stingray`](skills/stingray) into your agent's configured skills directory.
 
 ## What Ships
 

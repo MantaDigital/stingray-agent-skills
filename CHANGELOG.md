@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2 - 2026-03-26
+
+- Promoted natural-language install guidance to the top public install path.
+- Replaced per-agent command lists with one global all-agent `npx skills` command.
+- Neutralized remaining Claude-first wording in public metadata and compatibility text.
+- Pinned advisory `skills-ref` validation to an immutable upstream commit.
+
 ## 0.1.1 - 2026-03-25
 
 - Flattened the public repo to the canonical `skills/stingray` layout.
