@@ -17,12 +17,12 @@ if rg -n 'HsuryX|ruoyang|Ruoyang|/workspace/|apps/agent-server|apps/skills/sting
   exit 1
 fi
 
-if rg -n 'public-safe|internal QA|private fixtures|mono-repo|source of truth|operator identity|pinned public skill ref|do not ship here' README.md CHANGELOG.md AGENTS.md CONTRIBUTING.md skills/stingray/README.md; then
+if rg -n 'public-safe|internal QA|private fixtures|mono-repo|source of truth|operator identity|pinned public skill ref|do not ship here' README.md CHANGELOG.md AGENTS.md CONTRIBUTING.md skills/stingray/README.md skills/stingray/SKILL.md; then
   echo "[FAIL] unnecessary internal disclosure detected"
   exit 1
 fi
 
-if rg -n '/plugin marketplace|/plugin install|Claude marketplace|marketplace metadata|Vercel Skills|Claude Code and other|for Claude Code and other SKILL.md-compatible agents' README.md AGENTS.md CONTRIBUTING.md skills/stingray/README.md; then
+if rg -n '/plugin marketplace|/plugin install|Claude marketplace|marketplace metadata|Vercel Skills|Claude Code and other|for Claude Code and other SKILL.md-compatible agents' README.md AGENTS.md CONTRIBUTING.md CHANGELOG.md skills/stingray/README.md skills/stingray/SKILL.md; then
   echo "[FAIL] stale install-story wording detected"
   exit 1
 fi
