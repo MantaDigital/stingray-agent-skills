@@ -15,6 +15,9 @@ This is the public boundary reference shipped with the distributed Stingray skil
 - Account and state under `/me*`, except `POST /me/api-tokens`
 - Onboarding, credits, usage, growth, Telegram state, WhatsApp state, referral code, and attribution all live inside that account surface
 - WhatsApp channel-management routes via `POST /whatsapp/link-code` and `DELETE /whatsapp/link`
+- Telegram channel-management routes via `POST /telegram/link-code` and `DELETE /telegram/link`
+- X link status via `GET /me/x-link` (read-only; `POST /x/link` is interactive-only)
+- Entity news via `GET /entities/:entityId/news`
 - Entity lookup under `/kg/search` and `/kg/resolve`
 - Watchlist routes under `/watchlist*`
 - Portfolio routes under `/portfolio*`
@@ -25,7 +28,7 @@ This is the public boundary reference shipped with the distributed Stingray skil
 - Attachment download via `GET /v1/attachments/:attachmentId`
 - User-scoped growth routes via `POST /me/attribution`, `GET /me/referral-code`, and `POST /me/referral-attribution`
 - Token list and revoke via `GET /me/api-tokens` and `DELETE /me/api-tokens/:tokenId`
-- Public referral helpers via `GET /referrals/resolve/:code` and `GET /public/referrals/leaderboard`
+- Public referral helpers via `GET /referrals/resolve/:code` and `GET /public/referrals/leaderboard` (these are public routes reachable without auth, not PAT-authenticated)
 
 ## Explicitly Blocked
 

@@ -22,7 +22,7 @@ Install the skill from the repository root, then complete the one-time credentia
 
 ## 1. Create a Token
 
-Log in to [app.stingray.fi](https://app.stingray.fi) and create a PAT in **Settings → API Tokens**.
+Log in to [stingray.fi/app](https://stingray.fi/app) and create a PAT in **Settings → API Tokens**.
 
 The token format starts with `sa_pat_...`.
 
@@ -38,7 +38,7 @@ Replace `sa_pat_YOUR_TOKEN_HERE` with the actual token.
 
 ## 3. Start Asking
 
-The skill reads `~/.stingray/credentials` and uses the fixed public proxy at `https://app.stingray.fi/api/proxy`.
+The skill reads `~/.stingray/credentials` and calls the API directly at `https://stingray.fi/api/agent`.
 
 Example prompts:
 

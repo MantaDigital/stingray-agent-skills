@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "stingray",
-      "source": "./",
+      "source": "./skills/stingray",
       "skills": [
         "./skills/stingray"
       ],

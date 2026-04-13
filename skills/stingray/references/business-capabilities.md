@@ -34,6 +34,9 @@ Primary routes:
 - `GET /me`
 - `GET /me/onboarding`
 - `GET /me/onboarding/telegram`
+- `POST /me/onboarding/telegram`
+- `POST /me/onboarding/step/:step`
+- `POST /me/onboarding/complete`
 - `GET /me/telegram`
 - `GET /me/whatsapp`
 - `GET /me/credits/balance`
@@ -58,10 +61,12 @@ Primary routes:
 
 - `GET /kg/search`
 - `POST /kg/resolve`
+- `GET /entities/:entityId/news`
 
 Notes:
 
-- This is entity research, disambiguation, and metadata lookup.
+- This is entity research, disambiguation, metadata lookup, and news.
+- Use `/entities/:entityId/news` after resolving an entity id to fetch normalized news for that asset.
 - Do not pretend this surface is a full real-time market data API unless the returned KG payload actually provides the data needed.
 - Resolve stable ids before downstream writes like watchlist, portfolio, or alerts.
 
@@ -149,7 +154,7 @@ Notes:
 
 - Notifications are alert delivery records surfaced for the current user.
 - `POST /notifications/read` accepts `{"delivery_ids": ["uuid", ...]}` (max 100 per call).
-- The SSE stream at `GET /notifications/stream` is available but is a long-lived connection better suited to frontend use than agent automation.
+- The SSE stream at `GET /notifications/stream` exists but is not part of the PAT skill surface. It is a long-lived connection better suited to frontend use.
 
 ## 7. Fetch backtest results
 
@@ -202,18 +207,25 @@ Typical user requests:
 - "Check my WhatsApp status."
 - "Create a WhatsApp link code."
 - "Disconnect WhatsApp."
+- "Create a Telegram link code."
+- "Disconnect Telegram."
+- "Is my X account linked?"
 
 Primary routes:
 
 - `GET /me/telegram`
-- `POST /whatsapp/link-code`
+- `POST /telegram/link-code`
+- `DELETE /telegram/link`
 - `GET /me/whatsapp`
+- `POST /whatsapp/link-code`
 - `DELETE /whatsapp/link`
+- `GET /me/x-link`
 
 Notes:
 
-- Some WhatsApp routes are env-gated; if the route is unavailable, treat that as environment or deployment configuration, not PAT denial.
-- Telegram status is readable through `/me/telegram`, but actual Telegram delivery still depends on DM deliverability.
+- Some WhatsApp and Telegram routes are env-gated; if the route is unavailable, treat that as environment or deployment configuration, not PAT denial.
+- Telegram and WhatsApp both support link-code generation and disconnection via symmetric route pairs.
+- X link status is read-only via `GET /me/x-link`. Linking X via `POST /x/link` requires interactive auth and is not available via PAT.
 
 ## 10. Manage referrals and attribution
 

@@ -19,4 +19,4 @@
 
 - Initial public release of the Stingray cross-agent skills collection.
 - Added the public Stingray skill package with setup guide and reference docs.
-- Added Claude marketplace metadata and public validation checks.
+- Added plugin metadata and public validation checks.

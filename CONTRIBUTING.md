@@ -18,5 +18,5 @@
 1. Update this repository.
 2. Run `./scripts/validate-public.sh`.
 3. Confirm `python3 -m skills_ref.cli validate skills/stingray` works.
-4. Confirm `npx -y skills@1.4.6 add . --list` works.
+4. Confirm `npx -y skills add . --list` works (uses the version pinned in `scripts/validate-public.sh`).
 5. Tag and release a new version.

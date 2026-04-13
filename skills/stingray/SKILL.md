@@ -2,7 +2,7 @@
 name: stingray
 description: Operate a user's Stingray crypto research account via REST API with a personal access token (sa_pat_...). Use when the user asks to check account status, research assets, manage watchlist or portfolio, create or adjust alerts, use web or Telegram or WhatsApp chat, manage referrals, check credits, or rotate API tokens. Do not use for PAT creation, billing, admin, or webhook operations.
 license: Apache-2.0
-compatibility: Requires shell access and outbound HTTPS access to app.stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
+compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
   author: Stingray
   organization: MantaDigital
@@ -32,7 +32,7 @@ If the credentials file is missing, ask the user to complete the credential setu
 
 If the credential check shows `not configured`, set up credentials once:
 
-1. Log in to [app.stingray.fi](https://app.stingray.fi) and create a PAT under **Settings → API Tokens**.
+1. Log in to [stingray.fi/app](https://stingray.fi/app) and create a PAT under **Settings → API Tokens**.
 2. Run:
    ```bash
    mkdir -p ~/.stingray && printf 'STINGRAY_PAT=sa_pat_YOUR_TOKEN_HERE\n' > ~/.stingray/credentials && chmod 600 ~/.stingray/credentials
@@ -46,13 +46,13 @@ That's it. The token persists across sessions.
 The API base URL is a fixed constant — **never** ask the user to configure it:
 
 ```bash
-export STINGRAY_API=https://app.stingray.fi/api/proxy
+export STINGRAY_API=https://stingray.fi/api/agent
 ```
 
 When shell access is available, load credentials and the fixed base URL with:
 
 ```bash
-source ~/.stingray/credentials && export STINGRAY_API=https://app.stingray.fi/api/proxy
+source ~/.stingray/credentials && export STINGRAY_API=https://stingray.fi/api/agent
 ```
 
 Endpoints below are written as relative paths (e.g. `/me/access`). Construct the full URL by prepending `$STINGRAY_API`:
@@ -70,7 +70,7 @@ curl -s -X DELETE -H "Authorization: Bearer $STINGRAY_PAT" \
   "$STINGRAY_API/me/api-tokens/TOKEN_ID"
 ```
 
-Do not call `/v1/tools` or `/v1/tools/call`.
+Do not call `/v1/tools`.
 
 ## References
 
@@ -88,7 +88,7 @@ Read only the references that match the task:
 
 ## Default Operating Loop
 
-1. Load `~/.stingray/credentials` and set `STINGRAY_API=https://app.stingray.fi/api/proxy`. If the credentials file does not exist, ask the user to complete First-Time Setup.
+1. Load `~/.stingray/credentials` and set `STINGRAY_API=https://stingray.fi/api/agent`. If the credentials file does not exist, ask the user to complete First-Time Setup.
 2. Interpret the request as a user job, not an endpoint. Read `references/business-capabilities.md` for product-language prompts like "add an alert", "look up this asset", "check my credits".
 3. If the prompt implies an end-to-end outcome across multiple jobs, read `references/north-star-scenarios.md` before planning.
 4. If the prompt is ambiguous, read `references/intent-rubrics.md` before choosing a route family.
@@ -104,14 +104,16 @@ Read only the references that match the task:
 
 ## Task Routing
 
-- **Account state**: readiness, onboarding, linked channels, credits, usage → `/me*`, `/whatsapp/link-code`, `/whatsapp/link`. Read `references/business-capabilities.md`.
-- **Asset research**: entity lookup, disambiguation → `/kg/search`, `/kg/resolve`. Read `references/business-capabilities.md` and `references/workflows.md`.
+- **Account state**: readiness, onboarding, linked channels, credits, usage → `/me*`, `/whatsapp/link-code`, `/whatsapp/link`, `/telegram/link-code`, `/telegram/link`, `/me/x-link`. Read `references/business-capabilities.md`.
+- **Asset research**: entity lookup, disambiguation, news → `/kg/search`, `/kg/resolve`, `/entities/:entityId/news`. Read `references/business-capabilities.md` and `references/workflows.md`.
 - **Product state**: watchlist, portfolio, alerts → `/watchlist*`, `/portfolio*`, `/alerts*`.
+- **Notifications**: alert delivery records → `/notifications`, `/notifications/unread-count`, `/notifications/read`, `/notifications/read-all`.
+- **Backtest results** → `GET /widgets/:id` (24h TTL).
 - **Chat & attachments** → `/v1/chats*`, `GET /v1/attachments/:attachmentId`.
 - **Growth & referrals**: attribution, channel linking → `/me/attribution`, `/me/referral-code`, `/me/referral-attribution`. Not chat routes.
 - **Token hygiene** → `GET /me/api-tokens`, `DELETE /me/api-tokens/:tokenId`. Read `references/token-lifecycle.md`.
 - Two families plausible → prefer less destructive interpretation, check `references/intent-rubrics.md`.
 - PAT creation → stop; `POST /me/api-tokens` is interactive-auth only. Read `references/token-lifecycle.md`.
 - Billing, guest, admin, webhook, tool-host → stop; outside PAT skill surface. Read `references/access-policy.md`.
-- Alert delivery or channel chats → confirm linked Telegram/WhatsApp state first. Read `references/workflows.md` and `references/troubleshooting.md`.
+- Alert delivery or channel chats → confirm linked Telegram/WhatsApp state first via `/me/telegram`, `/me/whatsapp`. Read `references/workflows.md` and `references/troubleshooting.md`.
 - KG routes return `502`/`503` → backend dependency issue, not auth failure. Read `references/troubleshooting.md`.

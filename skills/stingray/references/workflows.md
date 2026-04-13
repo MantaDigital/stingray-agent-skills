@@ -31,7 +31,8 @@ Use this flow when the user asks what is left, what has been consumed, or whethe
 
 1. `GET /kg/search?q=<term>&limit=5`
 2. `POST /kg/resolve` only when you need stable ids or disambiguation
-3. Return the best-match entities before performing downstream writes
+3. `GET /entities/:entityId/news` if the user wants recent news for the resolved entity
+4. Return the best-match entities before performing downstream writes
 
 Use this flow when the user is asking for asset or project information, not yet asking to mutate watchlist, portfolio, or alerts.
 
@@ -101,6 +102,14 @@ Use this flow for growth and acquisition tasks, not alert delivery or channel ch
 1. `GET /me/whatsapp`
 2. `POST /whatsapp/link-code` only when the user explicitly wants to start linking
 3. `DELETE /whatsapp/link` only when the user explicitly wants to disconnect it
+
+If the route is unavailable, treat it as environment gating rather than PAT denial.
+
+## Telegram channel management
+
+1. `GET /me/telegram`
+2. `POST /telegram/link-code` only when the user explicitly wants to start linking
+3. `DELETE /telegram/link` only when the user explicitly wants to disconnect it
 
 If the route is unavailable, treat it as environment gating rather than PAT denial.
 
