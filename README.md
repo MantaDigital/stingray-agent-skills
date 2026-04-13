@@ -9,13 +9,13 @@ Official Stingray skills for `SKILL.md`-compatible agents.
 Ask your agent:
 
 ```text
-Install the Stingray skill from MantaDigital/stingray-agent-skills globally for all my supported coding agents using npx skills, then confirm it installed correctly.
+Install the skills from MantaDigital/stingray-agent-skills globally for all my coding agents using npx skills.
 ```
 
 ### With `skills.sh` / `npx skills`
 
 ```bash
-npx skills add MantaDigital/stingray-agent-skills -g --agent '*' --skill stingray -y
+npx skills add MantaDigital/stingray-agent-skills -g -y
 ```
 
 ### Manual Copy

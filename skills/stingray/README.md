@@ -9,13 +9,13 @@ Human quickstart for the public Stingray skill bundle.
 Ask your agent:
 
 ```text
-Install the Stingray skill from MantaDigital/stingray-agent-skills globally for all my supported coding agents using npx skills, then confirm it installed correctly.
+Install the skills from MantaDigital/stingray-agent-skills globally for all my coding agents using npx skills.
 ```
 
 ### With `skills.sh` / `npx skills`
 
 ```bash
-npx skills add MantaDigital/stingray-agent-skills -g --agent '*' --skill stingray -y
+npx skills add MantaDigital/stingray-agent-skills -g -y
 ```
 
 Install the skill from the repository root, then complete the one-time credential setup below.
