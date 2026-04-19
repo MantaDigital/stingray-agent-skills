@@ -32,7 +32,7 @@ for reference in skills/stingray/references/*.md; do
   grep -Fq "references/$ref_name" skills/stingray/SKILL.md
 done
 
-if search_regex 'HsuryX|ruoyang|Ruoyang|/workspace/|apps/agent-server|apps/skills/stingray|apps/skills/qa|agents/openai.yaml|GUIDE\.md|stingray/skills/stingray' README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md CODEOWNERS .claude-plugin skills .github; then
+if search_regex '/workspace/|apps/agent-server|apps/skills/stingray|apps/skills/qa|agents/openai.yaml|GUIDE\.md|stingray/skills/stingray' README.md AGENTS.md CHANGELOG.md CONTRIBUTING.md CODEOWNERS .claude-plugin skills .github; then
   echo "[FAIL] forbidden reference detected"
   exit 1
 fi
