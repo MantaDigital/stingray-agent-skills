@@ -20,25 +20,21 @@ npx skills add MantaDigital/stingray-agent-skills -g -y
 
 Install the skill from the repository root, then complete the one-time credential setup below.
 
-## 1. Create a Token
+## 1. Open the Token Page
 
-Log in to [stingray.fi/app](https://stingray.fi/app) and create a PAT in **Settings → API Tokens**.
+Open [https://stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens), sign in if needed, and create a PAT.
 
 The token format starts with `sa_pat_...`.
 
-## 2. Save Credentials Once
+## 2. Paste It Back Into Your Agent
 
-```bash
-mkdir -p ~/.stingray
-printf 'STINGRAY_PAT=sa_pat_YOUR_TOKEN_HERE\n' > ~/.stingray/credentials
-chmod 600 ~/.stingray/credentials
-```
+Paste the `sa_pat_...` token into the same agent chat.
 
-Replace `sa_pat_YOUR_TOKEN_HERE` with the actual token.
+The agent should save it for you. You should not need to run any local credential write commands.
 
 ## 3. Start Asking
 
-The skill reads `~/.stingray/credentials` and calls the API directly at `https://stingray.fi/api/agent`.
+Once the token is saved, the skill calls `https://stingray.fi/api/agent` directly.
 
 Example prompts:
 

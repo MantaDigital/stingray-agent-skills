@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 - 2026-04-18
+
+- Simplified first-time token setup to a single direct settings URL and token paste-back flow.
+- Removed public credential write commands from the human quickstart.
+- Added validation coverage for the direct token settings link and hidden setup-command guidance.
+
 ## 0.1.2 - 2026-03-26
 
 - Promoted natural-language install guidance to the top public install path.

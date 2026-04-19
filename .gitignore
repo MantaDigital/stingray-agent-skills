@@ -5,3 +5,4 @@ dist/
 coverage/
 *.pyc
 __pycache__/
+.omx/
