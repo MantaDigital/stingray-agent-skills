@@ -27,6 +27,21 @@ if rg -n '/plugin marketplace|/plugin install|Claude marketplace|marketplace met
   exit 1
 fi
 
+if ! rg -Fq 'https://stingray.fi/app/settings#settings-api-tokens' skills/stingray/README.md skills/stingray/SKILL.md; then
+  echo "[FAIL] direct token settings URL missing"
+  exit 1
+fi
+
+if rg -n 'mkdir -p ~/.stingray|printf .*STINGRAY_PAT=sa_pat|chmod 600 ~/.stingray/credentials' skills/stingray/README.md; then
+  echo "[FAIL] README still exposes credential write commands"
+  exit 1
+fi
+
+if ! rg -Fq 'Do not show the user shell commands' skills/stingray/SKILL.md; then
+  echo "[FAIL] SKILL missing hidden-setup guidance"
+  exit 1
+fi
+
 npx -y skills@1.4.6 add . --list >/dev/null
 
 echo "[OK] public repo validation passed"

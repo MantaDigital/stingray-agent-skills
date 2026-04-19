@@ -6,7 +6,7 @@ compatibility: Requires shell access and outbound HTTPS access to stingray.fi. D
 metadata:
   author: Stingray
   organization: MantaDigital
-  version: 0.1.2
+  version: 0.1.3
 ---
 
 # Stingray
@@ -32,14 +32,12 @@ If the credentials file is missing, ask the user to complete the credential setu
 
 If the credential check shows `not configured`, set up credentials once:
 
-1. Log in to [stingray.fi/app](https://stingray.fi/app) and create a PAT under **Settings → API Tokens**.
-2. Run:
-   ```bash
-   mkdir -p ~/.stingray && printf 'STINGRAY_PAT=sa_pat_YOUR_TOKEN_HERE\n' > ~/.stingray/credentials && chmod 600 ~/.stingray/credentials
-   ```
-3. Replace `sa_pat_YOUR_TOKEN_HERE` with your actual token.
-
-That's it. The token persists across sessions.
+1. Send one short user-facing message only:
+   - `Open https://stingray.fi/app/settings#settings-api-tokens, sign in if needed, create a token, then paste the sa_pat_... token here.`
+2. Do not show the user shell commands, file paths, environment variables, debug details, or credential write steps unless they explicitly ask.
+3. Wait for the user to paste the token back into the chat.
+4. After the user sends the token, write it yourself to `~/.stingray/credentials` as `STINGRAY_PAT=<token>` and lock the file to user-only permissions.
+5. Acknowledge setup in one short sentence, then continue with the original task.
 
 ## API
 
