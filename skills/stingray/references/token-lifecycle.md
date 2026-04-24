@@ -1,12 +1,12 @@
 # Token Lifecycle
 
-Read this file when the task involves PAT discovery, revocation, rotation, or explaining why PAT creation is blocked.
+Read this file when the task involves API token discovery, revocation, rotation, or explaining why API token creation is blocked.
 
 This is the public token-lifecycle reference shipped with the distributed Stingray skill package.
 
 ## Token Model
 
-- PAT prefix: `sa_pat_`
+- API token prefix: `sa_pat_`
 - The plaintext token is shown only once at creation time.
 - Server storage keeps only `token_hash`; public responses expose metadata and `tokenLastFour`.
 - Tokens authenticate as one canonical `user_id`.
@@ -17,13 +17,13 @@ This is the public token-lifecycle reference shipped with the distributed Stingr
 ### List tokens
 
 - Endpoint: `GET /me/api-tokens`
-- Allowed for interactive auth and PAT auth for the same user
+- Allowed for interactive auth and API token auth for the same user
 - Use this before any revoke or rotation cleanup
 
 ### Revoke token
 
 - Endpoint: `DELETE /me/api-tokens/:tokenId`
-- Allowed for interactive auth and PAT auth for the same user
+- Allowed for interactive auth and API token auth for the same user
 - Success response: `{ "ok": true }`
 - Common errors:
   - `400` invalid `tokenId`
@@ -33,10 +33,10 @@ This is the public token-lifecycle reference shipped with the distributed Stingr
 
 - Endpoint: `POST /me/api-tokens`
 - Allowed only for interactive registered auth
-- PAT auth is deliberately blocked and returns `403 api_token_not_allowed`
+- API token auth is deliberately blocked and returns `403 api_token_not_allowed`
 - Reason: token minting is interactive-only to avoid recursive credential fan-out
 
-If the user asks for PAT creation while you only have a PAT, explain the boundary instead of attempting the call.
+If the user asks for API token creation while you only have an API token, explain the boundary instead of attempting the call.
 
 ## Rotation Hygiene
 

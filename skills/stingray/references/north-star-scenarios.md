@@ -13,7 +13,7 @@ These scenarios are where the skill should feel agent-native instead of UI-autom
 5. Screenshot to Portfolio Draft
 6. Channel Handoff
 7. Growth Concierge
-8. PAT Security Concierge
+8. API token Security Concierge
 9. Account Operating Report
 10. Monitoring Coverage Query
 11. Monitoring Gap Fill
@@ -221,7 +221,7 @@ Do not:
 - confuse attribution capture with referral-code generation
 - treat public leaderboard routes as user-account management
 
-## 8. PAT Security Concierge
+## 8. API token Security Concierge
 
 User phrasing:
 
@@ -238,14 +238,14 @@ Capability mix:
 
 Good flow:
 
-1. List existing PATs.
+1. List existing API tokens.
 2. Identify the intended revoke set with the user.
 3. Revoke only the stale tokens.
 4. Re-list and confirm the survivors.
 
 Do not:
 
-- revoke the currently in-use PAT accidentally
+- revoke the currently in-use API token accidentally
 - treat cleanup as permission to mint new credentials
 
 ## 9. Account Operating Report
@@ -394,4 +394,4 @@ Do not:
 - assume which resources exist without listing first
 - skip the final verification loop
 - delete resources the user did not explicitly mention (e.g., do not delete watchlist items when the user only asked to delete alerts)
-- delete the currently in-use PAT unless the user explicitly asks for it
+- delete the currently in-use API token unless the user explicitly asks for it

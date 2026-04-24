@@ -17,19 +17,39 @@ Read this file when the task involves **turning a trading thesis or alert defini
 | `POST /v1/cards` | POST | Mint a shareable card from `{draft_id, backtest_id}`. Returns `{card_id}`. Idempotent per `(user_id, backtest_snapshot_id)` — re-calling returns the same card. |
 | `GET /widgets/:id` | GET | Fetch a stored widget (the backtest result itself, 24-hour TTL). |
 | public `https://stingray.fi/cards/<card_id>/` | — | Public Astro share page. Renders OG image, portrait watermark, PnL stats, chart. No auth needed. |
-| public `https://stingray.fi/cards/<card_id>/image.png` | — | 1200×630 OG PNG. Renders correctly in X/Slack/WhatsApp/Telegram previews. |
+| public `https://stingray.fi/cards/<card_id>/image.png/` | — | 1200×630 OG PNG. Renders correctly in X/Slack/WhatsApp/Telegram previews. **Trailing slash is required** — `/image.png` without it returns `404 text/html`. |
 
 ## Canonical flow
 
-The agent chat is the authoring surface. Drafts live as `widget_snapshot` rows; they're not created by a separate REST POST. A PAT-driven workflow therefore looks like:
+The agent chat is the authoring surface. Drafts live as `widget_snapshot` rows; they're not created by a separate REST POST. An API token-driven workflow therefore looks like:
 
-1. **Start or resume a chat** (`POST /v1/chats/web`). You get back a `chat_id`.
-2. **Send a thesis prompt** to the chat via `POST /v1/chats/:chatId/messages/stream`. Phrase it as a natural-language alert definition — the agent will write an `alert_draft` widget snapshot and reply with the draft_id attached. Example prompt:
-   > Create an alert for BTCUSDT crossing above 70000 on the 1h chart. Keep it as a draft, don't deploy yet.
-3. **Extract the `draft_id`** from the streamed response. It appears in a tool-output / widget attachment section.
-4. **Run the backtest** — `POST /v1/alert-drafts/<draft_id>/backtest {"backtest_lookback_days": 365}`. Returns a widget snapshot including `backtest_id` (the snapshot id).
-5. **Mint the card** — `POST /v1/cards {"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "uuid"}`.
-6. **Share** the public URL `https://stingray.fi/cards/<card_id>/` (or the OG image URL for DM-direct image embeds).
+1. **Start or resume a chat** — `POST /v1/chats/web` with body `{}`. Returns `{"chat_id": "<uuid>"}`.
+
+2. **Send a thesis prompt** — `POST /v1/chats/:chatId/messages/stream`. The body is **`multipart/form-data` with a single field `input`** containing the natural-language prompt. **Not JSON.** Posting `{"text": "..."}` or `{"content": "..."}` returns `"Message must include text or at least one image"`. Example curl:
+
+   ```bash
+   curl -N -X POST \
+     -H "Authorization: Bearer $STINGRAY_PAT" \
+     -F "input=Create a draft alert for BTCUSDT crossing above 70000 on the 1h chart. Keep it as a draft, don't deploy yet." \
+     "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
+   ```
+
+   The response is an SSE stream (`event: agent_event` lines). **Consume it to completion** — the server finalizes the draft on stream close.
+
+3. **Recover the `draft_id`** after the stream closes. Parsing the SSE stream from a shell is unreliable (progressive `toolcall_delta` events, arguments may be mid-token when curl exits). Instead, fetch the chat's messages:
+
+   ```bash
+   curl -s -H "Authorization: Bearer $STINGRAY_PAT" \
+     "$STINGRAY_API/v1/chats/$CHAT_ID/messages"
+   ```
+
+   Walk `messages[]` and find the one where `details.tool_name == "alerts_draft"`. The draft_id is at `details.tool_output.widget_id`. **Gotcha:** the API names the field `widget_id`, not `draft_id`, even though that same value is what you pass to the backtest endpoint in the next step.
+
+4. **Run the backtest** — `POST /v1/alert-drafts/<draft_id>/backtest {"backtest_lookback_days": 365}`. Returns `{state, alert_id, metadata, definition, backtest_id, pnl_card_id, ...}`. `backtest_id` is the widget-snapshot id for the result.
+
+5. **Mint the card** — `POST /v1/cards {"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "<uuid>"}`.
+
+6. **Share** the public URL `https://stingray.fi/cards/<card_id>/` for the full share page, or `https://stingray.fi/cards/<card_id>/image.png/` for the 1200×630 OG PNG (trailing slash required on both).
 
 ### Shortcut when the thesis already maps to a known alert-block shape
 
@@ -108,7 +128,7 @@ If the thesis isn't mappable to a primitive, decline rather than guess. A bad th
 - Backtest snapshots expire after **24 hours**; the card display data is a separate persistent snapshot inside `pnl_cards.display_data`, so the card itself doesn't decay.
 - Cards can be edited after creation (`PATCH /v1/cards/:cardId`) — useful for tuning copy/summary if the first render feels off.
 - Portrait watermark (right-anchored, dollar-bill-engraved style) uses the card creator's uploaded face photo. Upload via `POST /v1/cards/:cardId/figure-image`. Optional.
-- OG image renders at `/cards/<card_id>/image.png` (light variant) and `/cards/<card_id>/dark/image.png` (dark variant). X/Slack/Telegram preview caches are path-keyed, so use different paths for each variant.
+- OG image renders at `/cards/<card_id>/image.png/` (light variant) and `/cards/<card_id>/dark/image.png/` (dark variant). **Trailing slash is required**; the no-slash form returns `404`. X/Slack/Telegram preview caches are path-keyed, so use different paths for each variant.
 
 ## Failure modes
 
@@ -118,7 +138,7 @@ If the thesis isn't mappable to a primitive, decline rather than guess. A bad th
 | 409 / "backtest already in progress" | 90-second mutex held by a concurrent backtest request | wait 90s and retry |
 | backtest result has zero triggers | thesis was too narrow for the lookback window, or trading pair has sparse history | widen the window or relax the trigger threshold |
 | `POST /v1/cards` returns same `card_id` on retry | idempotency key hit — not an error | use the returned card_id |
-| card page loads but OG image 404s | Astro SSR cache warming on first render | wait 5-10s and re-fetch; the image is computed on-demand |
+| card page loads but OG image 404s | missing trailing slash on `/image.png` URL | use `/cards/<id>/image.png/` with trailing slash — the no-slash form returns 404 |
 | `missing_event_subscription` from backtest | `trading_pair` in trigger doesn't have a matching `events[]` entry | add the pair to `events` (see `references/alert-definitions.md`) |
 
 ## Use with Growth work
@@ -132,7 +152,7 @@ If you're using this to build shareable cards for outreach (e.g. auto-generating
 
 ## Token scopes required
 
-`skill_operations` (default PAT scope) is sufficient for the backtest + card endpoints. Chat endpoints (`/v1/chats/web` etc.) also work with the default PAT scope.
+`skill_operations` (default API token scope) is sufficient for the backtest + card endpoints. Chat endpoints (`/v1/chats/web` etc.) also work with the default API token scope.
 
 ## Related references
 

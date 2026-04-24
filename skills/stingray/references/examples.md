@@ -11,8 +11,8 @@ Read this file when you want concrete prompt patterns and the endpoint plan each
 5. Check credits and usage
 6. Create or inspect my referral code
 7. Check WhatsApp readiness
-8. Clean up old PATs but keep the current one working
-9. Explain a blocked PAT creation request
+8. Clean up old API tokens but keep the current one working
+9. Explain a blocked API token creation request
 10. Start a channel chat safely
 11. Create a composite alert combining price and news
 12. Create a technical analysis alert
@@ -22,7 +22,7 @@ Read this file when you want concrete prompt patterns and the endpoint plan each
 ## Example 1: Inspect capabilities before taking action
 
 User request:
-"Check what this PAT can do before you touch my account."
+"Check what this API token can do before you touch my account."
 
 Execution plan:
 
@@ -96,7 +96,7 @@ Execution plan:
 1. `GET /me/whatsapp`
 2. Summarize linked or unlinked state and next-step guidance
 
-## Example 8: Clean up old PATs but keep the current one working
+## Example 8: Clean up old API tokens but keep the current one working
 
 User request:
 "List my API tokens and revoke the old integration tokens."
@@ -108,15 +108,15 @@ Execution plan:
 3. `DELETE /me/api-tokens/:tokenId` for those ids
 4. `GET /me/api-tokens`
 
-## Example 9: Explain a blocked PAT creation request
+## Example 9: Explain a blocked API token creation request
 
 User request:
-"Create a new PAT called Claude Desktop."
+"Create a new API token called Claude Desktop."
 
 Execution plan:
 
-1. Do not call `POST /me/api-tokens` with the PAT
-2. Explain that PAT creation requires interactive registered auth
+1. Do not call `POST /me/api-tokens` with the API token
+2. Explain that API token creation requires interactive registered auth
 3. Provide the creation rules from `references/token-lifecycle.md` if the user needs the exact contract
 
 ## Example 10: Start a channel chat safely

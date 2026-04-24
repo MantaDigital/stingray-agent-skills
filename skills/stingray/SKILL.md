@@ -1,12 +1,12 @@
 ---
 name: stingray
-description: Operate a user's Stingray crypto research account via REST API with a personal access token (sa_pat_...). Use when the user asks to check account status, research assets, manage watchlist or portfolio, create or adjust alerts, run backtests, mint shareable backtest cards, use web or Telegram or WhatsApp chat, manage referrals, check credits, or rotate API tokens. Do not use for PAT creation, billing, admin, or webhook operations.
+description: Operate a user's Stingray crypto research account via REST API with an API token (sa_pat_...). Use when the user asks to check account status, research assets, manage watchlist or portfolio, create or adjust alerts, run backtests, mint shareable backtest cards, use web or Telegram or WhatsApp chat, manage referrals, check credits, or rotate API tokens. Do not use for API token creation, billing, admin, or webhook operations.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
   author: Stingray
   organization: MantaDigital
-  version: 0.1.4
+  version: 0.1.5
 ---
 
 # Stingray
@@ -80,7 +80,7 @@ Read only the references that match the task:
 - `references/access-policy.md` — allowed/blocked surface, prerequisites, capability-first routing
 - `references/alert-definitions.md` — composable alert blocks, combinators, validation, examples
 - `references/backtest-and-cards.md` — thesis → alert draft → backtest → shareable card flow; OG/public URL shapes
-- `references/token-lifecycle.md` — PAT list, revoke, rotation hygiene
+- `references/token-lifecycle.md` — API token list, revoke, rotation hygiene
 - `references/workflows.md` — task-oriented endpoint sequences
 - `references/examples.md` — concrete prompt-to-endpoint mappings
 - `references/troubleshooting.md` — auth, prerequisite, dependency, and alert failures
@@ -99,7 +99,7 @@ Read only the references that match the task:
    - Never echo back details the user already provided as a confirmation question.
 8. Prefer read → write → verify loops. After any mutation, do the smallest read that proves the new state. After deletes, list remaining resources to confirm nothing was missed.
 9. For chats, create or resolve the chat first, optionally load history, then call the stream endpoint.
-10. For token cleanup, list tokens before revoke and keep the in-use PAT out of the revoke set unless the user explicitly intends to rotate it.
+10. For token cleanup, list tokens before revoke and keep the in-use API token out of the revoke set unless the user explicitly intends to rotate it.
 
 ## Task Routing
 
@@ -112,7 +112,7 @@ Read only the references that match the task:
 - **Growth & referrals**: attribution, channel linking → `/me/attribution`, `/me/referral-code`, `/me/referral-attribution`. Not chat routes.
 - **Token hygiene** → `GET /me/api-tokens`, `DELETE /me/api-tokens/:tokenId`. Read `references/token-lifecycle.md`.
 - Two families plausible → prefer less destructive interpretation, check `references/intent-rubrics.md`.
-- PAT creation → stop; `POST /me/api-tokens` is interactive-auth only. Read `references/token-lifecycle.md`.
-- Billing, guest, admin, webhook, tool-host → stop; outside PAT skill surface. Read `references/access-policy.md`.
+- API token creation → stop; `POST /me/api-tokens` is interactive-auth only. Read `references/token-lifecycle.md`.
+- Billing, guest, admin, webhook, tool-host → stop; outside API token skill surface. Read `references/access-policy.md`.
 - Alert delivery or channel chats → confirm linked Telegram/WhatsApp state first via `/me/telegram`, `/me/whatsapp`. Read `references/workflows.md` and `references/troubleshooting.md`.
 - KG routes return `502`/`503` → backend dependency issue, not auth failure. Read `references/troubleshooting.md`.

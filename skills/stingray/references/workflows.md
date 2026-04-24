@@ -1,6 +1,6 @@
 # Common Workflows
 
-Read this file when the task is already inside the allowed PAT surface and you need the lowest-risk endpoint order.
+Read this file when the task is already inside the allowed API token surface and you need the lowest-risk endpoint order.
 
 ## Capability and account state
 
@@ -86,7 +86,7 @@ Use this flow when the user wants to turn a specific trading thesis into a backt
 2. `POST /v1/chats/:chatId/messages/stream` with the thesis as natural-language prompt (e.g. "create a draft alert for BTCUSDT crossing above 70000 on the 1h chart, don't deploy yet"). The agent writes an `alert_draft` widget snapshot; extract the `draft_id` from the streamed response.
 3. `POST /v1/alert-drafts/:id/backtest` with body `{"backtest_lookback_days": 365}` (max 365). Returns a `backtest_result` snapshot; capture `backtest_id`.
 4. `POST /v1/cards` with body `{"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "uuid"}`.
-5. Share the public URL `https://stingray.fi/cards/<card_id>/` (or the OG image at `/cards/<card_id>/image.png` for direct image embeds).
+5. Share the public URL `https://stingray.fi/cards/<card_id>/` (or the OG image at `/cards/<card_id>/image.png/` — trailing slash required — for direct image embeds).
 
 Optional: `POST /v1/cards/:cardId/figure-image` uploads a portrait watermark (right-anchored, dollar-bill-engraved style). Optional: `PATCH /v1/cards/:cardId` to edit card copy.
 
@@ -117,7 +117,7 @@ Use this flow for growth and acquisition tasks, not alert delivery or channel ch
 2. `POST /whatsapp/link-code` only when the user explicitly wants to start linking
 3. `DELETE /whatsapp/link` only when the user explicitly wants to disconnect it
 
-If the route is unavailable, treat it as environment gating rather than PAT denial.
+If the route is unavailable, treat it as environment gating rather than API token denial.
 
 ## Telegram channel management
 
@@ -125,7 +125,7 @@ If the route is unavailable, treat it as environment gating rather than PAT deni
 2. `POST /telegram/link-code` only when the user explicitly wants to start linking
 3. `DELETE /telegram/link` only when the user explicitly wants to disconnect it
 
-If the route is unavailable, treat it as environment gating rather than PAT denial.
+If the route is unavailable, treat it as environment gating rather than API token denial.
 
 ## Bulk cleanup
 

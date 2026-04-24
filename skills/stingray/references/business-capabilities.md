@@ -2,7 +2,7 @@
 
 Read this file when the user asks for product outcomes such as "add an alert", "look up an asset", "check my credits", or "see if WhatsApp is linked".
 
-The point of this file is to translate business intent into the correct PAT-safe route family.
+The point of this file is to translate business intent into the correct API token-safe route family.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ The point of this file is to translate business intent into the correct PAT-safe
 8. Use the assistant through web or channel chats
 9. Manage linked delivery channels
 10. Manage referrals and attribution
-11. Keep PATs tidy
+11. Keep API tokens tidy
 
 ## 1. Understand account readiness and current state
 
@@ -154,7 +154,7 @@ Notes:
 
 - Notifications are alert delivery records surfaced for the current user.
 - `POST /notifications/read` accepts `{"delivery_ids": ["uuid", ...]}` (max 100 per call).
-- The SSE stream at `GET /notifications/stream` exists but is not part of the PAT skill surface. It is a long-lived connection better suited to frontend use.
+- The SSE stream at `GET /notifications/stream` exists but is not part of the API token skill surface. It is a long-lived connection better suited to frontend use.
 
 ## 7. Fetch backtest results
 
@@ -188,7 +188,7 @@ Primary routes:
 - `POST /v1/alert-drafts/:id/backtest` → returns `backtest_id`
 - `POST /v1/cards` with `{draft_id, backtest_id}` → returns `card_id`
 - Public share: `https://stingray.fi/cards/<card_id>/`
-- Public OG image: `https://stingray.fi/cards/<card_id>/image.png`
+- Public OG image: `https://stingray.fi/cards/<card_id>/image.png/` (trailing slash required; no-slash returns 404)
 
 Notes:
 
@@ -248,9 +248,9 @@ Primary routes:
 
 Notes:
 
-- Some WhatsApp and Telegram routes are env-gated; if the route is unavailable, treat that as environment or deployment configuration, not PAT denial.
+- Some WhatsApp and Telegram routes are env-gated; if the route is unavailable, treat that as environment or deployment configuration, not API token denial.
 - Telegram and WhatsApp both support link-code generation and disconnection via symmetric route pairs.
-- X link status is read-only via `GET /me/x-link`. Linking X via `POST /x/link` requires interactive auth and is not available via PAT.
+- X link status is read-only via `GET /me/x-link`. Linking X via `POST /x/link` requires interactive auth and is not available via API token.
 
 ## 10. Manage referrals and attribution
 
@@ -275,7 +275,7 @@ Notes:
 - Attribution capture is growth instrumentation for the current user.
 - Referral code resolve is public, but creating or attributing referral state is user-scoped.
 
-## 11. Keep PATs tidy
+## 11. Keep API tokens tidy
 
 Typical user requests:
 
@@ -289,4 +289,4 @@ Primary routes:
 
 Notes:
 
-- PAT creation is intentionally excluded from the PAT surface.
+- API token creation is intentionally excluded from the API token surface.
