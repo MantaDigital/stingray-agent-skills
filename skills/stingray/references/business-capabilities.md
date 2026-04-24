@@ -170,7 +170,32 @@ Primary routes:
 Notes:
 
 - Backtest results are stored with a 24-hour TTL. After expiry the endpoint returns 404.
-- Backtests are triggered through the chat assistant, not directly via this route. This route only fetches stored results.
+- For the **full thesis → backtest → shareable card** flow (including minting a public share URL and OG image), read `references/backtest-and-cards.md`.
+
+## 7b. Run a backtest and mint a shareable card
+
+Typical user requests:
+
+- "Run a backtest on this thesis and send me a card to share."
+- "Take this setup and show how it played historically."
+- "Build a DM-ready card for my BTC-breakout thesis."
+- "Generate a backtest card I can post on twitter."
+
+Primary routes:
+
+- `POST /v1/chats/web` → chat id (agent creates the underlying draft when prompted)
+- `POST /v1/chats/:chatId/messages/stream` → send the thesis; response carries the `draft_id`
+- `POST /v1/alert-drafts/:id/backtest` → returns `backtest_id`
+- `POST /v1/cards` with `{draft_id, backtest_id}` → returns `card_id`
+- Public share: `https://stingray.fi/cards/<card_id>/`
+- Public OG image: `https://stingray.fi/cards/<card_id>/image.png`
+
+Notes:
+
+- Cards are idempotent per `(user_id, backtest_snapshot_id)` — retries return the same `card_id`.
+- The card watermark + referral code belong to the authenticated token's owner, not the asset being analyzed.
+- Backtest snapshots expire after 24 hours; the card itself persists (separate snapshot inside `pnl_cards.display_data`).
+- Full schema and thesis-mapping patterns: read `references/backtest-and-cards.md`.
 
 ## 8. Use the assistant through web or channel chats
 

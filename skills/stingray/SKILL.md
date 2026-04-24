@@ -1,12 +1,12 @@
 ---
 name: stingray
-description: Operate a user's Stingray crypto research account via REST API with a personal access token (sa_pat_...). Use when the user asks to check account status, research assets, manage watchlist or portfolio, create or adjust alerts, use web or Telegram or WhatsApp chat, manage referrals, check credits, or rotate API tokens. Do not use for PAT creation, billing, admin, or webhook operations.
+description: Operate a user's Stingray crypto research account via REST API with a personal access token (sa_pat_...). Use when the user asks to check account status, research assets, manage watchlist or portfolio, create or adjust alerts, run backtests, mint shareable backtest cards, use web or Telegram or WhatsApp chat, manage referrals, check credits, or rotate API tokens. Do not use for PAT creation, billing, admin, or webhook operations.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
   author: Stingray
   organization: MantaDigital
-  version: 0.1.3
+  version: 0.1.4
 ---
 
 # Stingray
@@ -79,6 +79,7 @@ Read only the references that match the task:
 - `references/north-star-scenarios.md` — multi-step agent-native flows across capabilities
 - `references/access-policy.md` — allowed/blocked surface, prerequisites, capability-first routing
 - `references/alert-definitions.md` — composable alert blocks, combinators, validation, examples
+- `references/backtest-and-cards.md` — thesis → alert draft → backtest → shareable card flow; OG/public URL shapes
 - `references/token-lifecycle.md` — PAT list, revoke, rotation hygiene
 - `references/workflows.md` — task-oriented endpoint sequences
 - `references/examples.md` — concrete prompt-to-endpoint mappings
@@ -106,7 +107,7 @@ Read only the references that match the task:
 - **Asset research**: entity lookup, disambiguation, news → `/kg/search`, `/kg/resolve`, `/entities/:entityId/news`. Read `references/business-capabilities.md` and `references/workflows.md`.
 - **Product state**: watchlist, portfolio, alerts → `/watchlist*`, `/portfolio*`, `/alerts*`.
 - **Notifications**: alert delivery records → `/notifications`, `/notifications/unread-count`, `/notifications/read`, `/notifications/read-all`.
-- **Backtest results** → `GET /widgets/:id` (24h TTL).
+- **Backtest results** → `GET /widgets/:id` (24h TTL) for stored widgets. For the full thesis → backtest → shareable card flow, read `references/backtest-and-cards.md` (covers `POST /v1/alert-drafts/:id/backtest`, `POST /v1/cards`, and the public `/cards/<id>/` share surface).
 - **Chat & attachments** → `/v1/chats*`, `GET /v1/attachments/:attachmentId`.
 - **Growth & referrals**: attribution, channel linking → `/me/attribution`, `/me/referral-code`, `/me/referral-attribution`. Not chat routes.
 - **Token hygiene** → `GET /me/api-tokens`, `DELETE /me/api-tokens/:tokenId`. Read `references/token-lifecycle.md`.

@@ -78,6 +78,20 @@ Use this flow when the user asks about alerts that have fired, unread alerts, or
 
 Results have a 24-hour TTL and return 404 after expiry. Widgets are created through the chat assistant; this route only retrieves stored data.
 
+## Thesis → backtest → shareable card
+
+Use this flow when the user wants to turn a specific trading thesis into a backtest result plus a public share URL or DM-ready image.
+
+1. `POST /v1/chats/web` to open a chat. Capture `chat_id`.
+2. `POST /v1/chats/:chatId/messages/stream` with the thesis as natural-language prompt (e.g. "create a draft alert for BTCUSDT crossing above 70000 on the 1h chart, don't deploy yet"). The agent writes an `alert_draft` widget snapshot; extract the `draft_id` from the streamed response.
+3. `POST /v1/alert-drafts/:id/backtest` with body `{"backtest_lookback_days": 365}` (max 365). Returns a `backtest_result` snapshot; capture `backtest_id`.
+4. `POST /v1/cards` with body `{"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "uuid"}`.
+5. Share the public URL `https://stingray.fi/cards/<card_id>/` (or the OG image at `/cards/<card_id>/image.png` for direct image embeds).
+
+Optional: `POST /v1/cards/:cardId/figure-image` uploads a portrait watermark (right-anchored, dollar-bill-engraved style). Optional: `PATCH /v1/cards/:cardId` to edit card copy.
+
+Read `references/backtest-and-cards.md` for the full endpoint reference, thesis-to-alert-definition translation patterns, card idempotency rules, OG URL variants, and common failure modes.
+
 ## Chat workflow
 
 1. `POST /v1/chats/web` for web chat or `POST /v1/chats/channels/:channel` for connected channels

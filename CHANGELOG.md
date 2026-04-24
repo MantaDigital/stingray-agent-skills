@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.4 - 2026-04-24
+
+- Added `references/backtest-and-cards.md` covering the thesis → alert draft → backtest → shareable card workflow, including the public `/cards/<id>/` share surface and `1200×630` OG image URL patterns.
+- Updated `SKILL.md` task routing: backtest surface now points agents at the new reference for the full shareable-card flow (previously only covered the read-side `GET /widgets/:id`).
+- Updated top-level description to mention backtests and shareable-card minting as first-class capabilities.
+- No breaking changes; existing agent behavior unaffected.
+
 ## 0.1.3 - 2026-04-18
 
 - Simplified first-time token setup to a single direct settings URL and token paste-back flow.
