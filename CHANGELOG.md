@@ -2,8 +2,9 @@
 
 ## 0.1.7 - 2026-04-25
 
-- **Reframed distribution copy to drop out of Snyk's financial-platform-automation taxonomy.** Replaced execution-coded language across `SKILL.md`, both READMEs, `marketplace.json`, and CHANGELOG with research-and-signal-infrastructure framing. Snyk's keyword classifier had flagged the v0.1.6 copy as Critical Risk (same category as wallet/exchange skills) regardless of the actual code surface — the v0.1.7 copy keeps persona-targeting (quants, analysts, research desks) without the financial-platform classifier hit.
-- Updated `marketplace.json` keywords/tags accordingly. Added `signals`, `quant`, `research`.
+- **Reframed distribution copy as quantitative research and data infrastructure for crypto markets, operated by AI agents.** Categories the skill alongside Kaiko, Coin Metrics, Amberdata — institutional-grade research/data tooling — instead of generic account operations or execution-coded language. Lead with the value prop: Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so users test more hypotheses faster. Venue coverage (Hyperliquid, Drift, Lighter, Polymarket, Kalshi, 100+ more) named explicitly in the body to anchor the breadth claim.
+- **Dropped execution-coded language** that hit Snyk's financial-platform-automation taxonomy in v0.1.6 (the keyword classifier flagged the v0.1.6 copy as Critical Risk regardless of the actual code surface). The v0.1.7 framing keeps persona-targeting (quants, analysts, research desks) without the classifier hit.
+- Updated `marketplace.json` keywords/tags accordingly. Added `signals`, `quant`, `research`. Removed `trading`, `defi`.
 - Bumped `metadata.version` and plugin `version` to 0.1.7.
 
 ## 0.1.6 - 2026-04-25

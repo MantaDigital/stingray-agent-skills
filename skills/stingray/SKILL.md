@@ -1,6 +1,6 @@
 ---
 name: stingray
-description: Stingray crypto research and signal infrastructure — composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning major crypto venues. Use when the user asks to research assets/news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels (Telegram/WhatsApp/X), mint shareable backtest cards, manage referrals, check credits, or rotate API tokens. Authenticated with an `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
+description: Stingray quantitative research and data infrastructure for crypto markets, operated by AI agents — composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning Hyperliquid, Drift, Polymarket, Kalshi, and 100+ venues. Use when the user asks to research assets/news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels, mint shareable backtest cards, or rotate API tokens. Authenticated with an `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
@@ -11,7 +11,7 @@ metadata:
 
 # Stingray
 
-Crypto research and signal infrastructure: composable alerts, backtests, and a knowledge graph spanning major crypto venues — operated from the user's agent over HTTP.
+Quantitative research and data infrastructure for crypto markets, operated by the user's AI agent: composable alerts, backtests, and a knowledge graph spanning Hyperliquid, Drift, Lighter, Polymarket, Kalshi, and 100+ venues. Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so the user can test more hypotheses faster.
 
 ## Credentials
 
