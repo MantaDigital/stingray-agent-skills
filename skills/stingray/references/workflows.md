@@ -78,19 +78,26 @@ Use this flow when the user asks about alerts that have fired, unread alerts, or
 
 Results have a 24-hour TTL and return 404 after expiry. Widgets are created through the chat assistant; this route only retrieves stored data.
 
-## Thesis → backtest → shareable card
+## Thesis → backtest (private, default)
 
-Use this flow when the user wants to turn a specific trading thesis into a backtest result plus a public share URL or DM-ready image.
+Use this flow when the user wants to turn a trading thesis into a private historical-performance result. Stops at step 4 — no public artifact is created.
 
-1. `POST /v1/chats/web` to open a chat. Capture `chat_id`.
-2. `POST /v1/chats/:chatId/messages/stream` with the thesis as natural-language prompt (e.g. "create a draft alert for BTCUSDT crossing above 70000 on the 1h chart, don't deploy yet"). The agent writes an `alert_draft` widget snapshot; extract the `draft_id` from the streamed response.
-3. `POST /v1/alert-drafts/:id/backtest` with body `{"backtest_lookback_days": 365}` (max 365). Returns a `backtest_result` snapshot; capture `backtest_id`.
-4. `POST /v1/cards` with body `{"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "uuid"}`.
-5. Share the public URL `https://stingray.fi/cards/<card_id>/` (or the OG image at `/cards/<card_id>/image.png/` — trailing slash required — for direct image embeds).
+1. `POST /v1/chats/web` → `chat_id`.
+2. `POST /v1/chats/:chatId/messages/stream` (multipart, field `input`) with the thesis prompt (e.g. "create a draft alert for BTCUSDT crossing above 70000 on the 1h chart, don't deploy yet"). The agent writes an `alert_draft` widget snapshot.
+3. `GET /v1/chats/:chatId/messages` after the stream closes; find the message where `details.tool_name == "alerts_draft"` and read `details.tool_output.widget_id` — that's your `draft_id`.
+4. `POST /v1/alert-drafts/:id/backtest` with body `{"backtest_lookback_days": 365}` (max 365). Returns `backtest_id`. View via `GET /widgets/:id` (24h TTL).
 
-Optional: `POST /v1/cards/:cardId/figure-image` uploads a portrait watermark (right-anchored, dollar-bill-engraved style). Optional: `PATCH /v1/cards/:cardId` to edit card copy.
+Read `references/backtest-and-cards.md` for body shapes, parsing patterns, and failure modes.
 
-Read `references/backtest-and-cards.md` for the full endpoint reference, thesis-to-alert-definition translation patterns, card idempotency rules, OG URL variants, and common failure modes.
+## Mint a public share card from a backtest (optional growth surface)
+
+Use this flow only when the user has explicitly asked to share, post, or generate a link. Cards mint **permanent public URLs** and there is no unshare endpoint.
+
+1. (Run the backtest flow above; capture both `draft_id` and `backtest_id`.)
+2. `POST /v1/cards` with body `{"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "uuid"}`.
+3. Share the public URL `https://stingray.fi/cards/<card_id>/` (or the OG image at `/cards/<card_id>/image.png/` — trailing slash required — for direct image embeds).
+
+Optional: `POST /v1/cards/:cardId/figure-image` uploads a portrait watermark (right-anchored, dollar-bill-engraved style). Optional: `PATCH /v1/cards/:cardId` edits card copy.
 
 ## Chat workflow
 

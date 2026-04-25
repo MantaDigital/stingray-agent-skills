@@ -225,3 +225,39 @@ Execution plan:
 
 1. `GET /widgets/abc123`
 2. If 404, explain that results expire after 24 hours and suggest re-running through the chat assistant
+
+## Example 15: Run a backtest end-to-end (default — no card)
+
+User request:
+"Backtest BTC crossing above 70k on the 1h chart over the past year."
+
+Execution plan:
+
+1. `POST /v1/chats/web` → `chat_id`
+2. `POST /v1/chats/:chatId/messages/stream` (multipart, field `input`) with the natural-language thesis as draft-only:
+
+```bash
+curl -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
+  -F "input=Create a draft alert for BTCUSDT crossing above 70000 on the 1h chart. Keep it as a draft, don't deploy yet." \
+  "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
+```
+
+3. `GET /v1/chats/:chatId/messages` → walk to the message where `details.tool_name == "alerts_draft"` → read `details.tool_output.widget_id` as `draft_id`.
+4. `POST /v1/alert-drafts/:draft_id/backtest` with `{"backtest_lookback_days": 365}` → `backtest_id`.
+5. `GET /widgets/:backtest_id` → display trigger count + forward returns to the user.
+6. **Stop here.** Do not call `POST /v1/cards`. The backtest result is private to the user; minting a card creates a permanent public URL — only do that when the user has explicitly asked to share.
+
+## Example 16: Mint a public share card after the user explicitly asks
+
+User request:
+"Now make me a card I can post on twitter."
+
+Precondition: Example 15 was just run; you still have `draft_id` and `backtest_id`.
+
+Execution plan:
+
+1. `POST /v1/cards` with `{"draft_id": "...", "backtest_id": "..."}` → `card_id`.
+2. Return the public URL `https://stingray.fi/cards/<card_id>/` (full share page) or `https://stingray.fi/cards/<card_id>/image.png/` (OG PNG, trailing slash required).
+3. Optional: `POST /v1/cards/:cardId/figure-image` to upload a portrait watermark; `PATCH /v1/cards/:cardId` to edit copy after the first render.
+
+Read `references/backtest-and-cards.md` for the privacy framing and card properties.

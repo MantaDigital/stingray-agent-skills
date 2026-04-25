@@ -156,46 +156,50 @@ Notes:
 - `POST /notifications/read` accepts `{"delivery_ids": ["uuid", ...]}` (max 100 per call).
 - The SSE stream at `GET /notifications/stream` exists but is not part of the API token skill surface. It is a long-lived connection better suited to frontend use.
 
-## 7. Fetch backtest results
+## 7. Run a backtest (core, private)
 
 Typical user requests:
 
-- "Show me the backtest result for this alert."
-- "Get the backtest I ran earlier."
+- "Backtest this thesis."
+- "Show me how this setup played over the last year."
+- "Test my BTC breakout alert before I deploy it."
+- "Show me the backtest result for this alert." / "Get the backtest I ran earlier."
 
 Primary routes:
 
-- `GET /widgets/:id`
+- `POST /v1/chats/web` → `chat_id`
+- `POST /v1/chats/:chatId/messages/stream` (thesis prompt) → agent writes a draft snapshot
+- `POST /v1/alert-drafts/:id/backtest` → `backtest_id`
+- `GET /widgets/:id` → fetch the stored backtest result (24h TTL; 404 after expiry)
 
 Notes:
 
-- Backtest results are stored with a 24-hour TTL. After expiry the endpoint returns 404.
-- For the **full thesis → backtest → shareable card** flow (including minting a public share URL and OG image), read `references/backtest-and-cards.md`.
+- Backtest results are **private to the user** — that's the safe default. The flow stops at `GET /widgets/:id`.
+- For the full canonical sequence (request body shapes, `draft_id` recovery, parsing patterns), read `references/backtest-and-cards.md`.
 
-## 7b. Run a backtest and mint a shareable card
+## 7b. Share a backtest publicly (optional growth surface)
 
 Typical user requests:
 
-- "Run a backtest on this thesis and send me a card to share."
-- "Take this setup and show how it played historically."
-- "Build a DM-ready card for my BTC-breakout thesis."
-- "Generate a backtest card I can post on twitter."
+- "Make me a card I can post on twitter."
+- "Give me a link I can DM to a friend."
+- "Share this backtest publicly."
 
 Primary routes:
 
-- `POST /v1/chats/web` → chat id (agent creates the underlying draft when prompted)
-- `POST /v1/chats/:chatId/messages/stream` → send the thesis; response carries the `draft_id`
-- `POST /v1/alert-drafts/:id/backtest` → returns `backtest_id`
-- `POST /v1/cards` with `{draft_id, backtest_id}` → returns `card_id`
-- Public share: `https://stingray.fi/cards/<card_id>/`
+- `POST /v1/cards` with `{draft_id, backtest_id}` → `card_id` (mints a **permanent public URL**)
+- `PATCH /v1/cards/:cardId` → edit card copy (`strategy_name`, `figure_name`)
+- `POST /v1/cards/:cardId/figure-image` → upload portrait watermark
+- Public share page: `https://stingray.fi/cards/<card_id>/`
 - Public OG image: `https://stingray.fi/cards/<card_id>/image.png/` (trailing slash required; no-slash returns 404)
 
 Notes:
 
+- **Opt-in only.** Cards live at publicly-accessible URLs. There is no unshare endpoint — only `PATCH` for copy edits. Do not mint cards on every backtest; only when the user has explicitly asked to share.
 - Cards are idempotent per `(user_id, backtest_snapshot_id)` — retries return the same `card_id`.
 - The card watermark + referral code belong to the authenticated token's owner, not the asset being analyzed.
-- Backtest snapshots expire after 24 hours; the card itself persists (separate snapshot inside `pnl_cards.display_data`).
-- Full schema and thesis-mapping patterns: read `references/backtest-and-cards.md`.
+- Backtest snapshots expire after 24 hours; the card display data is a separate persistent snapshot inside `pnl_cards.display_data`, so the card itself doesn't decay.
+- Full schema, share-card properties, failure modes: read `references/backtest-and-cards.md`.
 
 ## 8. Use the assistant through web or channel chats
 
