@@ -15,7 +15,7 @@
       "skills": [
         "./skills/stingray"
       ],
-      "description": "Quantitative research and data infrastructure for crypto markets, operated by your AI agent: composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning Hyperliquid, Drift, Lighter, Polymarket, Kalshi, and 100+ venues. Stingray ingests, correlates, and serves the data; your agent runs the loop end-to-end so you test more hypotheses faster. Built for quants, analysts, and research desks. Token-scoped, opt-in, Apache-2.0.",
+      "description": "Quantitative research and data infrastructure for crypto markets, operated by your AI agent: composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning Hyperliquid, Lighter, Polymarket, Kalshi, and 100+ venues. Stingray ingests, correlates, and serves the data; your agent runs the loop end-to-end so you test more hypotheses faster. Built for quants, analysts, and research desks. Token-scoped, opt-in, Apache-2.0.",
       "version": "0.1.7",
       "author": {
         "name": "Stingray",

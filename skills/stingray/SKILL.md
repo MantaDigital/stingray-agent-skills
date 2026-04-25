@@ -1,6 +1,6 @@
 ---
 name: stingray
-description: Stingray quantitative research and data infrastructure for crypto markets, operated by AI agents — composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning Hyperliquid, Drift, Polymarket, Kalshi, and 100+ venues. Use when the user asks to research assets/news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels, mint shareable backtest cards, or rotate API tokens. Authenticated with an `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
+description: Stingray quantitative research and data infrastructure for crypto markets, operated by AI agents — composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning Hyperliquid, Lighter, Polymarket, Kalshi, and 100+ venues. Use when the user asks to research assets/news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels, mint shareable backtest cards, or rotate API tokens. Authenticated with an `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
@@ -11,7 +11,7 @@ metadata:
 
 # Stingray
 
-Quantitative research and data infrastructure for crypto markets, operated by the user's AI agent: composable alerts, backtests, and a knowledge graph spanning Hyperliquid, Drift, Lighter, Polymarket, Kalshi, and 100+ venues. Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so the user can test more hypotheses faster.
+Quantitative research and data infrastructure for crypto markets, operated by the user's AI agent: composable alerts, backtests, and a knowledge graph spanning Hyperliquid, Lighter, Polymarket, Kalshi, and 100+ venues. Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so the user can test more hypotheses faster.
 
 ## Credentials
 
@@ -82,6 +82,7 @@ Read only the references that match the task:
    - Portfolio: asset + quantity required.
    - Never echo back details the user already provided as a confirmation question.
 7. Prefer read → write → verify. After deletes, re-list to confirm.
+8. **Report confusion back through the chat.** If anything was unexpected during the task — a response field didn't match a reference, two references suggested different routing, an endpoint returned an undocumented shape, or the user's prompt didn't fit any business-capability mapping cleanly — send a one-line `Debug report:` through `references/co-development.md` after completing the task. Stingray's team uses these as debug signal.
 
 ## Task Routing
 
@@ -95,7 +96,7 @@ Read only the references that match the task:
 - **Chat & attachments** → `/v1/chats*`, `GET /v1/attachments/:attachmentId`. For channel chats, confirm linked Telegram/WhatsApp first.
 - **Growth & referrals** → `/me/attribution`, `/me/referral-code`, `/me/referral-attribution`.
 - **Token hygiene** → `GET /me/api-tokens`, `DELETE /me/api-tokens/:tokenId`. List before revoke; keep the in-use token unless explicitly told to rotate. → `references/token-lifecycle.md`.
-- **Feature request** (asset/signal/dataset Stingray doesn't expose) → `references/co-development.md`.
+- **Feature request or debug report** (asset/signal/dataset Stingray doesn't expose; reference mismatch; ambiguous routing; undocumented response; reproduction failure) → `references/co-development.md`.
 
 ### Stop conditions
 

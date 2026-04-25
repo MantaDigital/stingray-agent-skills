@@ -2,9 +2,11 @@
 
 ## 0.1.7 - 2026-04-25
 
-- **Reframed distribution copy as quantitative research and data infrastructure for crypto markets, operated by AI agents.** Categories the skill alongside Kaiko, Coin Metrics, Amberdata — institutional-grade research/data tooling — instead of generic account operations or execution-coded language. Lead with the value prop: Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so users test more hypotheses faster. Venue coverage (Hyperliquid, Drift, Lighter, Polymarket, Kalshi, 100+ more) named explicitly in the body to anchor the breadth claim.
+- **Reframed distribution copy as quantitative research and data infrastructure for crypto markets, operated by AI agents.** Categories the skill alongside Kaiko, Coin Metrics, Amberdata — institutional-grade research/data tooling — instead of generic account operations or execution-coded language. Lead with the value prop: Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so users test more hypotheses faster. Venue coverage (Hyperliquid, Lighter, Polymarket, Kalshi, 100+ more) named explicitly in the body to anchor the breadth claim.
 - **Dropped execution-coded language** that hit Snyk's financial-platform-automation taxonomy in v0.1.6 (the keyword classifier flagged the v0.1.6 copy as Critical Risk regardless of the actual code surface). The v0.1.7 framing keeps persona-targeting (quants, analysts, research desks) without the classifier hit.
 - Updated `marketplace.json` keywords/tags accordingly. Added `signals`, `quant`, `research`. Removed `trading`, `defi`.
+- **Removed Drift from venue list.** Stingray doesn't currently cover Drift — surfacing it overpromised. Anchor venue names are now Hyperliquid, Lighter, Polymarket, Kalshi.
+- **Added a debug-report channel through `references/co-development.md`.** Same chat-stream endpoint as feature requests, prefixed `Debug report:` instead of `Feature request:`. Covers reference mismatches, undocumented response shapes, routing ambiguity, reproduction failures, and setup edge cases. Added a corresponding step 8 to the Default Operating Loop in `SKILL.md` so agents fire it after completing any task where something was unexpected. Stingray's team uses these as backlog + debug signal.
 - Bumped `metadata.version` and plugin `version` to 0.1.7.
 
 ## 0.1.6 - 2026-04-25

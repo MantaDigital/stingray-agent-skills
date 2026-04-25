@@ -2,7 +2,7 @@
 
 **Quantitative research and data infrastructure for crypto markets — operated by your AI agent.**
 
-Composable alerts (price + news + technical indicators), backtests against historical data, and a knowledge graph with broad cross-venue coverage including Hyperliquid, Drift, Lighter, Polymarket, Kalshi, and 100+ crypto venues. Stingray ingests, correlates, and serves the data — your agent runs the loop end-to-end, so you test more hypotheses faster.
+Composable alerts (price + news + technical indicators), backtests against historical data, and a knowledge graph with broad cross-venue coverage including Hyperliquid, Lighter, Polymarket, Kalshi, and 100+ crypto venues. Stingray ingests, correlates, and serves the data — your agent runs the loop end-to-end, so you test more hypotheses faster.
 
 Built for quants, analysts, and research desks who already live in their terminal.
 
