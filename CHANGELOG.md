@@ -2,6 +2,8 @@
 
 ## 0.1.5 - 2026-04-24
 
+- **Card-mint is now opt-in, not the default.** `POST /v1/cards` produces a permanent publicly-accessible URL — minting it on every backtest leaks otherwise-private trader analysis. The canonical flow now stops at backtest by default; cards only mint when the user explicitly asks to share, post, or generate a link. Updated `SKILL.md` Task Routing + `references/backtest-and-cards.md` canonical flow + privacy callout at the top of the reference.
+- **Co-development capability documented in `SKILL.md`.** Consumer agents can now request new datasets, signals, asset coverage, or indicator additions by sending feature requests through the same chat endpoint. The Stingray team uses these as backlog signal and replies in-thread when the work lands. Added a "Co-development" section with a curl example and 5 illustrative request shapes (asset coverage, signal types, datasets, indicators, workflow gaps).
 - Renamed all `PAT` / `personal access token` references to `API token` to match the Stingray UI label and reduce confusion for first-time users.
 - Fixed three live-audit gaps in `references/backtest-and-cards.md` discovered while running the canonical "thesis → backtest → card" flow end-to-end:
   - Step 2 now documents the actual request shape: `multipart/form-data` with field `input` (not JSON, not a `text` or `content` field). Includes a copy-pasteable curl example.

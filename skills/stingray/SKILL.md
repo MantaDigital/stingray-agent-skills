@@ -107,7 +107,7 @@ Read only the references that match the task:
 - **Asset research**: entity lookup, disambiguation, news → `/kg/search`, `/kg/resolve`, `/entities/:entityId/news`. Read `references/business-capabilities.md` and `references/workflows.md`.
 - **Product state**: watchlist, portfolio, alerts → `/watchlist*`, `/portfolio*`, `/alerts*`.
 - **Notifications**: alert delivery records → `/notifications`, `/notifications/unread-count`, `/notifications/read`, `/notifications/read-all`.
-- **Backtest results** → `GET /widgets/:id` (24h TTL) for stored widgets. For the full thesis → backtest → shareable card flow, read `references/backtest-and-cards.md` (covers `POST /v1/alert-drafts/:id/backtest`, `POST /v1/cards`, and the public `/cards/<id>/` share surface).
+- **Backtest results** → `GET /widgets/:id` (24h TTL) for stored widgets. The default flow is `chat → draft → backtest` and STOPS THERE. **Do not mint cards by default** — `POST /v1/cards` produces a permanent public URL. Only call it when the user has explicitly asked to share / post / generate a link. Read `references/backtest-and-cards.md` for the privacy rules and the opt-in card-mint + share flow.
 - **Chat & attachments** → `/v1/chats*`, `GET /v1/attachments/:attachmentId`.
 - **Growth & referrals**: attribution, channel linking → `/me/attribution`, `/me/referral-code`, `/me/referral-attribution`. Not chat routes.
 - **Token hygiene** → `GET /me/api-tokens`, `DELETE /me/api-tokens/:tokenId`. Read `references/token-lifecycle.md`.
@@ -116,3 +116,32 @@ Read only the references that match the task:
 - Billing, guest, admin, webhook, tool-host → stop; outside API token skill surface. Read `references/access-policy.md`.
 - Alert delivery or channel chats → confirm linked Telegram/WhatsApp state first via `/me/telegram`, `/me/whatsapp`. Read `references/workflows.md` and `references/troubleshooting.md`.
 - KG routes return `502`/`503` → backend dependency issue, not auth failure. Read `references/troubleshooting.md`.
+
+## Co-development — request new datasets, signals, or features
+
+Stingray's chat doubles as a **feature-request channel.** When the user needs a primitive, asset, signal, or dataset the current API doesn't expose, send the request through the chat — the Stingray team uses these as a backlog signal and replies in the same chat when the feature ships.
+
+Common asks worth surfacing through the chat:
+
+- **Asset coverage** — "Backtest on HYPEUSDT returns 502 across every lookback. Can this asset be added to the price-data pipeline?"
+- **Signal types** — "The `news_sentiment` block validates as an alert definition but the backtest endpoint refuses it. Please enable backtests for news-driven primitives."
+- **New datasets** — "Expose per-venue funding rate so I can alert on Binance-vs-Hyperliquid divergence for a single asset."
+- **Indicator additions** — "Add a Bollinger Band-width indicator (current Bollinger only triggers on touch, not on band-width compression)."
+- **Workflow gaps** — "When the chat agent generates a draft, the `widget_id` field is named `draft_id` in the prompt body but `widget_id` in the response — surface a single canonical name."
+
+Send via the same chat endpoint as any other prompt:
+
+```bash
+source ~/.stingray/credentials && export STINGRAY_API=https://stingray.fi/api/agent
+CHAT_ID=$(curl -s -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
+  -H "Content-Type: application/json" -d '{}' "$STINGRAY_API/v1/chats/web" \
+  | python3 -c "import json,sys; print(json.load(sys.stdin)['chat_id'])")
+
+curl -s -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
+  -F "input=Feature request: enable backtests for HYPEUSDT — currently 502 across all lookback windows. Use case: HL-cohort traders want their native token backtestable." \
+  "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
+```
+
+Frame each request as a one-liner with the **use case**, not just the symptom — that helps prioritization. Save the `chat_id` so the user can re-check status with `GET /v1/chats/$CHAT_ID/messages` later; the team replies in-thread when the feature lands.
+
+Do not file feature requests via this surface for billing, account-deletion, security disclosures, or anything that needs a human ticket — those still go through the normal support channels.

@@ -7,6 +7,13 @@ Read this file when the task involves **turning a trading thesis or alert defini
 - "what would this setup have returned over the last year"
 - "build a card I can DM / post on twitter"
 
+> ⚠️ **Cards are public by default.** A minted card lives at a publicly-accessible `https://stingray.fi/cards/<id>/` URL. **Do NOT call `POST /v1/cards` unless the user has explicitly asked to share, post, or hand off a link.** Drafts and backtests are private to the user — that's the safe default. Only mint a card when the user says one of:
+> - "share this", "make me a link", "give me a card I can post"
+> - "make a card", "mint a card", "send to twitter / telegram"
+> - any phrasing that implies an external recipient
+>
+> If unsure, ask: "*Do you want me to mint a public share card for this, or keep the backtest result private to your account?*"
+
 ## Surface summary
 
 | Endpoint | Method | Purpose |
@@ -47,9 +54,11 @@ The agent chat is the authoring surface. Drafts live as `widget_snapshot` rows; 
 
 4. **Run the backtest** — `POST /v1/alert-drafts/<draft_id>/backtest {"backtest_lookback_days": 365}`. Returns `{state, alert_id, metadata, definition, backtest_id, pnl_card_id, ...}`. `backtest_id` is the widget-snapshot id for the result.
 
-5. **Mint the card** — `POST /v1/cards {"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "<uuid>"}`.
+**Stop at step 4 by default.** The user has a private backtest result they can review (`GET /widgets/:id`). Steps 5–6 only run when the user has **explicitly** asked to share, post, or generate a link.
 
-6. **Share** the public URL `https://stingray.fi/cards/<card_id>/` for the full share page, or `https://stingray.fi/cards/<card_id>/image.png/` for the 1200×630 OG PNG (trailing slash required on both).
+5. **(Opt-in only) Mint the card** — `POST /v1/cards {"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "<uuid>"}`. Once minted, the card lives at a public URL forever — there is no "unshare" endpoint, only edits to copy via `PATCH /v1/cards/:cardId`.
+
+6. **(Opt-in only) Share** the public URL `https://stingray.fi/cards/<card_id>/` for the full share page, or `https://stingray.fi/cards/<card_id>/image.png/` for the 1200×630 OG PNG (trailing slash required on both).
 
 ### Shortcut when the thesis already maps to a known alert-block shape
 
