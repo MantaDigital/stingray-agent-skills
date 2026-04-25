@@ -107,7 +107,8 @@ Read only the references that match the task:
 - **Asset research**: entity lookup, disambiguation, news → `/kg/search`, `/kg/resolve`, `/entities/:entityId/news`. Read `references/business-capabilities.md` and `references/workflows.md`.
 - **Product state**: watchlist, portfolio, alerts → `/watchlist*`, `/portfolio*`, `/alerts*`.
 - **Notifications**: alert delivery records → `/notifications`, `/notifications/unread-count`, `/notifications/read`, `/notifications/read-all`.
-- **Backtest results** → `GET /widgets/:id` (24h TTL) for stored widgets. The default flow is `chat → draft → backtest` and STOPS THERE. **Do not mint cards by default** — `POST /v1/cards` produces a permanent public URL. Only call it when the user has explicitly asked to share / post / generate a link. Read `references/backtest-and-cards.md` for the privacy rules and the opt-in card-mint + share flow.
+- **Backtest** (core capability): `chat → draft → POST /v1/alert-drafts/:id/backtest → GET /widgets/:id`. Private to the user, 24h TTL. The default flow stops here. Read `references/backtest-and-cards.md` for the canonical sequence and parsing patterns.
+- **Public share card** (separate, optional growth-surface wrapper around a backtest): `POST /v1/cards` mints a **permanent public URL** at `stingray.fi/cards/<id>/`. **Not a default action.** Only call when the user has explicitly asked to share, post, or generate a link. Treat cards as a marketing/sharing convenience, not part of the analytical surface.
 - **Chat & attachments** → `/v1/chats*`, `GET /v1/attachments/:attachmentId`.
 - **Growth & referrals**: attribution, channel linking → `/me/attribution`, `/me/referral-code`, `/me/referral-attribution`. Not chat routes.
 - **Token hygiene** → `GET /me/api-tokens`, `DELETE /me/api-tokens/:tokenId`. Read `references/token-lifecycle.md`.

@@ -1,34 +1,55 @@
-# Backtest + Shareable Cards
+# Backtests (and the optional public-card share surface)
 
-Read this file when the task involves **turning a trading thesis or alert definition into a Stingray backtest result and/or a shareable card**. Typical prompts:
+This file covers **two distinct things** that share an authoring path. Treat them as separate capabilities:
 
-- "run a backtest on this thesis and make me a shareable card"
+### 1. Backtest — the core API capability
+
+Turning a trading thesis or alert definition into a private, account-scoped historical-performance result. This is what most users actually want — *"how would this setup have played?"* The output (`widget_snapshot` row, 24h TTL) is private to the user and viewable via `GET /widgets/:id`.
+
+Typical prompts:
+
 - "take this idea and show me how it played historically"
 - "what would this setup have returned over the last year"
-- "build a card I can DM / post on twitter"
+- "backtest my BTC breakout alert before I deploy it"
 
-> ⚠️ **Cards are public by default.** A minted card lives at a publicly-accessible `https://stingray.fi/cards/<id>/` URL. **Do NOT call `POST /v1/cards` unless the user has explicitly asked to share, post, or hand off a link.** Drafts and backtests are private to the user — that's the safe default. Only mint a card when the user says one of:
-> - "share this", "make me a link", "give me a card I can post"
-> - "make a card", "mint a card", "send to twitter / telegram"
-> - any phrasing that implies an external recipient
->
-> If unsure, ask: "*Do you want me to mint a public share card for this, or keep the backtest result private to your account?*"
+### 2. Public share card — an optional growth-surface wrapper
+
+A separate Astro share page (`https://stingray.fi/cards/<id>/`) that wraps a backtest result in a public-facing chart + portrait + PnL pitch. **It exists to make backtest results easy to DM, tweet, or screenshot — it is not part of the core backtesting capability.** Treat it as a marketing/sharing convenience, not an analytical primitive.
+
+Typical prompts that warrant minting a card:
+
+- "make me a card I can post on twitter"
+- "give me a link I can DM to my friend"
+- "share this backtest publicly"
+
+> ⚠️ **Default behavior: don't mint cards.** `POST /v1/cards` produces a permanently public URL (no unshare endpoint, only `PATCH` for copy edits). The default flow stops at the backtest in step 4 below. Only progress to steps 5–6 when the user has **explicitly** asked to share, post, or hand off a link. If unsure, ask: *"Do you want me to mint a public share card for this, or keep the backtest result private to your account?"*
 
 ## Surface summary
+
+**Backtest endpoints (core):**
 
 | Endpoint | Method | Purpose |
 |---|---|---|
 | `POST /v1/chats/web` or `/v1/chats/channels/:channel` | POST | Start chat that can create alert drafts (the agent is what turns prose into `alert_draft` snapshots) |
 | `POST /v1/chats/:chatId/messages/stream` | POST | Send a thesis prompt; agent responds with a draft + attaches `draft_id` |
 | `POST /v1/alert-drafts/:id/backtest` | POST | Run the backtest. Body: `{"backtest_lookback_days": 365}` (max 365). Returns a `backtest_result` widget snapshot + `backtest_id`. Idempotent-ish: 90-second mutex prevents concurrent duplicate backtests. |
-| `POST /v1/cards` | POST | Mint a shareable card from `{draft_id, backtest_id}`. Returns `{card_id}`. Idempotent per `(user_id, backtest_snapshot_id)` — re-calling returns the same card. |
-| `GET /widgets/:id` | GET | Fetch a stored widget (the backtest result itself, 24-hour TTL). |
+| `GET /widgets/:id` | GET | Fetch a stored widget (the backtest result itself, 24-hour TTL). Private to the user. |
+
+**Share-card endpoints (optional, growth surface — only when user asks to share):**
+
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `POST /v1/cards` | POST | Mint a shareable card from `{draft_id, backtest_id}`. Returns `{card_id}`. Idempotent per `(user_id, backtest_snapshot_id)` — re-calling returns the same card. **Mints a permanent public URL.** |
+| `PATCH /v1/cards/:cardId` | PATCH | Edit card copy (`strategy_name`, `figure_name`). Cannot unpublish. |
+| `POST /v1/cards/:cardId/figure-image` | POST | Upload a portrait (multipart `figure_image`) — pix2pix-styled into the dollar-bill watermark. |
 | public `https://stingray.fi/cards/<card_id>/` | — | Public Astro share page. Renders OG image, portrait watermark, PnL stats, chart. No auth needed. |
 | public `https://stingray.fi/cards/<card_id>/image.png/` | — | 1200×630 OG PNG. Renders correctly in X/Slack/WhatsApp/Telegram previews. **Trailing slash is required** — `/image.png` without it returns `404 text/html`. |
 
 ## Canonical flow
 
-The agent chat is the authoring surface. Drafts live as `widget_snapshot` rows; they're not created by a separate REST POST. An API token-driven workflow therefore looks like:
+Steps 1–4 are the **core backtest flow** (private, what most users want). Steps 5–6 are the **opt-in share-card surface** — only run them when the user has explicitly asked to share, post, or generate a link.
+
+The agent chat is the authoring surface for both. Drafts live as `widget_snapshot` rows; they're not created by a separate REST POST. An API token-driven workflow therefore looks like:
 
 1. **Start or resume a chat** — `POST /v1/chats/web` with body `{}`. Returns `{"chat_id": "<uuid>"}`.
 
