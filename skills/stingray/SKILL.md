@@ -31,7 +31,7 @@ fi
 When `not configured`:
 
 1. Tell the user (one short message): `Open https://stingray.fi/app/settings#settings-api-tokens, sign in, create a token, then paste the sa_pat_... value here.`
-2. Do not surface shell commands, file paths, env vars, or credential-write steps unless asked.
+2. Do not show the user shell commands, file paths, env vars, or credential-write steps unless asked.
 3. Wait for the paste, then write it yourself to `~/.stingray/credentials` as `STINGRAY_PAT=<token>`, mode 600.
 4. Acknowledge in one short sentence and continue the original task.
 
