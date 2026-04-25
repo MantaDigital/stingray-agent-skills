@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.6 - 2026-04-25
+
+- **Repositioned `SKILL.md` description.** Lead with what the skill actually is — crypto research and trading-desk infrastructure (composable alerts, backtests, knowledge graph spanning spot, perp DEXs, and prediction markets) — instead of generic account operations. Persona: quants, discretionary traders, and research desks.
+- **Sharper capability communication in `SKILL.md` body.** Replaced the one-line "User-scoped Stingray access over HTTP via API token" intro with a one-paragraph description that names the surfaces (composable alerts, backtests, KG) and the venue scope.
+- **`STINGRAY_PAT` env var fallback.** The credential check now prefers `STINGRAY_PAT` from the environment when present, falling back to `~/.stingray/credentials`. Lets users avoid the file write entirely (responds to a Snyk Med-Risk concern about credential persistence).
+- **Repositioned root README.** Added a capability matrix, a "Security & Trust" section that addresses the Snyk Med-Risk score head-on, a multi-agent reach callout, and a "what this is not" disclaimer.
+- **Repositioned `marketplace.json` description** to match. Bumped `metadata.version` and plugin `version` to 0.1.6.
+
 ## 0.1.5 - 2026-04-24
 
 - **Skill structure cleanup.** Compressed `SKILL.md` from ~150 to ~85 lines: trimmed the Default Operating Loop from 10 to 7 steps (moved chat-handling and token-cleanup hygiene into their respective references), consolidated the API section's three curl examples into the two most common (read + write), and tightened the First-Time Setup steps. Extracted the 30-line Co-development section into its own dedicated reference `references/co-development.md` so SKILL.md stays a clean entry point. Added Co-development + a `Stop conditions` block to Task Routing for cleaner separation.
