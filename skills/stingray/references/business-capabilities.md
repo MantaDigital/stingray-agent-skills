@@ -2,7 +2,7 @@
 
 Read this file when the user asks for product outcomes such as "add an alert", "look up an asset", "check my credits", or "see if WhatsApp is linked".
 
-The point of this file is to translate business intent into the correct PAT-safe route family.
+The point of this file is to translate business intent into the correct API token-safe route family.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ The point of this file is to translate business intent into the correct PAT-safe
 8. Use the assistant through web or channel chats
 9. Manage linked delivery channels
 10. Manage referrals and attribution
-11. Keep PATs tidy
+11. Keep API tokens tidy
 
 ## 1. Understand account readiness and current state
 
@@ -154,23 +154,52 @@ Notes:
 
 - Notifications are alert delivery records surfaced for the current user.
 - `POST /notifications/read` accepts `{"delivery_ids": ["uuid", ...]}` (max 100 per call).
-- The SSE stream at `GET /notifications/stream` exists but is not part of the PAT skill surface. It is a long-lived connection better suited to frontend use.
+- The SSE stream at `GET /notifications/stream` exists but is not part of the API token skill surface. It is a long-lived connection better suited to frontend use.
 
-## 7. Fetch backtest results
+## 7. Run a backtest (core, private)
 
 Typical user requests:
 
-- "Show me the backtest result for this alert."
-- "Get the backtest I ran earlier."
+- "Backtest this thesis."
+- "Show me how this setup played over the last year."
+- "Test my BTC breakout alert before I deploy it."
+- "Show me the backtest result for this alert." / "Get the backtest I ran earlier."
 
 Primary routes:
 
-- `GET /widgets/:id`
+- `POST /v1/chats/web` → `chat_id`
+- `POST /v1/chats/:chatId/messages/stream` (thesis prompt) → agent writes a draft snapshot
+- `POST /v1/alert-drafts/:id/backtest` → `backtest_id`
+- `GET /widgets/:id` → fetch the stored backtest result (24h TTL; 404 after expiry)
 
 Notes:
 
-- Backtest results are stored with a 24-hour TTL. After expiry the endpoint returns 404.
-- Backtests are triggered through the chat assistant, not directly via this route. This route only fetches stored results.
+- Backtest results are **private to the user** — that's the safe default. The flow stops at `GET /widgets/:id`.
+- For the full canonical sequence (request body shapes, `draft_id` recovery, parsing patterns), read `references/backtest-and-cards.md`.
+
+## 7b. Share a backtest publicly (optional growth surface)
+
+Typical user requests:
+
+- "Make me a card I can post on twitter."
+- "Give me a link I can DM to a friend."
+- "Share this backtest publicly."
+
+Primary routes:
+
+- `POST /v1/cards` with `{draft_id, backtest_id}` → `card_id` (mints a **permanent public URL**)
+- `PATCH /v1/cards/:cardId` → edit card copy (`strategy_name`, `figure_name`)
+- `POST /v1/cards/:cardId/figure-image` → upload portrait watermark
+- Public share page: `https://stingray.fi/cards/<card_id>/`
+- Public OG image: `https://stingray.fi/cards/<card_id>/image.png/` (trailing slash required; no-slash returns 404)
+
+Notes:
+
+- **Opt-in only.** Cards live at publicly-accessible URLs. There is no unshare endpoint — only `PATCH` for copy edits. Do not mint cards on every backtest; only when the user has explicitly asked to share.
+- Cards are idempotent per `(user_id, backtest_snapshot_id)` — retries return the same `card_id`.
+- The card watermark + referral code belong to the authenticated token's owner, not the asset being analyzed.
+- Backtest snapshots expire after 24 hours; the card display data is a separate persistent snapshot inside `pnl_cards.display_data`, so the card itself doesn't decay.
+- Full schema, share-card properties, failure modes: read `references/backtest-and-cards.md`.
 
 ## 8. Use the assistant through web or channel chats
 
@@ -223,9 +252,9 @@ Primary routes:
 
 Notes:
 
-- Some WhatsApp and Telegram routes are env-gated; if the route is unavailable, treat that as environment or deployment configuration, not PAT denial.
+- Some WhatsApp and Telegram routes are env-gated; if the route is unavailable, treat that as environment or deployment configuration, not API token denial.
 - Telegram and WhatsApp both support link-code generation and disconnection via symmetric route pairs.
-- X link status is read-only via `GET /me/x-link`. Linking X via `POST /x/link` requires interactive auth and is not available via PAT.
+- X link status is read-only via `GET /me/x-link`. Linking X via `POST /x/link` requires interactive auth and is not available via API token.
 
 ## 10. Manage referrals and attribution
 
@@ -250,7 +279,7 @@ Notes:
 - Attribution capture is growth instrumentation for the current user.
 - Referral code resolve is public, but creating or attributing referral state is user-scoped.
 
-## 11. Keep PATs tidy
+## 11. Keep API tokens tidy
 
 Typical user requests:
 
@@ -264,4 +293,4 @@ Primary routes:
 
 Notes:
 
-- PAT creation is intentionally excluded from the PAT surface.
+- API token creation is intentionally excluded from the API token surface.

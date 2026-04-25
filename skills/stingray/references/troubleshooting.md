@@ -5,7 +5,7 @@ Read this file when the route family is correct but the request still failed.
 ## Common auth failures
 
 - `401 Unauthorized`: token missing, malformed, expired, or revoked.
-- `403 api_token_not_allowed`: the route is outside PAT scope, such as billing or PAT creation.
+- `403 api_token_not_allowed`: the route is outside API token scope, such as billing or API token creation.
 
 When you hit `403 api_token_not_allowed`, stop retrying and move back to `references/access-policy.md`.
 
@@ -21,7 +21,7 @@ When you hit `403 api_token_not_allowed`, stop retrying and move back to `refere
 ## Dependency issues
 
 - KG routes may return `502` or `503`: the knowledge graph backend is unavailable or not configured.
-- `/health` or `/v1/tools` may reflect tool-host unavailability: those are runtime dependencies, not PAT-surface issues.
+- `/health` or `/v1/tools` may reflect tool-host unavailability: those are runtime dependencies, not API token-surface issues.
 
 ## Alert definition validation failures
 

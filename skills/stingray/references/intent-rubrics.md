@@ -1,6 +1,6 @@
 # Intent Rubrics
 
-Read this file when the prompt is phrased in product language and more than one PAT-safe route family seems plausible.
+Read this file when the prompt is phrased in product language and more than one API token-safe route family seems plausible.
 
 Use it to decide what the user is actually trying to accomplish before you choose endpoints.
 
@@ -174,7 +174,7 @@ Do not misread as:
 - a billing checkout request
 - a subscription-management request
 
-If the user asks for invoices, checkout, plan upgrades, or billing portal actions, that is outside PAT scope.
+If the user asks for invoices, checkout, plan upgrades, or billing portal actions, that is outside API token scope.
 
 ## 8. Token hygiene vs token creation
 
@@ -182,29 +182,29 @@ Signals for hygiene:
 
 - "List my tokens"
 - "Revoke old integrations"
-- "Clean up PATs"
+- "Clean up API tokens"
 
 Signals for creation:
 
-- "Create a PAT"
+- "Create an API token"
 - "Mint a new token"
 
 Interpret as:
 
 - hygiene when listing and revoking existing tokens
-- blocked boundary when creating a new PAT from a PAT-authenticated client
+- blocked boundary when creating a new API token from an API token-authenticated client
 
 Do not misread:
 
 - token cleanup as token minting
-- token minting as allowed PAT behavior
+- token minting as allowed API token behavior
 
 ## 9. Dependency recovery vs auth failure
 
 Signals:
 
 - KG route returns `502` or `503`
-- the user says a backend dependency failed but PAT auth might still be valid
+- the user says a backend dependency failed but API token auth might still be valid
 
 Interpret as:
 
@@ -212,11 +212,11 @@ Interpret as:
 
 Start with:
 
-- a small read-only PAT-safe request such as `GET /me/access`
+- a small read-only API token-safe request such as `GET /me/access`
 
 Do not misread as:
 
-- evidence that the PAT is unauthorized
+- evidence that the API token is unauthorized
 - a reason to expand into blocked surfaces
 
 ## 10. Underspecified alert or portfolio write

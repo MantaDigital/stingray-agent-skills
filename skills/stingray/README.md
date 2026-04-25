@@ -22,7 +22,7 @@ Install the skill from the repository root, then complete the one-time credentia
 
 ## 1. Open the Token Page
 
-Open [https://stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens), sign in if needed, and create a PAT.
+Open [https://stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens), sign in if needed, and create an API token.
 
 The token format starts with `sa_pat_...`.
 

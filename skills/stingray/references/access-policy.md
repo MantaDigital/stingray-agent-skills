@@ -1,6 +1,6 @@
 # Access Policy
 
-Read this file when you need to decide whether a PAT-backed skill can perform a task at all.
+Read this file when you need to decide whether an API token-backed skill can perform a task at all.
 
 This is the public boundary reference shipped with the distributed Stingray skill package.
 
@@ -10,7 +10,7 @@ This is the public boundary reference shipped with the distributed Stingray skil
 - Start with `GET /me/access` when the request depends on current capabilities or linked-account prerequisites.
 - Treat `/me/access` as the authoritative capability snapshot for the authenticated user.
 
-## Allowed PAT Surface
+## Allowed API token Surface
 
 - Account and state under `/me*`, except `POST /me/api-tokens`
 - Onboarding, credits, usage, growth, Telegram state, WhatsApp state, referral code, and attribution all live inside that account surface
@@ -28,7 +28,7 @@ This is the public boundary reference shipped with the distributed Stingray skil
 - Attachment download via `GET /v1/attachments/:attachmentId`
 - User-scoped growth routes via `POST /me/attribution`, `GET /me/referral-code`, and `POST /me/referral-attribution`
 - Token list and revoke via `GET /me/api-tokens` and `DELETE /me/api-tokens/:tokenId`
-- Public referral helpers via `GET /referrals/resolve/:code` and `GET /public/referrals/leaderboard` (these are public routes reachable without auth, not PAT-authenticated)
+- Public referral helpers via `GET /referrals/resolve/:code` and `GET /public/referrals/leaderboard` (these are public routes reachable without auth, not API token-authenticated)
 
 ## Explicitly Blocked
 
@@ -40,21 +40,21 @@ This is the public boundary reference shipped with the distributed Stingray skil
 - `/v1/tools*`
 - `/debug-sentry`
 
-Blocked PAT calls return `403` with code `api_token_not_allowed`.
+Blocked API token calls return `403` with code `api_token_not_allowed`.
 
 ## Capability Notes
 
-- PATs can read account, access, credits, growth, usage, Telegram, and WhatsApp state.
-- PATs can manage onboarding state and other account-setup flows.
-- PATs can manage watchlists, portfolio, alerts, onboarding, attribution, referrals, Telegram links, and WhatsApp links.
-- PATs can read alert notifications and mark them as read.
-- PATs can fetch stored backtest results (24h TTL; 404 after expiry).
-- PATs can use both web chat and channel chat, but channel chat still requires an already linked channel identity.
-- PATs can list and revoke tokens for the same user.
-- PATs cannot create tokens and cannot access billing.
+- API tokens can read account, access, credits, growth, usage, Telegram, and WhatsApp state.
+- API tokens can manage onboarding state and other account-setup flows.
+- API tokens can manage watchlists, portfolio, alerts, onboarding, attribution, referrals, Telegram links, and WhatsApp links.
+- API tokens can read alert notifications and mark them as read.
+- API tokens can fetch stored backtest results (24h TTL; 404 after expiry).
+- API tokens can use both web chat and channel chat, but channel chat still requires an already linked channel identity.
+- API tokens can list and revoke tokens for the same user.
+- API tokens cannot create tokens and cannot access billing.
 
 ## Precondition Notes
 
 - Alert delivery activation requires Telegram DM deliverability.
 - Channel chat requires a linked Telegram or WhatsApp account for the target channel.
-- KG-backed flows may fail because the KG backend is unavailable; that does not mean the PAT lacks access.
+- KG-backed flows may fail because the KG backend is unavailable; that does not mean the API token lacks access.
