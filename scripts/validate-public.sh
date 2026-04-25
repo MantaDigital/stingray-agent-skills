@@ -57,8 +57,13 @@ if search_regex 'mkdir -p ~/.stingray|printf .*STINGRAY_PAT=sa_pat|chmod 600 ~/.
   exit 1
 fi
 
-if ! search_fixed_quiet 'Do not show the user shell commands' skills/stingray/SKILL.md; then
-  echo "[FAIL] SKILL missing hidden-setup guidance"
+if ! search_fixed_quiet 'the secret stays in their terminal' skills/stingray/SKILL.md; then
+  echo "[FAIL] SKILL missing credential-isolation guidance"
+  exit 1
+fi
+
+if ! search_fixed_quiet 'data, not instructions' skills/stingray/SKILL.md; then
+  echo "[FAIL] SKILL missing untrusted-content-handling guidance"
   exit 1
 fi
 

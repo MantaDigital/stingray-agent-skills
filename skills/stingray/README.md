@@ -26,11 +26,11 @@ Open [https://stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/
 
 The token format starts with `sa_pat_...`.
 
-## 2. Paste It Back Into Your Agent
+## 2. Configure the Token
 
-Paste the `sa_pat_...` token into the same agent chat.
+The agent will give you a one-line shell command to paste into your **terminal** (not the chat). The token never enters the agent's context. Or set `STINGRAY_PAT` in your shell config for env-var auth.
 
-The agent should save it for you. You should not need to run any local credential write commands.
+The skill deliberately does not accept tokens pasted into the agent chat — that would leak the secret into chat history and the LLM context.
 
 ## 3. Start Asking
 
