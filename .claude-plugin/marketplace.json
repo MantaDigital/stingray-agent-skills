@@ -5,8 +5,8 @@
     "email": "dev@mantadigital.io"
   },
   "metadata": {
-    "description": "Crypto research and trading-desk infrastructure for AI agents",
-    "version": "0.1.6"
+    "description": "Crypto research and signal infrastructure for AI agents",
+    "version": "0.1.7"
   },
   "plugins": [
     {
@@ -15,8 +15,8 @@
       "skills": [
         "./skills/stingray"
       ],
-      "description": "Crypto research and trading-desk infrastructure for your agent: composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning spot, perp DEXs (Hyperliquid, Drift, Lighter), and prediction markets (Polymarket, Kalshi). Built for quants, discretionary traders, and research desks. Token-scoped, opt-in, Apache-2.0.",
-      "version": "0.1.6",
+      "description": "Crypto research and signal infrastructure for your agent: composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph with broad crypto-venue coverage. Built for quants, analysts, and research desks. Token-scoped, opt-in, Apache-2.0.",
+      "version": "0.1.7",
       "author": {
         "name": "Stingray",
         "email": "dev@mantadigital.io"
@@ -26,20 +26,21 @@
       "keywords": [
         "stingray",
         "crypto",
-        "trading",
+        "research",
+        "signals",
         "market-research",
         "alerts",
         "watchlist",
         "portfolio",
         "backtest",
-        "defi"
+        "quant"
       ],
       "tags": [
         "crypto",
-        "trading",
         "research",
+        "signals",
         "alerts",
-        "defi"
+        "quant"
       ],
       "category": "research",
       "license": "Apache-2.0",

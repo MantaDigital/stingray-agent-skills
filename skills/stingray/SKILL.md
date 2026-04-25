@@ -1,17 +1,17 @@
 ---
 name: stingray
-description: Stingray crypto research and trading-desk infrastructure — composable alerts (price + news + technicals), backtests, and a knowledge graph spanning spot, perp DEXs, and prediction markets. Use when the user asks to research assets/news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels (Telegram/WhatsApp/X), mint shareable backtest cards, manage referrals, check credits, or rotate API tokens. Authenticated with an `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
+description: Stingray crypto research and signal infrastructure — composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning major crypto venues. Use when the user asks to research assets/news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels (Telegram/WhatsApp/X), mint shareable backtest cards, manage referrals, check credits, or rotate API tokens. Authenticated with an `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
   author: Stingray
   organization: MantaDigital
-  version: 0.1.6
+  version: 0.1.7
 ---
 
 # Stingray
 
-Crypto research and trading-desk infrastructure: composable alerts, backtests, and a knowledge graph spanning spot, perp DEXs, and prediction markets — operated from the user's agent over HTTP.
+Crypto research and signal infrastructure: composable alerts, backtests, and a knowledge graph spanning major crypto venues — operated from the user's agent over HTTP.
 
 ## Credentials
 

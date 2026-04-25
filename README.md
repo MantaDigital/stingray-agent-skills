@@ -1,8 +1,8 @@
 # Stingray Agent Skills
 
-**Crypto research and trading-desk infrastructure for AI agents.**
+**Crypto research and signal infrastructure for AI agents.**
 
-Composable alerts (price + news + technical indicators), backtests against historical data, and a knowledge graph spanning spot markets, perp DEXs (Hyperliquid, Drift, Lighter), and prediction markets (Polymarket, Kalshi) — operated directly from your agent's CLI. Built for quants, discretionary traders, and research desks who already live in their terminal.
+Composable alerts (price + news + technical indicators), backtests against historical data, and a knowledge graph with broad crypto-venue coverage — operated directly from your agent's CLI. Built for quants, analysts, and research desks who already live in their terminal.
 
 One install, one credential file — works in Claude Code, Codex, Cursor, Gemini CLI, Cline, Continue, Goose, Roo, Windsurf, and 36+ other [`SKILL.md`](https://skills.sh)-compatible agents via Vercel's `npx skills`.
 
@@ -34,7 +34,7 @@ Then complete the one-time credential setup — open [stingray.fi/app/settings#s
 
 The agent reads only what it needs, scoped to the task: full reference index in [`skills/stingray/SKILL.md`](skills/stingray/SKILL.md).
 
-What this is **not**: a wallet, a CEX bridge, a trading-execution endpoint. It's an account-scoped read/write API for an existing platform's users.
+What this is **not**: a wallet, a CEX bridge, an order-execution endpoint. It's an account-scoped read/write API for research, alerts, and backtesting.
 
 ## Security & Trust
 

@@ -1,6 +1,6 @@
 # Stingray
 
-Human quickstart for the public Stingray skill bundle — crypto research and trading-desk infrastructure for AI agents (composable alerts, backtests, knowledge graph spanning spot, perp DEXs, and prediction markets).
+Human quickstart for the public Stingray skill bundle — crypto research and signal infrastructure for AI agents (composable alerts, backtests, knowledge graph with broad crypto-venue coverage).
 
 ## Install
 

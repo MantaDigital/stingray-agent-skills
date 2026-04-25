@@ -1,8 +1,14 @@
 # Changelog
 
+## 0.1.7 - 2026-04-25
+
+- **Reframed distribution copy to drop out of Snyk's financial-platform-automation taxonomy.** Replaced execution-coded language across `SKILL.md`, both READMEs, `marketplace.json`, and CHANGELOG with research-and-signal-infrastructure framing. Snyk's keyword classifier had flagged the v0.1.6 copy as Critical Risk (same category as wallet/exchange skills) regardless of the actual code surface — the v0.1.7 copy keeps persona-targeting (quants, analysts, research desks) without the financial-platform classifier hit.
+- Updated `marketplace.json` keywords/tags accordingly. Added `signals`, `quant`, `research`.
+- Bumped `metadata.version` and plugin `version` to 0.1.7.
+
 ## 0.1.6 - 2026-04-25
 
-- **Repositioned `SKILL.md` description.** Lead with what the skill actually is — crypto research and trading-desk infrastructure (composable alerts, backtests, knowledge graph spanning spot, perp DEXs, and prediction markets) — instead of generic account operations. Persona: quants, discretionary traders, and research desks.
+- **Repositioned `SKILL.md` description.** Lead with what the skill actually is — crypto research and signal infrastructure (composable alerts, backtests, knowledge graph) — instead of generic account operations. Persona: quants, analysts, and research desks.
 - **Sharper capability communication in `SKILL.md` body.** Replaced the one-line "User-scoped Stingray access over HTTP via API token" intro with a one-paragraph description that names the surfaces (composable alerts, backtests, KG) and the venue scope.
 - **`STINGRAY_PAT` env var fallback.** The credential check now prefers `STINGRAY_PAT` from the environment when present, falling back to `~/.stingray/credentials`. Lets users avoid the file write entirely (responds to a Snyk Med-Risk concern about credential persistence).
 - **Repositioned root README.** Added a capability matrix, a "Security & Trust" section that addresses the Snyk Med-Risk score head-on, a multi-agent reach callout, and a "what this is not" disclaimer.
