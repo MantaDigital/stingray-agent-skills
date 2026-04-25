@@ -1,24 +1,26 @@
 ---
 name: stingray
-description: Operate a user's Stingray crypto research account via REST API with an API token (sa_pat_...). Use when the user asks to check account status, research assets, manage watchlist or portfolio, create or adjust alerts, run backtests, use web or Telegram or WhatsApp chat, manage referrals, check credits, or rotate API tokens. Do not use for API token creation, billing, admin, or webhook operations.
+description: Stingray is crypto research and trading-desk infrastructure — composable alerts (price + news + technicals with AND/OR combinators), backtests against historical data, and a knowledge graph spanning spot, perp DEXs (Hyperliquid, Drift, Lighter), and prediction markets (Polymarket, Kalshi). Use this skill to operate a user's Stingray account from the agent: research assets and news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels (Telegram/WhatsApp/X), mint shareable backtest cards, and rotate API tokens. Authenticated with a user-issued `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
   author: Stingray
   organization: MantaDigital
-  version: 0.1.5
+  version: 0.1.6
 ---
 
 # Stingray
 
-User-scoped Stingray access over HTTP via API token.
+Crypto research and trading-desk infrastructure: composable alerts, backtests, and a knowledge graph spanning spot, perp DEXs, and prediction markets — operated from the user's agent over HTTP.
 
 ## Credentials
 
-Check first, set up only if missing:
+Check first, set up only if missing. Prefer `STINGRAY_PAT` from the environment if present (no file write needed):
 
 ```bash
-if [ -f ~/.stingray/credentials ]; then
+if [ -n "$STINGRAY_PAT" ]; then
+  echo "configured via env (...${STINGRAY_PAT: -4})"
+elif [ -f ~/.stingray/credentials ]; then
   source ~/.stingray/credentials 2>/dev/null
   echo "configured (...${STINGRAY_PAT: -4})"
 else
