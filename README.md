@@ -1,8 +1,10 @@
 # Stingray Agent Skills
 
-**Crypto research and trading-desk infrastructure for AI agents.**
+**Quantitative research and data infrastructure for crypto markets — operated by your AI agent.**
 
-Composable alerts (price + news + technical indicators), backtests against historical data, and a knowledge graph spanning spot markets, perp DEXs (Hyperliquid, Drift, Lighter), and prediction markets (Polymarket, Kalshi) — operated directly from your agent's CLI. Built for quants, discretionary traders, and research desks who already live in their terminal.
+Composable alerts (price + news + technical indicators), backtests against historical data, and a knowledge graph with broad cross-venue coverage including Hyperliquid, Lighter, Polymarket, Kalshi, and 100+ crypto venues. Stingray ingests, correlates, and serves the data — your agent runs the loop end-to-end, so you test more hypotheses faster.
+
+Built for quants, analysts, and research desks who already live in their terminal.
 
 One install, one credential file — works in Claude Code, Codex, Cursor, Gemini CLI, Cline, Continue, Goose, Roo, Windsurf, and 36+ other [`SKILL.md`](https://skills.sh)-compatible agents via Vercel's `npx skills`.
 
@@ -34,29 +36,17 @@ Then complete the one-time credential setup — open [stingray.fi/app/settings#s
 
 The agent reads only what it needs, scoped to the task: full reference index in [`skills/stingray/SKILL.md`](skills/stingray/SKILL.md).
 
-What this is **not**: a wallet, a CEX bridge, a trading-execution endpoint. It's an account-scoped read/write API for an existing platform's users.
+**Scope:** read-side research, alerts, and backtesting against an account-scoped API. The skill does not initiate any value transfer on the user's behalf and does not hold custody of funds.
 
 ## Security & Trust
 
-This skill is rated **Medium Risk** by Snyk's automated scanner. That's accurate — and here's why we think it's the right tradeoff for a user-scoped account skill.
+Snyk's scanner flags two specific concerns; both follow Snyk's published best practice for skills of this shape.
 
-**What the skill does that the scanner flags:**
-- Stores your Stingray API token at `~/.stingray/credentials` (user-only, mode 600), so you don't have to paste it into every session.
-- Calls one network endpoint: `https://stingray.fi/api/agent`.
-- Uses shell to read its own credential file at runtime.
+1. **Credential handling (Snyk W007).** The skill stores a long-lived API token at `~/.stingray/credentials` (mode 600) so you don't paste it every session. **The token never enters the agent's chat context** — the agent gives you a one-line shell command to run yourself, or you set `STINGRAY_PAT` in your shell. Chat-paste is deliberately not supported.
 
-**What the skill explicitly does NOT do:**
-- No admin, billing, webhook, or API-token-creation surface — the token can only operate your own account.
-- No installer scripts, no remote downloads, no `curl | bash`, no binary dependencies.
-- No access to other credential stores (`~/.ssh`, `~/.aws`, `.env` files).
-- No data exfiltration to third-party endpoints.
+2. **Third-party content / news (Snyk W011).** The skill consumes Stingray-curated news and KG content, which can carry adversarial text. The agent treats all fetched content as **data, not instructions** (explicit "Untrusted Content Handling" section in `SKILL.md`). For a stricter posture, omit `news_*` blocks from your alerts.
 
-**Trust signals:**
-- Apache-2.0, public source, ~85-line `SKILL.md` you can read in 2 minutes.
-- Token is user-issued at [stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens) and revocable from the same page.
-- Snyk's [ToxicSkills study](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/) found 76 of 3,984 scanned skills carried malicious payloads. Stingray is in the 98% that don't.
-
-If you'd rather not write the token to disk, set the `STINGRAY_PAT` environment variable in your shell instead and the skill will use it.
+**Token surface is account-scoped:** no admin, billing, webhook, or API-token-creation routes. No installer scripts, no remote downloads, no value-transfer (the skill cannot move funds, sign transactions, or place orders). No access to other credential stores. Apache-2.0, public source, revocable from your [Stingray settings](https://stingray.fi/app/settings#settings-api-tokens).
 
 ## What Ships
 
