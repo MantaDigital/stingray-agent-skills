@@ -1,6 +1,6 @@
 # Stingray
 
-Human quickstart for the public Stingray skill bundle.
+Human quickstart for the public Stingray skill bundle — crypto research and trading-desk infrastructure for AI agents (composable alerts, backtests, knowledge graph spanning spot, perp DEXs, and prediction markets).
 
 ## Install
 
@@ -46,12 +46,15 @@ Example prompts:
 
 ## What The Skill Covers
 
-- account readiness and usage
-- asset research and entity lookup
-- watchlists and portfolios
-- alerts and notifications
-- web and channel chats
-- referrals and token hygiene
+- **Composable alerts** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
+- **Backtests** — replay a thesis or alert definition against historical data (24h-TTL widget result, account-private)
+- **Knowledge graph** — `/kg/search` and `/kg/resolve` for asset disambiguation across venues; per-entity news via `/entities/:id/news`
+- **News-aware signals** — news blocks compose into alerts and trigger trees alongside price and TA
+- Watchlists and portfolios
+- Multi-channel notifications (web, Telegram, WhatsApp, X)
+- Shareable backtest cards (opt-in)
+- Account readiness, credits, usage, referrals, token hygiene
+- Co-development channel — request new assets, signals, or datasets through the same chat endpoint
 
 ## Bundle Contents
 

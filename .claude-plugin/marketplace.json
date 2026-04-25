@@ -5,8 +5,8 @@
     "email": "dev@mantadigital.io"
   },
   "metadata": {
-    "description": "Official Stingray agent skills for SKILL.md-compatible agents",
-    "version": "0.1.5"
+    "description": "Crypto research and trading-desk infrastructure for AI agents",
+    "version": "0.1.6"
   },
   "plugins": [
     {
@@ -15,8 +15,8 @@
       "skills": [
         "./skills/stingray"
       ],
-      "description": "Operate a Stingray crypto research account from your agent: check status, manage watchlist/portfolio, set alerts, run backtests, mint shareable cards, manage referrals, and rotate API tokens. Token-scoped, opt-in, Apache-2.0.",
-      "version": "0.1.5",
+      "description": "Crypto research and trading-desk infrastructure for your agent: composable alerts (price + news + technicals), backtests against historical data, and a knowledge graph spanning spot, perp DEXs (Hyperliquid, Drift, Lighter), and prediction markets (Polymarket, Kalshi). Built for quants, discretionary traders, and research desks. Token-scoped, opt-in, Apache-2.0.",
+      "version": "0.1.6",
       "author": {
         "name": "Stingray",
         "email": "dev@mantadigital.io"
