@@ -1,6 +1,6 @@
 ---
 name: stingray
-description: Stingray is crypto research and trading-desk infrastructure — composable alerts (price + news + technicals with AND/OR combinators), backtests against historical data, and a knowledge graph spanning spot, perp DEXs (Hyperliquid, Drift, Lighter), and prediction markets (Polymarket, Kalshi). Use this skill to operate a user's Stingray account from the agent: research assets and news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels (Telegram/WhatsApp/X), mint shareable backtest cards, and rotate API tokens. Authenticated with a user-issued `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
+description: Stingray crypto research and trading-desk infrastructure — composable alerts (price + news + technicals), backtests, and a knowledge graph spanning spot, perp DEXs, and prediction markets. Use when the user asks to research assets/news, build alerts and backtest them, manage watchlist/portfolio/notifications, link delivery channels (Telegram/WhatsApp/X), mint shareable backtest cards, manage referrals, check credits, or rotate API tokens. Authenticated with an `sa_pat_...` API token (token-scoped, opt-in). Do not use for API token creation, billing, admin, or webhook operations.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
