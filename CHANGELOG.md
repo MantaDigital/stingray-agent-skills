@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.8 - 2026-05-04
+
+- Added `skills/stingray/references/capabilities.json`, a machine-readable capability manifest with canonical install metadata, token setup expectations, first-run health-check guidance, example prompts, endpoint families, and blocked surfaces.
+- Added `skills/stingray/prompts.md`, a human-facing prompt index covering first-run readiness, research, watchlists, alerts, private backtests, opt-in share cards, notifications, and token hygiene.
+- Promoted first-invocation UX in `SKILL.md`: agents now run `GET /me/access` once per active session after credentials load, report a compact readiness line, and use the capability manifest plus prompt index when users ask what Stingray can do.
+- Fixed the root README credential setup copy so users are told to use the terminal-only setup path and not paste tokens into agent chat. Added restart-session guidance for hosts that load skills only when a session starts.
+- Extended public validation to require valid capability JSON, prompt-index discoverability, and absence of unsafe "paste it back into your agent" credential guidance.
+
 ## 0.1.7 - 2026-04-25
 
 - **Reframed distribution copy as quantitative research and data infrastructure for crypto markets, operated by AI agents.** Categories the skill alongside Kaiko, Coin Metrics, Amberdata — institutional-grade research/data tooling — instead of generic account operations or execution-coded language. Lead with the value prop: Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so users test more hypotheses faster. Venue coverage (Hyperliquid, Lighter, Polymarket, Kalshi, 100+ more) named explicitly in the body to anchor the breadth claim.

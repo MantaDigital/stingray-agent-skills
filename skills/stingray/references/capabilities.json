@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0",
+  "skill": "stingray",
+  "display_name": "Stingray",
+  "organization": "MantaDigital",
+  "canonical_install": {
+    "command": "npx skills add MantaDigital/stingray-agent-skills -g -y",
+    "repository": "MantaDigital/stingray-agent-skills",
+    "skill_path": "skills/stingray"
+  },
+  "credential_setup": {
+    "token_url": "https://stingray.fi/app/settings#settings-api-tokens",
+    "token_prefix": "sa_pat_",
+    "preferred_storage": "terminal-only setup via STINGRAY_PAT or ~/.stingray/credentials",
+    "chat_paste_allowed": false
+  },
+  "first_run_health_check": {
+    "endpoint": "GET /me/access",
+    "report_fields": [
+      "tier",
+      "credits",
+      "linked_channels",
+      "delivery_prerequisites"
+    ]
+  },
+  "capabilities": [
+    {
+      "id": "account-readiness",
+      "capability": "Understand account readiness, onboarding, credits, usage, and linked delivery channels.",
+      "example_prompt": "What can my Stingray account do right now?",
+      "endpoints_used": [
+        "GET /me/access",
+        "GET /me",
+        "GET /me/onboarding",
+        "GET /me/credits/balance",
+        "GET /me/usage",
+        "GET /me/telegram",
+        "GET /me/whatsapp",
+        "GET /me/x-link"
+      ],
+      "reference": "business-capabilities.md#1-understand-account-readiness-and-current-state"
+    },
+    {
+      "id": "asset-research",
+      "capability": "Research assets, tokens, and projects through the Stingray knowledge graph.",
+      "example_prompt": "Look up Chainlink, resolve the right asset entity, and summarize the latest normalized news.",
+      "endpoints_used": [
+        "GET /kg/search",
+        "POST /kg/resolve",
+        "GET /entities/:entityId/news"
+      ],
+      "reference": "business-capabilities.md#2-research-assets-tokens-and-projects"
+    },
+    {
+      "id": "watchlist",
+      "capability": "Curate the user's account watchlist after resolving stable asset identifiers.",
+      "example_prompt": "Find ETH and SOL, resolve the right entities, and add them to my watchlist.",
+      "endpoints_used": [
+        "GET /kg/search",
+        "POST /kg/resolve",
+        "GET /watchlist",
+        "POST /watchlist",
+        "POST /watchlist/batch",
+        "DELETE /watchlist/:itemId"
+      ],
+      "reference": "business-capabilities.md#3-curate-the-watchlist"
+    },
+    {
+      "id": "portfolio",
+      "capability": "Track portfolio positions for crypto, prediction-market, or equity assets.",
+      "example_prompt": "Add 0.25 BTC to my portfolio and then show my current positions.",
+      "endpoints_used": [
+        "GET /portfolio",
+        "POST /portfolio",
+        "POST /portfolio/batch",
+        "PATCH /portfolio/:id",
+        "DELETE /portfolio/:id"
+      ],
+      "reference": "business-capabilities.md#4-track-portfolio-positions"
+    },
+    {
+      "id": "alerts",
+      "capability": "Create and manage composable alerts that combine price, news, and technical-analysis conditions.",
+      "example_prompt": "Alert me if BTC drops 5% and there is negative news within 2 hours.",
+      "endpoints_used": [
+        "GET /kg/search",
+        "POST /kg/resolve",
+        "GET /alerts",
+        "GET /alerts/:alertId",
+        "POST /alerts",
+        "PATCH /alerts/:alertId",
+        "DELETE /alerts/:alertId"
+      ],
+      "reference": "business-capabilities.md#5-create-and-manage-alerts"
+    },
+    {
+      "id": "notifications",
+      "capability": "Read alert notifications and mark selected or all notifications as read.",
+      "example_prompt": "Show my unread alert notifications and mark the ones I choose as read.",
+      "endpoints_used": [
+        "GET /notifications",
+        "GET /notifications/unread-count",
+        "POST /notifications/read",
+        "POST /notifications/read-all"
+      ],
+      "reference": "business-capabilities.md#6-read-alert-notifications"
+    },
+    {
+      "id": "private-backtests",
+      "capability": "Turn a thesis or alert draft into a private backtest result without publishing a public artifact.",
+      "example_prompt": "Backtest a BTC breakout thesis over the last year, but do not publish anything.",
+      "endpoints_used": [
+        "POST /v1/chats/web",
+        "POST /v1/chats/:chatId/messages/stream",
+        "GET /v1/chats/:chatId/messages",
+        "POST /v1/alert-drafts/:id/backtest",
+        "GET /widgets/:id"
+      ],
+      "reference": "backtest-and-cards.md"
+    },
+    {
+      "id": "share-cards",
+      "capability": "Mint an opt-in public share card from an existing backtest.",
+      "example_prompt": "Create a public share card for the backtest I just ran.",
+      "endpoints_used": [
+        "POST /v1/cards",
+        "PATCH /v1/cards/:cardId",
+        "POST /v1/cards/:cardId/figure-image"
+      ],
+      "reference": "backtest-and-cards.md"
+    },
+    {
+      "id": "chats",
+      "capability": "Use web, Telegram, or WhatsApp chats when the target channel is already linked.",
+      "example_prompt": "Start a Telegram chat asking for the latest BTC setup.",
+      "endpoints_used": [
+        "POST /v1/chats/web",
+        "POST /v1/chats/channels/:channel",
+        "GET /v1/chats",
+        "GET /v1/chats/:chatId",
+        "GET /v1/chats/:chatId/messages",
+        "POST /v1/chats/:chatId/messages/stream",
+        "GET /v1/attachments/:attachmentId"
+      ],
+      "reference": "business-capabilities.md#8-use-the-assistant-through-web-or-channel-chats"
+    },
+    {
+      "id": "channel-linking",
+      "capability": "Inspect or manage Telegram and WhatsApp delivery-channel links, and inspect X link status.",
+      "example_prompt": "Check whether Telegram and WhatsApp are linked and tell me what is blocking alert delivery.",
+      "endpoints_used": [
+        "GET /me/telegram",
+        "POST /telegram/link-code",
+        "DELETE /telegram/link",
+        "GET /me/whatsapp",
+        "POST /whatsapp/link-code",
+        "DELETE /whatsapp/link",
+        "GET /me/x-link"
+      ],
+      "reference": "business-capabilities.md#9-manage-linked-delivery-channels"
+    },
+    {
+      "id": "growth-referrals",
+      "capability": "Manage attribution, referral-code state, and public referral lookups.",
+      "example_prompt": "Create my referral code if I do not already have one.",
+      "endpoints_used": [
+        "POST /me/attribution",
+        "GET /me/referral-code",
+        "POST /me/referral-code",
+        "POST /me/referral-attribution",
+        "GET /referrals/resolve/:code",
+        "GET /public/referrals/leaderboard"
+      ],
+      "reference": "business-capabilities.md#10-manage-referrals-and-attribution"
+    },
+    {
+      "id": "token-hygiene",
+      "capability": "List and revoke existing API tokens without creating new tokens.",
+      "example_prompt": "List my API tokens and help me revoke old integration tokens while keeping the current token active.",
+      "endpoints_used": [
+        "GET /me/api-tokens",
+        "DELETE /me/api-tokens/:tokenId"
+      ],
+      "reference": "business-capabilities.md#11-keep-api-tokens-tidy"
+    },
+    {
+      "id": "co-development",
+      "capability": "Report missing assets, signals, datasets, or reference mismatches back to the Stingray team.",
+      "example_prompt": "Ask Stingray to add this missing signal to the co-development backlog.",
+      "endpoints_used": [
+        "POST /v1/chats/web",
+        "POST /v1/chats/:chatId/messages/stream"
+      ],
+      "reference": "co-development.md"
+    }
+  ],
+  "blocked_capabilities": [
+    {
+      "capability": "Create API tokens with an API token-authenticated client.",
+      "blocked_endpoint": "POST /me/api-tokens",
+      "reason": "Token creation requires interactive registered auth."
+    },
+    {
+      "capability": "Manage billing, admin, internal, webhook, guest, or tool-host routes.",
+      "blocked_endpoint": "/v1/billing*, /internal/*, /webhooks/*, /v1/tools*",
+      "reason": "These routes are outside the token-scoped agent surface."
+    }
+  ]
+}

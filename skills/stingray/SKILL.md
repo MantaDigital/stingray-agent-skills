@@ -6,7 +6,7 @@ compatibility: Requires shell access and outbound HTTPS access to stingray.fi. D
 metadata:
   author: Stingray
   organization: MantaDigital
-  version: 0.1.7
+  version: 0.1.8
 ---
 
 # Stingray
@@ -59,10 +59,17 @@ curl -s -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
 
 Endpoints in references are relative paths — prepend `$STINGRAY_API`. Do not call `/v1/tools`.
 
+## First Invocation
+
+Once per active agent session, after credentials load, run `GET /me/access` before the user's workflow and show a compact readiness line: tier if present, credits if present, linked channels if present, and any delivery prerequisite that blocks the requested task. If credentials are missing, run First-Time Setup instead. If the user's request is blocked by policy, explain the boundary before making API calls.
+
+If the user asks what Stingray can do, or seems unsure what to ask, read `references/capabilities.json` and offer a short capability menu plus the prompt index in `prompts.md`.
+
 ## References
 
 Read only the references that match the task:
 
+- `references/capabilities.json` — machine-readable capability index with example prompts and endpoint families
 - `references/business-capabilities.md` — business-level user intents → endpoint mapping
 - `references/intent-rubrics.md` — ambiguity resolution and common misclassifications
 - `references/north-star-scenarios.md` — multi-step agent-native flows across capabilities
@@ -74,20 +81,22 @@ Read only the references that match the task:
 - `references/workflows.md` — task-oriented endpoint sequences
 - `references/examples.md` — concrete prompt-to-endpoint mappings
 - `references/troubleshooting.md` — auth, prerequisite, dependency, and alert failures
+- `prompts.md` — human-facing copy-paste prompt index
 
 ## Default Operating Loop
 
 1. Load credentials + base URL. If `~/.stingray/credentials` is missing, run First-Time Setup.
-2. Interpret the request as a **user job**, not an endpoint. Read `references/business-capabilities.md`.
-3. End-to-end multi-capability outcomes → `references/north-star-scenarios.md`. Ambiguous prompts → `references/intent-rubrics.md`.
-4. Start with `GET /me/access` unless the task is blocked by policy or the route itself is the capability check.
-5. Route per **Task Routing** below. Resolve stable ids (`/kg/search`, `/kg/resolve`) before mutations.
-6. Before any write, verify required fields are present. Do not guess defaults.
+2. On first invocation in this session, run the First Invocation health check and report the compact readiness line before proceeding.
+3. Interpret the request as a **user job**, not an endpoint. Read `references/business-capabilities.md`.
+4. End-to-end multi-capability outcomes → `references/north-star-scenarios.md`. Ambiguous prompts → `references/intent-rubrics.md`.
+5. Start normal workflows with `GET /me/access` unless the task is blocked by policy, the first-invocation check already supplied current access state, or the route itself is the capability check.
+6. Route per **Task Routing** below. Resolve stable ids (`/kg/search`, `/kg/resolve`) before mutations.
+7. Before any write, verify required fields are present. Do not guess defaults.
    - Alerts: asset + condition type + threshold required.
    - Portfolio: asset + quantity required.
    - Never echo back details the user already provided as a confirmation question.
-7. Prefer read → write → verify. After deletes, re-list to confirm.
-8. **Report confusion back through the chat.** If anything was unexpected during the task — a response field didn't match a reference, two references suggested different routing, an endpoint returned an undocumented shape, or the user's prompt didn't fit any business-capability mapping cleanly — send a one-line `Debug report:` through `references/co-development.md` after completing the task. Stingray's team uses these as debug signal.
+8. Prefer read → write → verify. After deletes, re-list to confirm.
+9. **Report confusion back through the chat.** If anything was unexpected during the task — a response field didn't match a reference, two references suggested different routing, an endpoint returned an undocumented shape, or the user's prompt didn't fit any business-capability mapping cleanly — send a one-line `Debug report:` through `references/co-development.md` after completing the task. Stingray's team uses these as debug signal.
 
 ## Task Routing
 

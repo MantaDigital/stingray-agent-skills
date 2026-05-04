@@ -6,7 +6,7 @@ Composable alerts (price + news + technical indicators), backtests against histo
 
 Built for quants, analysts, and research desks who already live in their terminal.
 
-One install, one credential file — works in Claude Code, Codex, Cursor, Gemini CLI, Cline, Continue, Goose, Roo, Windsurf, and 36+ other [`SKILL.md`](https://skills.sh)-compatible agents via Vercel's `npx skills`.
+One install, one credential file — works in Claude Code, Codex, Cursor, Gemini CLI, Cline, Continue, Goose, Roo, Windsurf, and 36+ other [`SKILL.md`](https://skills.sh)-compatible agents via `npx skills`.
 
 ## Install
 
@@ -16,7 +16,9 @@ npx skills add MantaDigital/stingray-agent-skills -g -y
 
 Or ask your agent: *"Install the skills from MantaDigital/stingray-agent-skills globally for all my coding agents using npx skills."*
 
-Then complete the one-time credential setup — open [stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens), create a token, paste it back into your agent. Full quickstart: [`skills/stingray/README.md`](skills/stingray/README.md).
+Then complete the one-time credential setup — open [stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens), create a token, and follow the terminal-only setup command your agent gives you. Do not paste the token into chat. Full quickstart: [`skills/stingray/README.md`](skills/stingray/README.md).
+
+Some agents load skills only when a session starts. If the current session installed Stingray but cannot use it yet, restart the agent session and ask again.
 
 > ⚠️ Reinstalling overwrites the local skill copy without prompting. Back up custom edits first.
 
@@ -36,6 +38,8 @@ Then complete the one-time credential setup — open [stingray.fi/app/settings#s
 
 The agent reads only what it needs, scoped to the task: full reference index in [`skills/stingray/SKILL.md`](skills/stingray/SKILL.md).
 
+For onboarding, see [`skills/stingray/prompts.md`](skills/stingray/prompts.md). For agent-side capability introspection, see [`skills/stingray/references/capabilities.json`](skills/stingray/references/capabilities.json).
+
 **Scope:** read-side research, alerts, and backtesting against an account-scoped API. The skill does not initiate any value transfer on the user's behalf and does not hold custody of funds.
 
 ## Security & Trust
@@ -52,6 +56,8 @@ Snyk's scanner flags two specific concerns; both follow Snyk's published best pr
 
 - [`skills/stingray/SKILL.md`](skills/stingray/SKILL.md) — agent entrypoint with task routing and operating loop
 - [`skills/stingray/README.md`](skills/stingray/README.md) — human quickstart
+- [`skills/stingray/prompts.md`](skills/stingray/prompts.md) — copy-paste prompt index
+- [`skills/stingray/references/capabilities.json`](skills/stingray/references/capabilities.json) — machine-readable capability manifest
 - [`skills/stingray/references`](skills/stingray/references) — capability mapping, alert DSL, north-star scenarios, examples, troubleshooting
 
 ## Repository Layout
@@ -74,6 +80,7 @@ Snyk's scanner flags two specific concerns; both follow Snyk's published best pr
 └── skills/
     └── stingray/
         ├── LICENSE.txt
+        ├── prompts.md
         ├── README.md
         ├── SKILL.md
         └── references/

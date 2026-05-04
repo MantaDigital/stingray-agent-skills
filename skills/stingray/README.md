@@ -20,6 +20,8 @@ npx skills add MantaDigital/stingray-agent-skills -g -y
 
 Install the skill from the repository root, then complete the one-time credential setup below.
 
+Some agents load skills only when a session starts. If the current session installed Stingray but cannot use it yet, restart the agent session and ask again.
+
 ## 1. Open the Token Page
 
 Open [https://stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens), sign in if needed, and create an API token.
@@ -44,6 +46,8 @@ Example prompts:
 
 > "Alert me if BTC drops 5% and there's negative news within 2 hours."
 
+More copy-paste examples live in [`prompts.md`](prompts.md).
+
 ## What The Skill Covers
 
 - **Composable alerts** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
@@ -61,9 +65,12 @@ Example prompts:
 ```text
 skills/stingray/
 ├── LICENSE.txt
+├── prompts.md
 ├── README.md
 ├── SKILL.md
 └── references/
+    ├── capabilities.json
+    └── ...
 ```
 
 ## Support

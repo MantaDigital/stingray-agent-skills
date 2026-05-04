@@ -22,9 +22,12 @@ search_fixed_quiet() {
 }
 
 python3 -m json.tool .claude-plugin/marketplace.json >/dev/null
+python3 -m json.tool skills/stingray/references/capabilities.json >/dev/null
 
 test -f skills/stingray/SKILL.md
 test -f skills/stingray/README.md
+test -f skills/stingray/prompts.md
+test -f skills/stingray/references/capabilities.json
 test ! -d stingray
 
 for reference in skills/stingray/references/*.md; do
@@ -57,8 +60,23 @@ if search_regex 'mkdir -p ~/.stingray|printf .*STINGRAY_PAT=sa_pat|chmod 600 ~/.
   exit 1
 fi
 
+if search_fixed_quiet 'paste it back into your agent' README.md skills/stingray/README.md; then
+  echo "[FAIL] unsafe chat-paste credential guidance detected"
+  exit 1
+fi
+
 if ! search_fixed_quiet 'the secret stays in their terminal' skills/stingray/SKILL.md; then
   echo "[FAIL] SKILL missing credential-isolation guidance"
+  exit 1
+fi
+
+if ! search_fixed_quiet 'references/capabilities.json' skills/stingray/SKILL.md README.md; then
+  echo "[FAIL] capability manifest is not discoverable"
+  exit 1
+fi
+
+if ! search_fixed_quiet 'prompts.md' skills/stingray/SKILL.md skills/stingray/README.md README.md; then
+  echo "[FAIL] prompt index is not discoverable"
   exit 1
 fi
 
