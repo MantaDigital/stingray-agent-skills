@@ -5,8 +5,8 @@ Read this file when constructing or modifying alert definitions for `POST /alert
 ## Table of Contents
 
 1. [Definition Structure](#definition-structure) | 2. [Event Subscriptions](#event-subscriptions) | 3. [Price Blocks](#primitive-blocks-price) | 4. [News Blocks](#primitive-blocks-news) | 5. [TA Blocks](#primitive-blocks-technical-analysis)
-6. [Combinators](#combinators) | 7. [Compare Block](#compare-block) | 8. [Output](#output-configuration) | 9. [Validation Rules](#validation-rules) | 10. [Error Codes](#validation-error-codes)
-11. [Examples](#complete-examples) | 12. [Request/Response Shapes](#request-and-response-shapes)
+6. [Hyperliquid Blocks](#primitive-blocks-hyperliquid) | 7. [Combinators](#combinators) | 8. [Compare Block](#compare-block) | 9. [Output](#output-configuration) | 10. [Validation Rules](#validation-rules)
+11. [Error Codes](#validation-error-codes) | 12. [Examples](#complete-examples) | 13. [Request/Response Shapes](#request-and-response-shapes)
 
 ## Definition Structure
 
@@ -24,18 +24,21 @@ Read this file when constructing or modifying alert definitions for `POST /alert
 
 ## Event Subscriptions
 
-Every `trading_pair` and `entity_id` referenced in the trigger tree must have a matching entry in `events`. Missing subscriptions fail with `missing_event_subscription`.
+Every `trading_pair`, `market_ref`, `entity_id`, and Hyperliquid `market` referenced in the trigger tree must have a matching entry in `events`. Missing subscriptions fail with `missing_event_subscription`.
 
 ```json
 { "type": "price", "trading_pair": "BTCUSDT" }
+{ "type": "price", "market_ref": { "venue": "hyperliquid", "market_type": "perp", "symbol": "HYPE" } }
 { "type": "news", "entity_id": "00000000-0000-0000-0000-000000000001" }
+{ "type": "onchain", "chain": "hyperliquid", "market": "BTC", "include_funding": true, "include_whale": false }
+{ "type": "onchain", "chain": "hyperliquid", "market": "BTC", "include_open_interest": true, "include_whale": false }
 ```
 
-Price events require `trading_pair`. News events require `entity_id` only.
+Price events use legacy `trading_pair` for Binance Spot or `market_ref` for Hyperliquid perps. News events require `entity_id` only. Hyperliquid onchain events require `chain: "hyperliquid"` plus a `market`, and may include `address`, `include_funding`, `include_open_interest`, `include_mark`, or `include_whale`.
 
 ## Primitive Blocks: Price
 
-Every block requires `"type"` set to the block name shown in its heading. This applies to all sections below.
+Every block requires `"type"` set to the block name shown in its heading. This applies to all sections below. Price examples use Binance Spot `trading_pair`; for Hyperliquid perp price/TA flows, use `market_ref` with `venue: "hyperliquid"`, `market_type: "perp"`, and the exact HL symbol.
 
 ### `price_change`
 Fires when a pair moves by at least `threshold_pct` in the given direction over a rolling window.
@@ -103,6 +106,21 @@ Two modes: **comparison** (set both `op` and `value` — fires when condition is
 | `op` | string | no | `<`, `>`, `<=`, `>=`, `crosses_above`, `crosses_below` |
 | `value` | number | no | Threshold. Must be set with `op`, or both omitted. |
 
+## Primitive Blocks: Hyperliquid
+
+Hyperliquid blocks require an `onchain` event with the same `market`. Use exact HL symbols (`BTC`, `HYPE`, `kPEPE`) rather than Binance pairs.
+
+| Block | Required params | Notes |
+|---|---|---|
+| `hl_position_change` | `market`, `action`, `side`, `min_notional_usd` | Whale position open/close/increase/decrease/flip/any. Optional `wallet_filter.addresses`. |
+| `hl_liquidation` | `market` optional, `side`, `min_notional_usd` | Whale liquidation monitoring. |
+| `hl_funding` | `market`, `op`, `value` | Funding rate in basis points per hour. Use `include_funding: true`; use `include_whale: false` for pure funding alerts. |
+| `hl_open_interest` | `market`, `metric`, `op`, `value` | `metric` is `base` or `notional_usd`; use `include_open_interest: true`. |
+| `hl_open_interest_change` | `market`, `metric`, `direction`, `threshold_pct`, `window_minutes` | Percent change over a lookback window, max 1440 minutes. |
+| `hl_position_near_liq` | `market`, `op`, `value` | Whale distance to liquidation in percent. Requires `include_mark: true`; crossing ops are not supported. |
+
+Backtesting currently supports price/TA/news and `hl_funding` blocks. Other Hyperliquid blocks, including open-interest and whale blocks, are live-monitoring primitives, not historical-replay primitives yet.
+
 ## Combinators
 
 Combinators wrap other blocks. Max nesting depth is 5.
@@ -131,19 +149,22 @@ Compares numeric output from two blocks. If either side returns no value (e.g. i
 | Param | Type | Required | Description |
 |---|---|---|---|
 | `severity` | string | yes | `"low"`, `"medium"`, or `"high"` |
-| `components` | string[] | yes | `"price"`, `"news"`, `"text"`, `"ta"` |
+| `components` | string[] | yes | `"price"`, `"news"`, `"text"`, `"ta"`, `"whale"`, `"funding"`, `"open_interest"` |
 
 ## Validation Rules
 
 - Max nesting depth: 5 levels.
 - Max blocks total across the trigger tree: 10.
-- All `trading_pair` and `entity_id` values in the trigger must have matching events.
+- All `trading_pair`, `market_ref`, `entity_id`, and Hyperliquid `market` values in the trigger must have matching events.
 - Trading pair format: uppercase alphanumeric, 5 to 30 characters.
+- Hyperliquid markets use exact HL perp symbols, not Binance Spot pairs.
 - Entity IDs must be valid UUIDs.
 - Cooldown minimum: 60 seconds. Server enforces `Math.max(60, value)`.
 - `all_of`, `any_of`, `sequence`: min 2 conditions. `none_of`: min 1.
 - `ta_indicator`: `op` and `value` must both be set or both omitted.
 - `compare`: both sides must be value-only blocks.
+- `hl_funding` requires a matching Hyperliquid event with `include_funding: true`.
+- `hl_open_interest` and `hl_open_interest_change` require a matching Hyperliquid event with `include_open_interest: true`.
 
 ## Validation Error Codes
 
@@ -221,6 +242,32 @@ Both conditions must fire within 60 minutes of each other.
       ]
     },
     "output": { "severity": "high", "components": ["price", "news"] }
+  }
+}
+```
+
+### 3b. Hyperliquid funding flip — ETH funding crosses negative
+
+```json
+{
+  "name": "ETH funding flips negative", "cooldown_seconds": 600, "enabled": true,
+  "definition": {
+    "events": [{ "type": "onchain", "chain": "hyperliquid", "market": "ETH", "include_funding": true, "include_whale": false }],
+    "trigger": { "type": "hl_funding", "market": "ETH", "op": "crosses_below", "value": 0 },
+    "output": { "severity": "medium", "components": ["funding", "text"] }
+  }
+}
+```
+
+### 3c. Hyperliquid open interest — BTC OI up 10% in 1 hour
+
+```json
+{
+  "name": "BTC OI up 10%", "cooldown_seconds": 3600, "enabled": true,
+  "definition": {
+    "events": [{ "type": "onchain", "chain": "hyperliquid", "market": "BTC", "include_open_interest": true, "include_whale": false }],
+    "trigger": { "type": "hl_open_interest_change", "market": "BTC", "metric": "notional_usd", "direction": "up", "threshold_pct": 10, "window_minutes": 60 },
+    "output": { "severity": "medium", "components": ["open_interest", "text"] }
   }
 }
 ```

@@ -1,6 +1,6 @@
 # Stingray
 
-Human quickstart for the public Stingray skill bundle — quantitative research and data infrastructure for crypto markets, operated by AI agents (composable alerts, backtests, knowledge graph spanning Hyperliquid, Lighter, Polymarket, Kalshi, and 100+ venues).
+Human quickstart for the public Stingray skill bundle: a specialized crypto market agent and hosted rule runtime for Codex, Claude Code, Cursor, and other SKILL.md-compatible agents.
 
 ## Install
 
@@ -19,6 +19,8 @@ npx skills add MantaDigital/stingray-agent-skills -g -y
 ```
 
 Install the skill from the repository root, then complete the one-time credential setup below.
+
+Some agents load skills only when a session starts. If the current session installed Stingray but cannot use it yet, restart the agent session and ask again.
 
 ## 1. Open the Token Page
 
@@ -40,30 +42,40 @@ Example prompts:
 
 > "What can my Stingray account do?"
 
+> "Show me the best Stingray workflows I can delegate from Codex or Claude Code with this account."
+
 > "Look up Chainlink and add it to my watchlist."
 
 > "Alert me if BTC drops 5% and there's negative news within 2 hours."
 
+More copy-paste examples live in [`prompts.md`](prompts.md).
+
 ## What The Skill Covers
 
-- **Composable alerts** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
+- **Agent partner workflows** — live crypto indexes, venue grounding, typed rules, private replay, and hosted monitoring for Codex, Claude Code, Cursor, and other agents
+- **Current data coverage** — Binance Spot price/volume/TA, Hyperliquid funding, open interest, whale/liquidation streams, entity news, Telegram-native news sources, and KG-backed asset/entity resolution
+- **Venue-aware resolution** — `/kg/search` and `/kg/resolve` for asset and market disambiguation across venues; per-entity news via `/entities/:id/news`
+- **Composable typed alerts** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
+- **Hosted monitoring** — alert rules run on Stingray after your agent session ends, with delivery readiness checked first
 - **Backtests** — replay a thesis or alert definition against historical data (24h-TTL widget result, account-private)
-- **Knowledge graph** — `/kg/search` and `/kg/resolve` for asset disambiguation across venues; per-entity news via `/entities/:id/news`
 - **News-aware signals** — news blocks compose into alerts and trigger trees alongside price and TA
 - Watchlists and portfolios
-- Multi-channel notifications (web, Telegram, WhatsApp, X)
+- Multi-channel notifications and chat through web, Telegram, and WhatsApp; X status is inspectable
 - Shareable backtest cards (opt-in)
 - Account readiness, credits, usage, referrals, token hygiene
-- Co-development channel — request new assets, signals, or datasets through the same chat endpoint
+- Co-development channel — request new assets, signals, datasets, or privacy-safe setup/debug reports through the same chat endpoint
 
 ## Bundle Contents
 
 ```text
 skills/stingray/
 ├── LICENSE.txt
+├── prompts.md
 ├── README.md
 ├── SKILL.md
 └── references/
+    ├── capabilities.json
+    └── ...
 ```
 
 ## Support
