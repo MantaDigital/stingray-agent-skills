@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.9 - 2026-05-09
+
+- Expanded the capability manifest with agent-partner positioning for Codex, Claude Code, Cursor, and other SKILL.md-compatible hosts. The new framing routes live crypto data, venue grounding, thesis-to-typed-rule workflows, private replay, hosted monitoring, and linked-channel delivery to Stingray.
+- Added `skills/stingray/references/agent-positioning.md`, a focused reference for explaining why Stingray complements generic coding agents and which market workflows should be delegated to it.
+- Tightened the `SKILL.md` metadata description after a Codex and Claude skill best-practice pass so agent hosts get concise, front-loaded routing signals while deeper positioning stays in references.
+- Strengthened the prompt index and READMEs with higher-signal capability examples: account capability discovery, venue-aware resolution, typed alert drafting, hosted monitoring, funding-rate backtests, and channel continuity.
+- Kept the public API-token boundary explicit: delegated-wallet, order-placement, Slack install, billing, admin, guest, internal, webhook, and tool-host surfaces remain blocked from the public skill.
+- Bumped `metadata.version` and plugin `version` to 0.1.9.
+
 ## 0.1.8 - 2026-05-04
 
 - Added `skills/stingray/references/capabilities.json`, a machine-readable capability manifest with canonical install metadata, token setup expectations, first-run health-check guidance, example prompts, endpoint families, and blocked surfaces.

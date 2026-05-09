@@ -1,6 +1,6 @@
 # Stingray
 
-Human quickstart for the public Stingray skill bundle — quantitative research and data infrastructure for crypto markets, operated by AI agents (composable alerts, backtests, knowledge graph spanning Hyperliquid, Lighter, Polymarket, Kalshi, and 100+ venues).
+Human quickstart for the public Stingray skill bundle: quantitative research and data infrastructure for crypto markets, built to complement Codex, Claude Code, Cursor, and other SKILL.md-compatible agents.
 
 ## Install
 
@@ -42,6 +42,8 @@ Example prompts:
 
 > "What can my Stingray account do?"
 
+> "Show me the best Stingray workflows I can delegate from Codex or Claude Code with this account."
+
 > "Look up Chainlink and add it to my watchlist."
 
 > "Alert me if BTC drops 5% and there's negative news within 2 hours."
@@ -50,9 +52,11 @@ More copy-paste examples live in [`prompts.md`](prompts.md).
 
 ## What The Skill Covers
 
-- **Composable alerts** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
+- **Agent partner workflows** — live crypto indexes, venue grounding, typed rules, private replay, and hosted monitoring for Codex, Claude Code, Cursor, and other agents
+- **Venue-aware resolution** — `/kg/search` and `/kg/resolve` for asset and market disambiguation across venues; per-entity news via `/entities/:id/news`
+- **Composable typed alerts** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
+- **Hosted monitoring** — alert rules run on Stingray after your agent session ends, with delivery readiness checked first
 - **Backtests** — replay a thesis or alert definition against historical data (24h-TTL widget result, account-private)
-- **Knowledge graph** — `/kg/search` and `/kg/resolve` for asset disambiguation across venues; per-entity news via `/entities/:id/news`
 - **News-aware signals** — news blocks compose into alerts and trigger trees alongside price and TA
 - Watchlists and portfolios
 - Multi-channel notifications (web, Telegram, WhatsApp, X)

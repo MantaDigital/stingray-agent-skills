@@ -33,11 +33,18 @@ This is the public boundary reference shipped with the distributed Stingray skil
 ## Explicitly Blocked
 
 - `POST /me/api-tokens`
+- `/hl/authorizations*`
+- `/hl/delegation/*`
+- `/hl/approvals`
+- `/hl/orders`
+- `/hl/cancels`
+- `/x/link`
 - `/v1/billing*`
 - `/v1/guest*`
 - `/internal/*`
 - `/webhooks/*`
 - `/v1/tools*`
+- `/slack/install-url`
 - `/debug-sentry`
 
 Blocked API token calls return `403` with code `api_token_not_allowed`.
@@ -51,7 +58,7 @@ Blocked API token calls return `403` with code `api_token_not_allowed`.
 - API tokens can fetch stored backtest results (24h TTL; 404 after expiry).
 - API tokens can use both web chat and channel chat, but channel chat still requires an already linked channel identity.
 - API tokens can list and revoke tokens for the same user.
-- API tokens cannot create tokens and cannot access billing.
+- API tokens cannot create tokens, access billing, install Slack, link X, place or cancel orders, manage delegated wallets, or use internal/social posting routes.
 
 ## Precondition Notes
 
