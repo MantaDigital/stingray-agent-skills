@@ -24,31 +24,68 @@
     ]
   },
   "agent_positioning": {
-    "summary": "Stingray is the market-data and hosted-rule partner for coding agents such as Codex, Claude Code, Cursor, and other SKILL.md-compatible hosts.",
+    "summary": "Stingray is a specialized crypto market agent and hosted data/rule runtime. Users can use Stingray directly, or delegate market-specific work from Codex, Claude Code, Cursor, and other SKILL.md-compatible hosts.",
     "use_when": [
       "the task needs live crypto indexes or normalized entity news",
       "the user names an ambiguous asset, ticker, venue, wallet, narrative, or prediction-market topic",
       "a market thesis should become an inspectable alert rule",
       "a rule should be backtested before it is trusted",
-      "monitoring should continue after the coding-agent session ends",
+      "monitoring should continue after the coding-agent session ends without a local cron script",
       "the user wants delivery through linked Telegram, WhatsApp, web chat, notifications, or an opt-in public card"
     ],
     "complements_generic_agents_by": [
       "resolving the right asset or market across venues",
       "turning prose into typed alert definitions",
       "running private historical replay with metrics",
-      "hosting alert rules on Stingray infrastructure",
+      "hosting alert rules as durable signal surfaces on Stingray infrastructure",
       "returning account-scoped state and delivery readiness",
-      "keeping market workflows inside a token-scoped API boundary"
+      "keeping public-skill market workflows inside a token-scoped API boundary",
+      "sending privacy-safe setup reports, debug reports, and feature requests through chat"
     ],
     "boundaries": [
-      "no self-directed market actions",
-      "no order placement or cancellation through the public skill",
+      "the public API-token skill is not an unrestricted execution system",
+      "no order placement, cancellation, delegated-wallet setup, signing, or value transfer through the public skill",
       "no billing, admin, webhook, guest, internal, tool-host, Slack install, or X link-claim routes",
       "no API-token creation from an API-token-authenticated client",
       "no public share card unless the user explicitly asks to share"
     ],
     "reference": "agent-positioning.md"
+  },
+  "current_data_coverage": {
+    "summary": "Current public skill docs cover Binance Spot price/volume/TA, Hyperliquid perp funding/open-interest/whale streams, entity news, Telegram-native news sources, KG-backed asset/entity resolution, hosted alerts, and private backtests.",
+    "binance_spot": [
+      "price_change",
+      "price_cross",
+      "volume_spike",
+      "rsi",
+      "sma",
+      "ema",
+      "bb_upper",
+      "bb_lower",
+      "bb_width",
+      "macd",
+      "macd_signal",
+      "close"
+    ],
+    "hyperliquid": [
+      "market_ref price/TA for perps",
+      "hl_funding",
+      "hl_open_interest",
+      "hl_open_interest_change",
+      "hl_position_change",
+      "hl_liquidation",
+      "hl_position_near_liq",
+      "wallet_filter.addresses"
+    ],
+    "historical_replay": [
+      "price/TA/news blocks",
+      "hl_funding blocks"
+    ],
+    "live_only_today": [
+      "Hyperliquid open-interest blocks",
+      "Hyperliquid whale/liquidation blocks"
+    ],
+    "reference": "data-coverage.md"
   },
   "capabilities": [
     {
@@ -69,7 +106,7 @@
     },
     {
       "id": "agent-capability-discovery",
-      "capability": "Explain when Stingray is the right partner for a coding agent and show high-value market workflows the account can run.",
+      "capability": "Explain when Stingray is the right specialized market agent for a coding agent and show high-value workflows the account can run.",
       "example_prompt": "Show me the best Stingray workflows I can delegate from Codex or Claude Code with this account.",
       "endpoints_used": [
         "GET /me/access",
@@ -79,6 +116,17 @@
         "GET /me/x-link"
       ],
       "reference": "agent-positioning.md"
+    },
+    {
+      "id": "data-coverage",
+      "capability": "Explain current dataset, venue, alert primitive, and backtest coverage before drafting a market workflow.",
+      "example_prompt": "What datasets and alert primitives does Stingray support today?",
+      "endpoints_used": [
+        "GET /me/access",
+        "GET /kg/search",
+        "POST /kg/resolve"
+      ],
+      "reference": "data-coverage.md"
     },
     {
       "id": "venue-grounding",
@@ -145,8 +193,8 @@
     },
     {
       "id": "hosted-monitoring",
-      "capability": "Keep validated alert rules running on Stingray's hosted runtime after the coding-agent session ends.",
-      "example_prompt": "If my account is ready, create the alert on Stingray so it keeps monitoring and sends me Telegram notifications.",
+      "capability": "Keep validated alert rules running on Stingray's hosted runtime after the coding-agent session ends, so downstream agents can consume the signal without running cron.",
+      "example_prompt": "If my account is ready, host this rule on Stingray so my Claude setup can listen to the output without a cron script.",
       "endpoints_used": [
         "GET /me/access",
         "GET /me/telegram",
@@ -249,8 +297,8 @@
     },
     {
       "id": "co-development",
-      "capability": "Report missing assets, signals, datasets, or reference mismatches back to the Stingray team.",
-      "example_prompt": "Ask Stingray to add this missing signal to the co-development backlog.",
+      "capability": "Report missing assets, signals, datasets, reference mismatches, or privacy-safe setup diagnostics back to the Stingray team.",
+      "example_prompt": "Send a privacy-safe setup report with my host agent, skill version, failing route, and sanitized error.",
       "endpoints_used": [
         "POST /v1/chats/web",
         "POST /v1/chats/:chatId/messages/stream"

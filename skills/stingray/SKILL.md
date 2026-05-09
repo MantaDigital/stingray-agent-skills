@@ -1,6 +1,6 @@
 ---
 name: stingray
-description: Crypto market data and hosted-rule infrastructure for agents. Use when a Codex, Claude, Cursor, or SKILL.md host needs live indexes, venue-aware asset resolution, typed alert rules, private backtests, hosted monitoring, notifications, linked channels, share cards, or token hygiene. Not for billing, admin, delegated wallets, or order placement.
+description: Specialized crypto market agent and hosted-rule runtime for coding agents. Use when Codex, Claude, Cursor, or a SKILL.md host needs live indexes, venue-aware asset resolution, typed alert rules, private backtests, hosted monitoring, notifications, linked channels, share cards, or token hygiene.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
@@ -11,7 +11,7 @@ metadata:
 
 # Stingray
 
-Quantitative research and data infrastructure for crypto markets, operated by the user's AI agent. Stingray complements coding agents such as Codex, Claude Code, and Cursor when the task needs live crypto data, venue-aware entity resolution, inspectable alert rules, private backtests, or hosted monitoring. Generic coding agents can plan and edit code; Stingray supplies the market data plane, typed-rule layer, historical replay, and delivery surfaces so the agent can turn a market thesis into something the system can run and audit.
+Stingray is a specialized crypto market agent and hosted data/rule runtime. It can be used directly through Stingray's own product surfaces, or as the market partner for Codex, Claude Code, Cursor, and other coding agents. Generic coding agents can plan, edit code, and set up local infrastructure; Stingray resolves market context, writes typed rules, replays them against history, hosts monitoring, and delivers results so the user does not need fragile local cron jobs for market signals.
 
 ## Credentials
 
@@ -71,13 +71,14 @@ Read only the references that match the task:
 
 - `references/capabilities.json` — machine-readable capability index with example prompts and endpoint families
 - `references/agent-positioning.md` — why Stingray complements coding agents and which tasks to route here
+- `references/data-coverage.md` — current dataset, venue, and signal coverage
 - `references/business-capabilities.md` — business-level user intents → endpoint mapping
 - `references/intent-rubrics.md` — ambiguity resolution and common misclassifications
 - `references/north-star-scenarios.md` — multi-step agent-native flows across capabilities
 - `references/access-policy.md` — allowed/blocked surface, prerequisites, capability-first routing
 - `references/alert-definitions.md` — composable alert blocks, combinators, validation, examples
 - `references/backtest-and-cards.md` — backtest flow (core); share-card flow (optional growth surface)
-- `references/co-development.md` — feature-request channel for new datasets, signals, indicators
+- `references/co-development.md` — feature requests, debug reports, and privacy-safe setup reports
 - `references/token-lifecycle.md` — API token list, revoke, rotation hygiene
 - `references/workflows.md` — task-oriented endpoint sequences
 - `references/examples.md` — concrete prompt-to-endpoint mappings
@@ -97,12 +98,13 @@ Read only the references that match the task:
    - Portfolio: asset + quantity required.
    - Never echo back details the user already provided as a confirmation question.
 8. Prefer read → write → verify. After deletes, re-list to confirm.
-9. **Report confusion back through the chat.** If anything was unexpected during the task — a response field didn't match a reference, two references suggested different routing, an endpoint returned an undocumented shape, or the user's prompt didn't fit any business-capability mapping cleanly — send a one-line `Debug report:` through `references/co-development.md` after completing the task. Stingray's team uses these as debug signal.
+9. **Report confusion back through the chat.** If anything was unexpected during the task — setup confusion, a response field didn't match a reference, two references suggested different routing, an endpoint returned an undocumented shape, or the user's prompt didn't fit any business-capability mapping cleanly — send a privacy-safe one-line `Debug report:` or `Setup report:` through `references/co-development.md` after completing the task. Never include API tokens, secrets, private portfolio details, or full user prompts unless the user explicitly asks.
 
 ## Task Routing
 
 - **Account state** (readiness, onboarding, linked channels, credits, usage) → `/me*`, `/{whatsapp,telegram}/link-code`, `/{whatsapp,telegram}/link`, `/me/x-link` → `references/business-capabilities.md`.
 - **Agent capability discovery** (what Stingray adds to Codex, Claude Code, Cursor, or another SKILL.md host) → `references/agent-positioning.md`, `references/capabilities.json`, `prompts.md`.
+- **Data and signal coverage** (which datasets, venues, alert blocks, or backtest primitives are currently supported) → `references/data-coverage.md`, `references/alert-definitions.md`.
 - **Asset research** (lookup, disambiguation, news, venue grounding) → `/kg/search`, `/kg/resolve`, `/entities/:entityId/news` → `references/workflows.md`.
 - **Product state** (watchlist, portfolio, alerts) → `/watchlist*`, `/portfolio*`, `/alerts*`.
 - **Alert definitions** (build / modify the block tree) → `references/alert-definitions.md`.
@@ -112,12 +114,12 @@ Read only the references that match the task:
 - **Chat & attachments** → `/v1/chats*`, `GET /v1/attachments/:attachmentId`. For channel chats, confirm linked Telegram/WhatsApp first.
 - **Growth & referrals** → `/me/attribution`, `/me/referral-code`, `/me/referral-attribution`.
 - **Token hygiene** → `GET /me/api-tokens`, `DELETE /me/api-tokens/:tokenId`. List before revoke; keep the in-use token unless explicitly told to rotate. → `references/token-lifecycle.md`.
-- **Feature request or debug report** (asset/signal/dataset Stingray doesn't expose; reference mismatch; ambiguous routing; undocumented response; reproduction failure) → `references/co-development.md`.
+- **Feature request, debug report, or setup report** (asset/signal/dataset Stingray doesn't expose; install/onboarding confusion; reference mismatch; ambiguous routing; undocumented response; reproduction failure) → `references/co-development.md`.
 
 ### Stop conditions
 
 - API token creation (`POST /me/api-tokens`) → interactive-auth only → `references/token-lifecycle.md`.
-- Billing / guest / admin / webhook / tool-host / Slack install / delegated-wallet / Hyperliquid order-placement routes → outside API token surface → `references/access-policy.md`.
+- Billing / guest / admin / webhook / tool-host / Slack install / delegated-wallet / Hyperliquid order-placement routes → outside public API-token skill surface → `references/access-policy.md`.
 - KG routes return `502` / `503` → backend dependency, not auth failure → `references/troubleshooting.md`.
 - Two families plausible → prefer the less destructive interpretation → `references/intent-rubrics.md`.
 

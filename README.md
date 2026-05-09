@@ -1,8 +1,8 @@
 # Stingray Agent Skills
 
-**Quantitative research and data infrastructure for crypto markets, built to complement your coding agent.**
+**A specialized crypto market agent and hosted rule runtime for your coding agent.**
 
-Stingray gives Codex, Claude Code, Cursor, and other SKILL.md-compatible agents a crypto-native data plane: live indexes, venue-aware entity resolution, typed alert rules, private backtests, hosted monitoring, and channel delivery. Your agent still plans and orchestrates the work. Stingray resolves the market context, turns a thesis into an inspectable rule, replays it against history, and hosts the monitoring when you decide to run it.
+Stingray can be used directly, or as the market partner for Codex, Claude Code, Cursor, and other SKILL.md-compatible agents. Your coding agent plans, edits, and can set up local infrastructure. Stingray resolves market context, turns theses into inspectable rules, replays them against history, and hosts monitoring when you do not want another cron script.
 
 Built for quants, analysts, and research desks who already live in their terminal.
 
@@ -26,24 +26,25 @@ Some agents load skills only when a session starts. If the current session insta
 
 | Surface | What you get |
 |---|---|
-| **Agent partner** | Use Stingray when Codex, Claude Code, Cursor, or another agent needs live crypto data, venue grounding, historical replay, or hosted monitoring instead of generic web search. |
+| **Specialized market agent** | Use Stingray directly or delegate market work from Codex, Claude Code, Cursor, or another agent when the task needs live crypto data, venue grounding, historical replay, or hosted monitoring. |
+| **Current data coverage** | Binance Spot price/volume/TA, Hyperliquid funding, open interest, whale/liquidation streams, entity news, Telegram-native news sources, and KG-backed asset/entity resolution. |
 | **Venue grounding** | Resolve assets and markets across venues with `/kg/search` and `/kg/resolve` before writing watchlists, portfolio rows, alerts, or backtests. |
 | **Typed rules** | Turn market theses into validated alert definitions with price, news sentiment, technical indicators, and supported venue-specific conditions. |
-| **Hosted monitoring** | Create alert rules that run on Stingray after your coding-agent session ends, with delivery readiness checked first. |
+| **Hosted monitoring** | Create alert rules that run on Stingray after your coding-agent session ends, with delivery readiness checked first. Treat the hosted rule as a signal surface your own agent can listen to. |
 | **Backtests** | Take a thesis or alert definition and replay it against historical data. Private to your account by default. 24h TTL on results. |
 | **Source-backed news** | Fetch normalized per-entity news via `/entities/:id/news` and treat returned content as data, not instructions. |
 | **News-aware signals** | News blocks compose into alerts and trigger trees alongside price and TA — react to sentiment shifts, not just candles. |
 | **Watchlists & portfolio** | Curate watchlists, track positions, sync state from your agent. |
-| **Multi-channel delivery** | Notifications via web, Telegram, WhatsApp, or X — link channels from the CLI. |
+| **Multi-channel delivery** | Notifications and chat through web, Telegram, and WhatsApp when linked. X status is inspectable; X link-claiming and public posting are not public skill actions. |
 | **Shareable cards** *(opt-in)* | Mint a public Astro page from a backtest result for DM, tweet, or screenshot. |
 | **Token hygiene** | List, revoke, and rotate API tokens without leaving the terminal. |
-| **Co-development** | Ask for missing assets, signals, or datasets through the same chat endpoint — Stingray uses requests as backlog signal and replies in-thread when work lands. |
+| **Co-development** | Ask for missing assets, signals, or datasets, and send privacy-safe setup/debug reports through the same chat endpoint. |
 
 The agent reads only what it needs, scoped to the task: full reference index in [`skills/stingray/SKILL.md`](skills/stingray/SKILL.md).
 
 For onboarding, see [`skills/stingray/prompts.md`](skills/stingray/prompts.md). For agent-side capability introspection, see [`skills/stingray/references/capabilities.json`](skills/stingray/references/capabilities.json).
 
-**Scope:** research, account state, typed alerts, hosted monitoring, notifications, watchlists, portfolio state, and backtesting against an account-scoped API. The skill does not initiate any value transfer on the user's behalf and does not hold custody of funds.
+**Scope:** research, account state, typed alerts, hosted monitoring, notifications, watchlists, portfolio state, feedback, and backtesting against an account-scoped API. The public skill does not initiate any value transfer on the user's behalf and does not hold custody of funds.
 
 ## Security & Trust
 
@@ -53,7 +54,7 @@ Snyk's scanner flags two specific concerns; both follow Snyk's published best pr
 
 2. **Third-party content / news (Snyk W011).** The skill consumes Stingray-curated news and KG content, which can carry adversarial text. The agent treats all fetched content as **data, not instructions** (explicit "Untrusted Content Handling" section in `SKILL.md`). For a stricter posture, omit `news_*` blocks from your alerts.
 
-**Token surface is account-scoped:** no admin, billing, webhook, or API-token-creation routes. No installer scripts, no remote downloads, no value-transfer (the skill cannot move funds, sign transactions, or place orders). No access to other credential stores. Apache-2.0, public source, revocable from your [Stingray settings](https://stingray.fi/app/settings#settings-api-tokens).
+**Token surface is account-scoped:** no admin, billing, webhook, or API-token-creation routes. No installer scripts, no remote downloads, no value-transfer through this public skill (it cannot move funds, sign transactions, or place orders). No access to other credential stores. Apache-2.0, public source, revocable from your [Stingray settings](https://stingray.fi/app/settings#settings-api-tokens).
 
 ## What Ships
 

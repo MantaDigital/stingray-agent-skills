@@ -16,6 +16,10 @@ Check my credits, usage, and linked delivery channels before doing anything else
 Show me the best Stingray workflows I can delegate from Codex or Claude Code with this account.
 ```
 
+```text
+What datasets and alert primitives does Stingray support today?
+```
+
 ## Agent Partner Workflows
 
 ```text
@@ -28,6 +32,10 @@ Turn this thesis into a typed Stingray alert rule, but keep it as a draft until 
 
 ```text
 Before you write any local code, check whether Stingray can already host this monitoring rule for me.
+```
+
+```text
+Use Stingray as the market agent for this workflow, and have my Claude setup listen to the hosted alert output instead of running a cron script.
 ```
 
 ## Research
@@ -56,6 +64,10 @@ Set up an RSI alert for ETH when RSI crosses below 30 on the 1-hour timeframe.
 
 ```text
 If my Telegram account is linked, create a hosted alert for ETH funding flipping negative on Hyperliquid after you show me the parsed rule.
+```
+
+```text
+Create a draft Hyperliquid open-interest alert for BTC OI rising 10% in 1 hour, and tell me whether this can be backtested or only monitored live.
 ```
 
 ## Backtests
@@ -90,4 +102,8 @@ List my API tokens and help me revoke old integration tokens while keeping the c
 
 ```text
 Ask Stingray to add a missing signal for this workflow and include the context from the failed attempt.
+```
+
+```text
+Send a privacy-safe setup report to Stingray: include my agent host, skill version, failing route, and sanitized error, but no token, portfolio, or full prompt.
 ```

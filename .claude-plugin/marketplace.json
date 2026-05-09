@@ -5,7 +5,7 @@
     "email": "dev@mantadigital.io"
   },
   "metadata": {
-    "description": "Quantitative research and data infrastructure for crypto markets, operated by AI agents",
+    "description": "Specialized crypto market agent and hosted rule runtime for coding agents",
     "version": "0.1.9"
   },
   "plugins": [
@@ -15,7 +15,7 @@
       "skills": [
         "./skills/stingray"
       ],
-      "description": "Quantitative research and data infrastructure for crypto markets, built to complement Codex, Claude Code, Cursor, and other agents: live indexes, venue-aware entity resolution, typed alert rules, private backtests, hosted monitoring, and channel delivery. Built for quants, analysts, and research desks. Token-scoped, opt-in, Apache-2.0.",
+      "description": "Specialized crypto market agent and hosted rule runtime for Codex, Claude Code, Cursor, and other agents: live indexes, venue-aware entity resolution, typed alert rules, private backtests, hosted monitoring, channel delivery, and privacy-safe setup/debug feedback. Token-scoped, opt-in, Apache-2.0.",
       "version": "0.1.9",
       "author": {
         "name": "Stingray",

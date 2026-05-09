@@ -56,7 +56,8 @@ Blocked API token calls return `403` with code `api_token_not_allowed`.
 - API tokens can manage watchlists, portfolio, alerts, onboarding, attribution, referrals, Telegram links, and WhatsApp links.
 - API tokens can read alert notifications and mark them as read.
 - API tokens can fetch stored backtest results (24h TTL; 404 after expiry).
-- API tokens can use both web chat and channel chat, but channel chat still requires an already linked channel identity.
+- API tokens can use web chat for assistant work, feature requests, debug reports, and privacy-safe setup reports.
+- API tokens can use channel chat, but channel chat still requires an already linked channel identity.
 - API tokens can list and revoke tokens for the same user.
 - API tokens cannot create tokens, access billing, install Slack, link X, place or cancel orders, manage delegated wallets, or use internal/social posting routes.
 

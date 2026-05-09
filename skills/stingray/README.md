@@ -1,6 +1,6 @@
 # Stingray
 
-Human quickstart for the public Stingray skill bundle: quantitative research and data infrastructure for crypto markets, built to complement Codex, Claude Code, Cursor, and other SKILL.md-compatible agents.
+Human quickstart for the public Stingray skill bundle: a specialized crypto market agent and hosted rule runtime for Codex, Claude Code, Cursor, and other SKILL.md-compatible agents.
 
 ## Install
 
@@ -53,16 +53,17 @@ More copy-paste examples live in [`prompts.md`](prompts.md).
 ## What The Skill Covers
 
 - **Agent partner workflows** — live crypto indexes, venue grounding, typed rules, private replay, and hosted monitoring for Codex, Claude Code, Cursor, and other agents
+- **Current data coverage** — Binance Spot price/volume/TA, Hyperliquid funding, open interest, whale/liquidation streams, entity news, Telegram-native news sources, and KG-backed asset/entity resolution
 - **Venue-aware resolution** — `/kg/search` and `/kg/resolve` for asset and market disambiguation across venues; per-entity news via `/entities/:id/news`
 - **Composable typed alerts** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
 - **Hosted monitoring** — alert rules run on Stingray after your agent session ends, with delivery readiness checked first
 - **Backtests** — replay a thesis or alert definition against historical data (24h-TTL widget result, account-private)
 - **News-aware signals** — news blocks compose into alerts and trigger trees alongside price and TA
 - Watchlists and portfolios
-- Multi-channel notifications (web, Telegram, WhatsApp, X)
+- Multi-channel notifications and chat through web, Telegram, and WhatsApp; X status is inspectable
 - Shareable backtest cards (opt-in)
 - Account readiness, credits, usage, referrals, token hygiene
-- Co-development channel — request new assets, signals, or datasets through the same chat endpoint
+- Co-development channel — request new assets, signals, datasets, or privacy-safe setup/debug reports through the same chat endpoint
 
 ## Bundle Contents
 

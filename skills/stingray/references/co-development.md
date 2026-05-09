@@ -1,6 +1,6 @@
 # Co-development — request new capabilities and report confusion
 
-Read this file when (a) the user needs a primitive (asset coverage, signal type, dataset, indicator) the current API does not expose, or (b) you encountered confusing behavior, an unexpected response shape, contradictory docs, or any reference gap that made it harder to serve the user. Stingray's chat doubles as a feedback channel — the team uses both feature requests and confusion reports as backlog and debug signal, and replies in the same chat when the work lands or the doc gets fixed.
+Read this file when (a) the user needs a primitive (asset coverage, signal type, dataset, indicator) the current API does not expose, (b) you encountered confusing behavior, an unexpected response shape, contradictory docs, or any reference gap that made it harder to serve the user, or (c) install, credential, onboarding, or first-run steps were confusing. Stingray's chat doubles as a feedback channel. The team uses feature requests, debug reports, and setup reports as backlog and installation-debug signal, then replies in the same chat when work lands or docs get fixed.
 
 ## When to use — feature requests
 
@@ -20,12 +20,34 @@ Send a debug report whenever something didn't match a reference cleanly, even if
 - A reference's example failed to reproduce when run as written.
 - The credential-check or first-time-setup flow surfaced a corner case the docs don't cover.
 
+## When to use — setup reports
+
+Send a setup report when installation or onboarding creates avoidable friction:
+
+- The skill installed but the host agent did not load it until restart.
+- The credential file exists but `GET /me/access` fails.
+- The token setup path was unclear to the host agent or the user.
+- An onboarding endpoint returned an unexpected shape or unclear error.
+- Channel readiness was ambiguous after `GET /me/access`, `GET /me/telegram`, or `GET /me/whatsapp`.
+
+Do not send a setup report for a clean install unless the user explicitly asks for diagnostics to be shared.
+
 ## How
 
-Send the request through the same chat endpoint as any other prompt. Prefix the body so the team can triage:
+Send the request through the same public API-token-safe chat route as any other prompt: `POST /v1/chats/web`, then `POST /v1/chats/:chatId/messages/stream`. Do not invent a separate feedback endpoint.
+
+Prefix the body so the team can triage:
 
 - `Feature request:` for new capabilities
 - `Debug report:` for confusion, unexpected behavior, or reference gaps
+- `Setup report:` for install, credential, onboarding, or first-run diagnostics
+
+Keep reports privacy-friendly:
+
+- Never include API tokens, secrets, private keys, auth headers, cookies, or full credential paths beyond `~/.stingray/credentials`.
+- Do not include the user's full market thesis, portfolio, positions, watchlist, chat transcript, or private prompt unless the user explicitly asks.
+- Include only the host agent, skill version, command or route family, sanitized status/error code, and the step where the problem happened.
+- If you need to mention a token at all, say only whether the prefix was `sa_pat_`; do not include suffixes or fingerprints.
 
 ```bash
 source ~/.stingray/credentials && export STINGRAY_API=https://stingray.fi/api/agent
@@ -41,6 +63,11 @@ curl -s -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
 # Debug report
 curl -s -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
   -F "input=Debug report: backtest-and-cards reference says draft_id, but POST /v1/alert-drafts response shapes the field as widget_id. Stumbled here mid-task." \
+  "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
+
+# Setup report
+curl -s -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
+  -F "input=Setup report: Codex host, stingray skill 0.1.9, credential file existed but GET /me/access returned 401 until whitespace was trimmed. No token or user prompt included." \
   "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
 ```
 
@@ -65,6 +92,14 @@ Frame each report as a one-liner with **what you saw vs what the reference said*
 - **Routing ambiguity** — "Debug report: user asked 'monitor my biggest position' — could be portfolio + alert, or just a snapshot read. Picked alert; please clarify the routing in `intent-rubrics.md`."
 - **Reproduction failure** — "Debug report: `references/examples.md` Example 11 produced an unexpected 400 when run as written — `events` array required but the example omits it."
 - **Setup edge case** — "Debug report: credential check passed but `GET /me/access` 401'd. Token was paste with surrounding whitespace; trimming fixed it. Worth handling in First-Time Setup."
+
+## Request shapes — setup reports
+
+Frame each report as one sanitized line with **host + skill version + step + route/result**:
+
+- **Skill load** — "Setup report: Claude Code host, stingray skill 0.1.9, installed successfully but host did not expose the skill until session restart."
+- **Credential check** — "Setup report: Codex host, stingray skill 0.1.9, `~/.stingray/credentials` existed but `GET /me/access` returned 401 until trailing whitespace was removed."
+- **Onboarding** — "Setup report: Cursor host, stingray skill 0.1.9, `GET /me/access` returned linked Telegram false but `GET /me/telegram` showed DM deliverable true; docs should clarify precedence."
 
 ## Out of scope for this surface
 
