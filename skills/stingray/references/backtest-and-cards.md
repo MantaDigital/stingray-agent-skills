@@ -21,8 +21,26 @@ Typical prompts that warrant minting a card:
 - "make me a card I can post on twitter"
 - "give me a link I can DM to my friend"
 - "share this backtest publicly"
+- "run the hello-world thesis and mint a public demo card link I can open in my browser"
 
 > ⚠️ **Default behavior: don't mint cards.** `POST /v1/cards` produces a permanently public URL (no unshare endpoint, only `PATCH` for copy edits). The default flow stops at the backtest in step 4 below. Only progress to steps 5–6 when the user has **explicitly** asked to share, post, or hand off a link. If unsure, ask: *"Do you want me to mint a public share card for this, or keep the backtest result private to your account?"*
+
+## Hello-world demo card
+
+For first-run onboarding, use one generic thesis and a public demo card when the user asks for the hello-world browser link:
+
+```text
+BTC pullback check: when BTCUSDT drops 3% or more in 24 hours, replay what happened next over the last 365 days.
+```
+
+This is the intended success moment:
+
+1. The user's agent helps shape the thesis.
+2. Stingray turns it into a deterministic Signal.
+3. Stingray replays the Signal against history.
+4. The agent returns a browser link to the public demo card.
+
+Keep live monitoring off. Keep the card generic. Do not include portfolio details, private user theses, or private prompt text. The card is public and persistent, but this specific demo thesis is intentionally non-sensitive.
 
 ## Surface summary
 

@@ -32,13 +32,17 @@ fi
 
 When `not configured`, send the user this short message — the secret stays in their terminal, not in the agent's context:
 
-> Open https://stingray.fi/app/settings#settings-api-tokens and create a token (it starts with `sa_pat_`). Then paste this into your terminal, replacing `<token>` with the value:
+> Welcome to Stingray. I do not see an API token on this machine yet.
+>
+> Open https://stingray.fi/app/settings#settings-api-tokens and create a token. It starts with `sa_pat_`. Then paste this into your terminal, replacing `<token>` with the value:
 >
 > ```
 > mkdir -p ~/.stingray && printf 'STINGRAY_PAT=<token>\n' > ~/.stingray/credentials && chmod 600 ~/.stingray/credentials
 > ```
 >
-> Or set `STINGRAY_PAT=<token>` in your shell config — no file write needed.
+> Once that is done, ask me to check Stingray again. I will confirm the connection and show one small Studio example.
+>
+> Prefer env vars? Set `STINGRAY_PAT=<token>` in your shell config instead.
 
 **Do not accept the token via chat paste.** If the user pastes it anyway, ask them to clear their chat scrollback and re-do setup via the terminal command above (the token may otherwise appear in chat history and the LLM context). After the user confirms setup, re-run the credential check and continue with the original task.
 
@@ -66,14 +70,14 @@ Once per active agent session, after credentials load, run `GET /me/access` befo
 Before the first access check, tell the user what is happening in plain language:
 
 ```text
-I'll check whether Stingray is connected. If it is, I'll show what this account can do. If it is missing a token, I'll give you a terminal command so the key never enters chat.
+Welcome to Stingray. I'll check whether this machine is connected, then show the smallest useful Studio example. If the token is missing, I'll give you a terminal command so the key never enters chat.
 ```
 
 After `GET /me/access`, show a short readiness report in this shape:
 
 ```text
 Stingray Studio is connected.
-Ready: turn a market idea into evidence, a Signal, and a private replay in /app2.
+Ready: build the BTC pullback demo: idea → deterministic Signal → replay → browser card.
 Blocked: live Signal delivery outside Studio.
 Next: link Telegram when you want Signals to reach you after you leave the app.
 ```
@@ -90,7 +94,34 @@ Adapt the lists to the actual `/me/access` response:
 - If `telegram_linked` or `telegram_dm_deliverable` is false and the user wants delivered Signals, say to link Telegram.
 - If onboarding is incomplete, mention it only when it affects the next action.
 - If credentials already exist, do not ask for an API key or PAT. Say Stingray Studio is connected, then explain readiness.
-- Keep first-run copy short and sales-facing. No install-auth explanation unless the user asks.
+- If the user asks for hello-world onboarding, use the fixed demo thesis below unless they bring their own thesis. Do not enable live monitoring.
+- Keep first-run copy short, warm, and sales-facing. No install-auth explanation unless the user asks.
+
+## Hello World Onboarding
+
+The default hello-world should produce one auditable strategy artifact the user can open in a browser. Use a harmless, generic thesis so public sharing is safe:
+
+```text
+BTC pullback check: when BTCUSDT drops 3% or more in 24 hours, replay what happened next over the last 365 days.
+```
+
+Position the value simply:
+
+```text
+We will use AI to shape the thesis, then Stingray turns it into a deterministic Signal you can audit.
+```
+
+Success means:
+
+- Credentials are checked with `GET /me/access`.
+- The BTC market is grounded before drafting.
+- A draft Signal is created from the thesis.
+- The replay/backtest runs.
+- If the user explicitly asked for a browser link or public demo card, mint the public card and return `https://stingray.fi/cards/<card_id>/`.
+- If the user did not explicitly ask for a public link, stop at the private replay and summarize the result. Mention that a browser card can be minted if they want a public demo artifact.
+- Live monitoring stays off unless the user asks to enable it.
+
+For this hello-world only, the prompt may explicitly ask for a public demo card. That counts as consent to mint the card. Keep the card generic: no portfolio details, no user-specific thesis, no private prompts.
 
 If the user asks what Stingray can do, or seems unsure what to ask, read `references/capabilities.json` and `references/agent-positioning.md`, then offer a short capability menu plus the prompt index in `prompts.md`.
 

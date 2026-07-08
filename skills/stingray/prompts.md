@@ -1,8 +1,12 @@
 # Stingray Prompt Index
 
-Use these prompts after the skill is installed and the token is configured in your terminal. Do not paste `sa_pat_...` tokens into agent chat.
+Use these prompts after the skill is installed. The first prompt checks whether a token is already configured and guides setup if needed. Do not paste `sa_pat_...` tokens into agent chat.
 
 ## First Run
+
+```text
+Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the replay, then mint a public demo card link I can open in my browser. Keep live monitoring off.
+```
 
 ```text
 What can my Stingray account do right now?
