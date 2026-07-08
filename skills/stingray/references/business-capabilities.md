@@ -175,6 +175,7 @@ Primary routes:
 Notes:
 
 - Backtest results are **private to the user** — that's the safe default. The flow stops at `GET /widgets/:id`.
+- For Hyperliquid, `hl_funding` is replayable today. Open-interest, whale, liquidation, and mark-to-liquidation blocks are live-monitoring primitives today; explain that boundary before attempting a replay.
 - For the full canonical sequence (request body shapes, `draft_id` recovery, parsing patterns), read `references/backtest-and-cards.md`.
 
 ## 7b. Share a backtest publicly (optional growth surface)

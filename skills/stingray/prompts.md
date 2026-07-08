@@ -24,6 +24,24 @@ Show me the best Stingray workflows I can delegate from Codex or Claude Code wit
 What datasets and alert primitives does Stingray support today?
 ```
 
+## Hyperliquid Quant
+
+```text
+Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not mint a public card.
+```
+
+```text
+Create a draft Hyperliquid open-interest Signal for BTC OI rising 10% in 1 hour. Before you write it, tell me whether this is replayable today or live-only. Keep it as a draft.
+```
+
+```text
+Draft a Whale Liquidation Magnet Signal for Hyperliquid BTC: alert when large BTC liquidations cluster and price is within 1% of the cluster. Tell me which parts are supported today, which parts are live-only, and what data Stingray would need for a replay.
+```
+
+```text
+Classify these theses as replayable, live-only, or not supported in Stingray today: funding-rate fade, open-interest expansion, whale liquidation cluster, BTC pullback, and ETF flow follow-through.
+```
+
 ## Agent Partner Workflows
 
 ```text

@@ -32,6 +32,18 @@ Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC
 
 If the token is missing, the agent will point you to [Stingray settings](https://stingray.fi/app/settings#settings-api-tokens) and give you a terminal-only setup command. If the token is ready, it will turn the demo thesis into a public auditable strategy card.
 
+## Hyperliquid Quant Examples
+
+Stingray is strongest when the thesis is concrete enough to become a Signal. For Hyperliquid today, use funding-rate theses for replay, and use open-interest, whale, and liquidation theses for live Signals.
+
+```text
+Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not mint a public card.
+```
+
+```text
+Draft a Whale Liquidation Magnet Signal for Hyperliquid BTC. Tell me which parts are supported today, which parts are live-only, and what data Stingray would need for a replay.
+```
+
 ## Capabilities
 
 | Surface | What you get |

@@ -82,7 +82,7 @@ Blocked: live Signal delivery outside Studio.
 Next: link Telegram when you want Signals to reach you after you leave the app.
 ```
 
-Adapt the lists to the actual `/me/access` response:
+Adapt the lists to the actual `/me/access` response. Capability booleans may be nested under `capabilities`:
 
 - `Ready` should sell the useful thing the user can do now, using Studio/app2 language.
 - `Blocked` should name only blockers that matter for the current or likely next task.
@@ -122,6 +122,16 @@ Success means:
 - Live monitoring stays off unless the user asks to enable it.
 
 For this hello-world only, the prompt may explicitly ask for a public demo card. That counts as consent to mint the card. Keep the card generic: no portfolio details, no user-specific thesis, no private prompts.
+
+## Hyperliquid Quant Examples
+
+When the user wants Hyperliquid examples, prefer thesis types that match today's public skill surface:
+
+- **Replayable today:** `hl_funding` rules. Best first example: ETH funding heat check, trigger when ETH funding on Hyperliquid rises above `0.75` bps/hr, replay 365 days, report event count, average gap, and whether forward-return samples are available. Keep it private unless the user explicitly asks for a public card.
+- **Live-only today:** open-interest, whale-position, liquidation, and mark-to-liquidation rules. These are good hosted Signals, but not historical replay demos yet.
+- **Universal public hello-world:** keep using the BTC pullback card unless the user asks for a Hyperliquid-specific walkthrough. It is the safer public demo because it produces the "what happened next" browser artifact reliably.
+
+If a Hyperliquid replay fails with venue-history or archive coverage errors, do not treat it as an auth problem. Explain that this market's historical replay path is not available for that condition yet, then offer a funding replay or the BTC pullback demo. Send a privacy-safe `Debug report:` after the task if the failure reveals a docs/API mismatch.
 
 If the user asks what Stingray can do, or seems unsure what to ask, read `references/capabilities.json` and `references/agent-positioning.md`, then offer a short capability menu plus the prompt index in `prompts.md`.
 

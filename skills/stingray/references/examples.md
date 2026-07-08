@@ -18,6 +18,9 @@ Read this file when you want concrete prompt patterns and the endpoint plan each
 12. Create a technical analysis alert
 13. Check and manage alert notifications
 14. Fetch a backtest result
+15. Run a backtest end-to-end
+16. Mint a public share card after the user explicitly asks
+17. Run a Hyperliquid funding replay privately
 
 ## Example 1: Inspect capabilities before taking action
 
@@ -261,3 +264,41 @@ Execution plan:
 3. Optional: `POST /v1/cards/:cardId/figure-image` to upload a portrait watermark; `PATCH /v1/cards/:cardId` to edit copy after the first render.
 
 Read `references/backtest-and-cards.md` for the privacy framing and card properties.
+
+## Example 17: Run a Hyperliquid funding replay privately
+
+User request:
+"Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not mint a public card."
+
+Execution plan:
+
+1. `GET /me/access`. Read readiness booleans from `capabilities` if the response nests them there.
+2. `POST /v1/chats/web` → `chat_id`.
+3. `POST /v1/chats/:chatId/messages/stream` with multipart `input`:
+
+   ```text
+   Create a draft Signal for this Hyperliquid quantitative thesis: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Keep it as a draft. Do not deploy live monitoring.
+   ```
+
+4. `GET /v1/chats/:chatId/messages` and recover the `alerts_draft` `widget_id` as the draft id.
+5. `POST /v1/alert-drafts/:draft_id/backtest` with `{"backtest_lookback_days": 365}`.
+6. `GET /widgets/:backtest_id`.
+7. Report trigger count, event count, average gap, and whether forward-return samples were present. If forward returns are absent, say that directly. This is still a useful Signal audit, but it is not the same as a PnL-card demo.
+
+Expected draft shape:
+
+```json
+{
+  "events": [
+    {"type": "onchain", "chain": "hyperliquid", "market": "ETH", "include_funding": true, "include_whale": false}
+  ],
+  "trigger": {"type": "hl_funding", "market": "ETH", "op": ">", "value": 0.75},
+  "output": {"severity": "medium", "components": ["funding", "text"]}
+}
+```
+
+Boundary:
+
+- Hyperliquid funding blocks are replayable today.
+- Hyperliquid open-interest, whale, liquidation, and mark-to-liquidation blocks are live-monitoring primitives today. Use them for draft/live Signals, not historical replay demos.
+- Do not mint a public card unless the user explicitly asks for one. For a first-run public browser artifact, prefer the BTC pullback hello-world unless the user asks for a Hyperliquid-specific walkthrough.

@@ -231,6 +231,21 @@
       "reference": "backtest-and-cards.md"
     },
     {
+      "id": "hyperliquid-quant",
+      "capability": "Build Hyperliquid-specific quantitative Signals, separating replayable funding rules from live-only open-interest, whale, liquidation, and mark-to-liquidation rules.",
+      "example_prompt": "Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available.",
+      "endpoints_used": [
+        "GET /me/access",
+        "POST /v1/chats/web",
+        "POST /v1/chats/:chatId/messages/stream",
+        "GET /v1/chats/:chatId/messages",
+        "POST /v1/alert-drafts/:id/backtest",
+        "GET /widgets/:id",
+        "POST /alerts"
+      ],
+      "reference": "backtest-and-cards.md#hyperliquid-replay-fit"
+    },
+    {
       "id": "share-cards",
       "capability": "Mint an opt-in public share card from an existing backtest.",
       "example_prompt": "Create a public share card for the backtest I just ran.",

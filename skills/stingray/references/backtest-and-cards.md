@@ -42,6 +42,16 @@ This is the intended success moment:
 
 Keep live monitoring off. Keep the card generic. Do not include portfolio details, private user theses, or private prompt text. The card is public and persistent, but this specific demo thesis is intentionally non-sensitive.
 
+## Hyperliquid replay fit
+
+Use Hyperliquid examples when the user asks for Hyperliquid or perp-specific workflows, but keep the boundary visible:
+
+- `hl_funding` is the best replayable Hyperliquid primitive today. Example: ETH funding on Hyperliquid rises above `0.75` bps/hr. Replay it privately and report trigger frequency, event clustering, average gap, and forward-return sample availability.
+- Open interest, whale-position changes, liquidations, and mark-to-liquidation distance are live-monitoring primitives today. Draft them as Signals, explain that they are live-only, and do not pitch them as historical replay demos.
+- If a Hyperliquid price/perp replay returns a venue-history or archive coverage error for a specific market, fall back to the BTC pullback hello-world or an `hl_funding` replay. Treat it as coverage, not auth.
+
+For first-run public onboarding, prefer the BTC pullback demo card unless the user explicitly asks for a Hyperliquid-specific walkthrough. It is safer for a public browser artifact because it is generic and designed to answer "what happened next?"
+
 ## Surface summary
 
 **Backtest endpoints (core):**

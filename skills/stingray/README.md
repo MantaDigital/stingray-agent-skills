@@ -71,6 +71,10 @@ Example prompts:
 
 > "Show me the best Stingray workflows I can delegate from Codex or Claude Code with this account."
 
+> "Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not mint a public card."
+
+> "Draft a Whale Liquidation Magnet Signal for Hyperliquid BTC. Tell me which parts are supported today, which parts are live-only, and what data Stingray would need for a replay."
+
 > "Look up Chainlink and add it to my watchlist."
 
 > "Alert me if BTC drops 5% and there's negative news within 2 hours."
