@@ -16,11 +16,21 @@ npx skills add MantaDigital/stingray-agent-skills -g -y
 
 Or ask your agent: *"Install the skills from MantaDigital/stingray-agent-skills globally for all my coding agents using npx skills."*
 
-Then complete the one-time credential setup — open [stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens), create a token, and follow the terminal-only setup command your agent gives you. Do not paste the token into chat. Full quickstart: [`skills/stingray/README.md`](skills/stingray/README.md).
+Then ask your agent for the hello-world below. It will check for an existing token, guide setup if needed, and keep the token out of chat. Full quickstart: [`skills/stingray/README.md`](skills/stingray/README.md).
 
 Some agents load skills only when a session starts. If the current session installed Stingray but cannot use it yet, restart the agent session and ask again.
 
 > ⚠️ Reinstalling overwrites the local skill copy without prompting. Back up custom edits first.
+
+## Hello World
+
+After install, paste this into a new agent chat:
+
+```text
+Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the replay, then mint a public demo card link I can open in my browser. Keep live monitoring off.
+```
+
+If the token is missing, the agent will point you to [Stingray settings](https://stingray.fi/app/settings#settings-api-tokens) and give you a terminal-only setup command. If the token is ready, it will turn the demo thesis into a public auditable strategy card.
 
 ## Capabilities
 

@@ -22,33 +22,45 @@ Install the skill from the repository root, then complete the one-time credentia
 
 Some agents load skills only when a session starts. If the current session installed Stingray but cannot use it yet, restart the agent session and ask again.
 
-## 1. Open the Token Page
+## 1. Start With Hello World
+
+The installer may only say the skill was installed. The welcome happens in your agent.
+
+Paste this into a new agent chat:
+
+```text
+Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the replay, then mint a public demo card link I can open in my browser. Keep live monitoring off.
+```
+
+If the token is already set, the agent will help create one public auditable demo strategy and return a browser link. If the token is missing, it will guide you through setup without asking you to paste the secret into chat.
+
+## 2. Open the Token Page
 
 Open [https://stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens), sign in if needed, and create an API token.
 
 The token format starts with `sa_pat_...`.
 
-## 2. Configure the Token
+## 3. Configure the Token
 
 The agent will give you a one-line shell command to paste into your **terminal** (not the chat). The token never enters the agent's context. Or set `STINGRAY_PAT` in your shell config for env-var auth.
 
 The skill deliberately does not accept tokens pasted into the agent chat — that would leak the secret into chat history and the LLM context.
 
-## 3. Start Asking
+## 4. Start Asking
 
 Once the token is saved, the skill calls `https://stingray.fi/api/agent` directly.
 
 Best first prompt:
 
 ```text
-What can my Stingray account do right now?
+Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the replay, then mint a public demo card link I can open in my browser. Keep live monitoring off.
 ```
 
 The agent will check whether Stingray is connected, then show:
 
 ```text
 Stingray Studio is connected.
-Ready: turn a market idea into evidence, a Signal, and a private replay in /app2.
+Ready: build the BTC pullback demo: idea → deterministic Signal → replay → browser card.
 Blocked: live Signal delivery outside Studio.
 Next: link Telegram when you want Signals to reach you after you leave the app.
 ```
