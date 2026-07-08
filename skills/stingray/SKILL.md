@@ -24,10 +24,10 @@ if present:
 
 ```bash
 if [ -n "$STINGRAY_PAT" ]; then
-  echo "configured via env (...${STINGRAY_PAT: -4})"
+  echo "configured"
 elif [ -f ~/.stingray/credentials ]; then
   source ~/.stingray/credentials 2>/dev/null
-  echo "configured (...${STINGRAY_PAT: -4})"
+  echo "configured"
 else
   echo "not configured"
 fi
