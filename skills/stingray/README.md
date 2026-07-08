@@ -41,14 +41,13 @@ If the token is already set, the agent will create one public auditable Studio
 demo and return a browser link. If the token is missing, it will guide setup
 without asking you to paste the secret into chat.
 
-## 2. Open the Token Page
+## 2. Get a Studio Skills API Token
 
-Open
-[https://stingray.fi/app/settings#settings-api-tokens](https://stingray.fi/app/settings#settings-api-tokens),
-sign in if needed, and create an API token.
+Studio Skills API tokens are currently provisioned for the private-beta Skills
+API surface. Ask your Stingray contact for a Studio Skills API token with the
+`skills:full` scope.
 
-The token format starts with `sa_pat_...`. For Studio Skills API access, the
-token needs the `skills:full` scope.
+The token format starts with `sa_pat_...`.
 
 ## 3. Configure the Token
 

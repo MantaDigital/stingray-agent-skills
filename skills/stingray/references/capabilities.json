@@ -9,11 +9,11 @@
     "skill_path": "skills/stingray"
   },
   "credential_setup": {
-    "token_url": "https://stingray.fi/app/settings#settings-api-tokens",
     "token_prefix": "sa_pat_",
     "required_scopes": [
       "skills:full"
     ],
+    "provisioning": "private-beta Studio Skills API token provisioned by Stingray; browser token-management UI is not part of the first public slice",
     "preferred_storage": "terminal-only setup via STINGRAY_PAT or ~/.stingray/credentials",
     "chat_paste_allowed": false
   },

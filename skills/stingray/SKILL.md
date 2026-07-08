@@ -39,9 +39,10 @@ When `not configured`, send the user this short message: the secret stays in the
 
 > Welcome to Stingray. I do not see an API token on this machine yet.
 >
-> Open https://stingray.fi/app/settings#settings-api-tokens and create a token
-> with the `skills:full` scope. It starts with `sa_pat_`. Then paste this into
-> your terminal, replacing `<token>` with the value:
+> Studio Skills API tokens are currently provisioned for the private-beta Skills
+> API surface. Ask your Stingray contact for a token with the `skills:full`
+> scope. It starts with `sa_pat_`. Then paste this into your terminal, replacing
+> `<token>` with the value:
 >
 > ```
 > mkdir -p ~/.stingray && printf 'STINGRAY_PAT=<token>\n' > ~/.stingray/credentials && chmod 600 ~/.stingray/credentials
@@ -246,8 +247,8 @@ Read only the references that match the task:
 - Trading, order placement, cancellation, signing, transfer, delegated wallet,
   account-risk, billing, admin, internal, webhook, social posting, and monitor
   lifecycle mutation are outside the public skill.
-- API token creation is interactive-only through Stingray settings. Do not call a
-  token-creation API from an API token-authenticated agent.
+- API token creation is not exposed through the public skill. Use the current
+  Stingray provisioning flow for Studio Skills API tokens.
 - Do not publish unless the user explicitly asks for a public link, public demo,
   shareable artifact, or publish action.
 - Do not auto-accept staged artifacts unless the user asked for a flow where

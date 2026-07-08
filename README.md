@@ -40,10 +40,11 @@ After install, paste this into a new agent chat:
 Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the Studio Idea and Signal, run the Replay, then publish a public Studio demo link I can open in my browser. Keep live monitoring off.
 ```
 
-If the token is missing, the agent will point you to
-[Stingray settings](https://stingray.fi/app/settings#settings-api-tokens) and
-give you a terminal-only setup command. If the token is ready, it will use the
-Studio Skills API to create one auditable public demo artifact.
+If the token is missing, the agent will explain that Studio Skills API tokens
+are currently provisioned for the private-beta Skills API surface. Once you have
+a `skills:full` token, the agent will give you a terminal-only setup command. If
+the token is ready, it will use the Studio Skills API to create one auditable
+public demo artifact.
 
 ## Studio Skills API Surface
 
@@ -91,7 +92,7 @@ The required token scope is `skills:full`.
 | **Status recovery** | `signal.status`, run lookup, and `client_request_id` recovery make long-running work recoverable. |
 | **Studio Publications** | Public browser links are opt-in through `idea.publish` only after explicit user intent. |
 | **Hyperliquid examples** | Funding-rate Signals are the replayable first demo; OI, whale, liquidation, and mark-to-liquidation primitives are live-only boundaries for now. |
-| **Token hygiene** | Tokens use the `sa_pat_` prefix, stay outside chat, and can be revoked in Studio settings. |
+| **Token hygiene** | Tokens use the `sa_pat_` prefix, require `skills:full`, and stay outside chat. |
 
 The agent reads only what it needs, scoped to the task: full reference index in
 [`skills/stingray/SKILL.md`](skills/stingray/SKILL.md).
@@ -119,8 +120,8 @@ perform account-risk operations.
 
 **Token surface is narrow:** no admin, billing, webhook, API-token creation,
 trading, order execution, delegated wallet, internal, social posting, or monitor
-lifecycle routes. Apache-2.0, public source, revocable from
-[Stingray settings](https://stingray.fi/app/settings#settings-api-tokens).
+lifecycle routes. Browser token management is not part of the first public
+Studio Skills API slice. Apache-2.0, public source.
 
 ## What Ships
 

@@ -2,16 +2,17 @@
 
 ## Token Missing
 
-Run the credential check from `SKILL.md`. If no token is found, guide the user to
-Stingray settings and the terminal-only setup command. Do not accept chat-pasted
+Run the credential check from `SKILL.md`. If no token is found, explain that the
+user needs a private-beta Studio Skills API token with `skills:full`, then give
+the terminal-only setup command once they have it. Do not accept chat-pasted
 tokens.
 
 ## Insufficient Scope
 
 Symptom: the API says the token lacks `skills:full`.
 
-Fix: ask the user to create or update a token from
-`https://stingray.fi/app/settings#settings-api-tokens` with `skills:full`.
+Fix: ask the user to get a Studio Skills API token with `skills:full` from the
+current Stingray provisioning flow.
 
 ## `needs_input`
 

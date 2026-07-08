@@ -12,6 +12,8 @@
 - Updated the machine-readable capability manifest to schema v2 with action
   metadata, `skills:full` scope requirements, privacy defaults, and blocked
   surfaces.
+- Replaced the legacy token-settings onboarding link with honest private-beta
+  Studio Skills API token provisioning guidance.
 - Reworked the README, skill quickstart, prompt index, and references to use
   Studio language: Idea, Evidence, Signal, Replay, and Studio Publication.
 - Kept Hyperliquid examples but clarified the current boundary: funding-rate

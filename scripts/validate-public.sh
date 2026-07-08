@@ -50,13 +50,28 @@ if search_regex '/plugin marketplace|/plugin install|Claude marketplace|marketpl
   exit 1
 fi
 
-if ! search_fixed_quiet 'https://stingray.fi/app/settings#settings-api-tokens' skills/stingray/README.md skills/stingray/SKILL.md; then
-  echo "[FAIL] direct token settings URL missing"
+if search_fixed_quiet 'https://stingray.fi/app/settings#settings-api-tokens' README.md skills/stingray; then
+  echo "[FAIL] legacy token settings URL detected in current public docs"
+  exit 1
+fi
+
+if ! search_fixed_quiet 'private-beta Skills' skills/stingray/README.md skills/stingray/SKILL.md; then
+  echo "[FAIL] Studio Skills token provisioning reality missing"
+  exit 1
+fi
+
+if ! search_fixed_quiet 'API surface' skills/stingray/README.md skills/stingray/SKILL.md; then
+  echo "[FAIL] Studio Skills token provisioning reality missing"
   exit 1
 fi
 
 if search_regex 'mkdir -p ~/.stingray|printf .*STINGRAY_PAT=sa_pat|chmod 600 ~/.stingray/credentials' skills/stingray/README.md; then
   echo "[FAIL] README still exposes credential write commands"
+  exit 1
+fi
+
+if search_regex 'STINGRAY_PAT: -4|configured via env|configured \(\.\.\.' skills/stingray/SKILL.md; then
+  echo "[FAIL] credential check exposes token source or suffix metadata"
   exit 1
 fi
 
