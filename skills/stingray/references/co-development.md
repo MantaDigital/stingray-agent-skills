@@ -4,8 +4,8 @@ Read this file when (a) the user needs a primitive (asset coverage, signal type,
 
 ## When to use — feature requests
 
-- Backtest endpoint returns `502` for an asset that `kg_search` resolves cleanly.
-- Alert-definition schema validates a primitive but the backtest engine refuses it (e.g., `news_sentiment` backtests).
+- Replay bridge returns `502` for an asset that `kg_search` resolves cleanly.
+- Signal-definition schema validates a primitive but the Replay engine refuses it (e.g., `news_sentiment` Replays).
 - The user asks for a dataset Stingray doesn't expose (per-venue funding, on-chain flow series, etc.).
 - A workflow gap that surfaced in the docs but isn't fixed yet.
 
@@ -34,7 +34,7 @@ Do not send a setup report for a clean install unless the user explicitly asks f
 
 ## How
 
-Send the request through the same public API-token-safe chat route as any other prompt: `POST /v1/chats/web`, then `POST /v1/chats/:chatId/messages/stream`. Do not invent a separate feedback endpoint.
+Send the request through the same public API-token-safe Studio assistant channel as any other prompt. Do not invent a separate feedback endpoint. Keep route details out of user-facing copy unless the user asks for implementation debugging.
 
 Prefix the body so the team can triage:
 
@@ -49,45 +49,29 @@ Keep reports privacy-friendly:
 - Include only the host agent, skill version, command or route family, sanitized status/error code, and the step where the problem happened.
 - If you need to mention a token at all, say only whether the prefix was `sa_pat_`; do not include suffixes or fingerprints.
 
-```bash
-source ~/.stingray/credentials && export STINGRAY_API=https://stingray.fi/api/agent
-CHAT_ID=$(curl -s -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
-  -H "Content-Type: application/json" -d '{}' "$STINGRAY_API/v1/chats/web" \
-  | python3 -c "import json,sys; print(json.load(sys.stdin)['chat_id'])")
+Use short report bodies:
 
-# Feature request
-curl -s -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
-  -F "input=Feature request: enable backtests for HYPEUSDT — currently 502 across all lookback windows." \
-  "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
+- `Feature request: enable Replays for HYPEUSDT. Current bridge returns 502 across all lookback windows.`
+- `Debug report: Replay reference says draft_id, but the bridge response exposed widget_id. Stumbled here mid-task.`
+- `Setup report: Codex host, stingray skill 0.1.9, credential file existed but access check returned 401 until whitespace was trimmed. No token or user prompt included.`
 
-# Debug report
-curl -s -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
-  -F "input=Debug report: backtest-and-cards reference says draft_id, but POST /v1/alert-drafts response shapes the field as widget_id. Stumbled here mid-task." \
-  "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
-
-# Setup report
-curl -s -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
-  -F "input=Setup report: Codex host, stingray skill 0.1.9, credential file existed but GET /me/access returned 401 until whitespace was trimmed. No token or user prompt included." \
-  "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
-```
-
-Save the `chat_id` so the user can re-check status with `GET /v1/chats/$CHAT_ID/messages` later. The team replies in-thread when the feature lands or the reference is fixed.
+Save the assistant conversation id when available so the user can re-check status later. The team replies in-thread when the feature lands or the reference is fixed.
 
 ## Request shapes — feature requests
 
 Frame each request as a one-liner with the **use case**, not just the symptom:
 
-- **Asset coverage** — "Backtest on HYPEUSDT returns 502 across every lookback. Can this asset be added to the price-data pipeline?"
-- **Signal types** — "The `news_sentiment` block validates as an alert definition but the backtest endpoint refuses it. Please enable backtests for news-driven primitives."
+- **Asset coverage** — "Replay on HYPEUSDT returns 502 across every lookback. Can this asset be added to the price-data pipeline?"
+- **Signal types** — "The `news_sentiment` block validates as a Signal definition but the Replay engine refuses it. Please enable Replays for news-driven primitives."
 - **New datasets** — "Expose per-venue funding rate so I can alert on Binance-vs-Hyperliquid divergence for a single asset."
 - **Indicator additions** — "Add a Bollinger Band-width indicator (current Bollinger only triggers on touch, not on band-width compression)."
-- **Workflow gaps** — "When the chat agent generates a draft, the field is named `widget_id` in the response but the docs call it `draft_id` — surface a single canonical name."
+- **Workflow gaps** — "When the assistant generates a draft Signal, the bridge field is named `widget_id` but the docs call it `draft_id` — surface a single canonical name."
 
 ## Request shapes — debug reports
 
 Frame each report as a one-liner with **what you saw vs what the reference said**, plus the route or reference name. Keep it terse — a sentence is enough.
 
-- **Reference mismatch** — "Debug report: `references/backtest-and-cards.md` step 3 says `draft_id` but the actual response field is `widget_id`. Stumbled mid-flow on a thesis-to-card task."
+- **Reference mismatch** — "Debug report: `references/backtest-and-cards.md` step 3 says `draft_id` but the actual bridge response field is `widget_id`. Stumbled mid-flow on a thesis-to-Publication task."
 - **Undocumented response** — "Debug report: `POST /alerts` returned `409 alert_definition_conflict` for a definition that passed schema validation. Not in `references/troubleshooting.md`."
 - **Routing ambiguity** — "Debug report: user asked 'monitor my biggest position' — could be portfolio + alert, or just a snapshot read. Picked alert; please clarify the routing in `intent-rubrics.md`."
 - **Reproduction failure** — "Debug report: `references/examples.md` Example 11 produced an unexpected 400 when run as written — `events` array required but the example omits it."

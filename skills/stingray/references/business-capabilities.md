@@ -1,6 +1,6 @@
 # Business Capabilities
 
-Read this file when the user asks for product outcomes such as "add an alert", "look up an asset", "check my credits", or "see if WhatsApp is linked".
+Read this file when the user asks for product outcomes such as "add a Signal", "look up an asset", "check my credits", or "see if WhatsApp is linked".
 
 The point of this file is to translate business intent into the correct API token-safe route family.
 
@@ -10,10 +10,10 @@ The point of this file is to translate business intent into the correct API toke
 2. Research assets, tokens, and projects
 3. Curate the watchlist
 4. Track portfolio positions
-5. Create and manage alerts
-6. Read alert notifications
-7. Fetch backtest results
-8. Use the assistant through web or channel chats
+5. Create and manage Signals
+6. Read Signal notifications
+7. Fetch Replay results
+8. Use the Studio assistant or linked channels
 9. Manage linked delivery channels
 10. Manage referrals and attribution
 11. Keep API tokens tidy
@@ -156,73 +156,65 @@ Notes:
 - `POST /notifications/read` accepts `{"delivery_ids": ["uuid", ...]}` (max 100 per call).
 - The SSE stream at `GET /notifications/stream` exists but is not part of the API token skill surface. It is a long-lived connection better suited to frontend use.
 
-## 7. Run a backtest (core, private)
+## 7. Run a Replay (core, private)
 
 Typical user requests:
 
-- "Backtest this thesis."
+- "Replay this thesis."
 - "Show me how this setup played over the last year."
 - "Test my BTC breakout alert before I deploy it."
-- "Show me the backtest result for this alert." / "Get the backtest I ran earlier."
+- "Show me the Replay result for this Signal." / "Get the Replay I ran earlier."
 
-Primary routes:
+Studio plan:
 
-- `POST /v1/chats/web` → `chat_id`
-- `POST /v1/chats/:chatId/messages/stream` (thesis prompt) → agent writes a draft snapshot
-- `POST /v1/alert-drafts/:id/backtest` → `backtest_id`
-- `GET /widgets/:id` → fetch the stored backtest result (24h TTL; 404 after expiry)
+- Check access and current Studio readiness.
+- Create or reuse an Idea.
+- Ask the Studio assistant to shape the thesis into a draft Signal.
+- Run a private Replay.
+- Summarize fire count, timing quality, and forward-return availability.
 
 Notes:
 
-- Backtest results are **private to the user** — that's the safe default. The flow stops at `GET /widgets/:id`.
+- Replay results are **private to the user**. That is the safe default.
 - For Hyperliquid, `hl_funding` is replayable today. Open-interest, whale, liquidation, and mark-to-liquidation blocks are live-monitoring primitives today; explain that boundary before attempting a replay.
-- For the full canonical sequence (request body shapes, `draft_id` recovery, parsing patterns), read `references/backtest-and-cards.md`.
+- For current bridge implementation details, read `references/backtest-and-cards.md`.
 
-## 7b. Share a backtest publicly (optional growth surface)
+## 7b. Publish a Replay publicly (optional sharing surface)
 
 Typical user requests:
 
-- "Make me a card I can post on twitter."
+- "Make me a public link I can post on twitter."
 - "Give me a link I can DM to a friend."
-- "Share this backtest publicly."
+- "Share this Replay publicly."
 
-Primary routes:
+Studio plan:
 
-- `POST /v1/cards` with `{draft_id, backtest_id}` → `card_id` (mints a **permanent public URL**)
-- `PATCH /v1/cards/:cardId` → edit card copy (`strategy_name`, `figure_name`)
-- `POST /v1/cards/:cardId/figure-image` → upload portrait watermark
-- Public share page: `https://stingray.fi/cards/<card_id>/`
-- Public OG image: `https://stingray.fi/cards/<card_id>/image.png/` (trailing slash required; no-slash returns 404)
+- Confirm the user asked for a public browser link.
+- Publish a Studio Publication from the Replay.
+- Return the browser link.
 
 Notes:
 
-- **Opt-in only.** Cards live at publicly-accessible URLs. There is no unshare endpoint — only `PATCH` for copy edits. Do not mint cards on every backtest; only when the user has explicitly asked to share.
-- Cards are idempotent per `(user_id, backtest_snapshot_id)` — retries return the same `card_id`.
-- The card watermark + referral code belong to the authenticated token's owner, not the asset being analyzed.
-- Backtest snapshots expire after 24 hours; the card display data is a separate persistent snapshot inside `pnl_cards.display_data`, so the card itself doesn't decay.
-- Full schema, share-card properties, failure modes: read `references/backtest-and-cards.md`.
+- **Opt-in only.** Publications are public browser artifacts. Do not publish every Replay; only publish when the user explicitly asked to share.
+- The Publication belongs to the authenticated token's owner, not the asset being analyzed.
+- Private Replay results can expire; the Publication stores its own display snapshot.
+- Full schema, publication properties, failure modes: read `references/backtest-and-cards.md`.
 
-## 8. Use the assistant through web or channel chats
+## 8. Use the Studio assistant or linked channels
 
 Typical user requests:
 
-- "Start a web chat."
-- "Send this to Telegram chat."
+- "Start a Studio assistant conversation."
+- "Continue this in Telegram."
 - "Show the message history."
 - "Download the image from the chat."
 
-Primary routes:
+Studio plan:
 
-- `POST /v1/chats/web`
-- `POST /v1/chats/channels/:channel`
-- `GET /v1/chats/channels`
-- `GET /v1/chats`
-- `GET /v1/chats/:chatId`
-- `PATCH /v1/chats/:chatId`
-- `DELETE /v1/chats/:chatId`
-- `GET /v1/chats/:chatId/messages`
-- `POST /v1/chats/:chatId/messages/stream`
-- `GET /v1/attachments/:attachmentId`
+- Check whether the requested channel is linked.
+- Start or continue the Studio assistant conversation.
+- Keep market context attached to the Idea or Signal.
+- Fetch attachments only when the user asked for them.
 
 Notes:
 

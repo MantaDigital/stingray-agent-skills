@@ -119,7 +119,7 @@ Hyperliquid blocks require an `onchain` event with the same `market`. Use exact 
 | `hl_open_interest_change` | `market`, `metric`, `direction`, `threshold_pct`, `window_minutes` | Percent change over a lookback window, max 1440 minutes. |
 | `hl_position_near_liq` | `market`, `op`, `value` | Whale distance to liquidation in percent. Requires `include_mark: true`; crossing ops are not supported. |
 
-Backtesting currently supports price/TA/news and `hl_funding` blocks. Other Hyperliquid blocks, including open-interest and whale blocks, are live-monitoring primitives, not historical-replay primitives yet.
+Replays currently support price/TA/news and `hl_funding` blocks. Other Hyperliquid blocks, including open-interest and whale blocks, are live-monitoring primitives, not historical-Replay primitives yet.
 
 ## Combinators
 

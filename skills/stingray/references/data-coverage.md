@@ -1,6 +1,6 @@
 # Current Data Coverage
 
-Read this file when the user asks what Stingray supports today, whether a market can be monitored, or which dataset backs a rule or backtest.
+Read this file when the user asks what Stingray supports today, whether a market can be monitored, or which dataset backs a Signal or Replay.
 
 This is a practical coverage map, not a guarantee. Prefer the current API response or validation error if it differs from this file, then send a privacy-safe `Debug report:` through `co-development.md`.
 
@@ -24,7 +24,7 @@ This is a practical coverage map, not a guarantee. Prefer the current API respon
 - Supported live alert streams include whale position changes, liquidations, funding rates, open interest, mark-price distance to liquidation, and optional wallet-address filters.
 - Funding rates use basis points per hour (`bps/hr`). `1 bps/hr = 87.6%/yr` annualized.
 - Open interest can be expressed in base units or derived notional USD.
-- Historical replay currently supports price/TA/news and `hl_funding` blocks. Other Hyperliquid blocks, including open-interest and whale blocks, are live-monitoring primitives, not backtest primitives yet.
+- Historical Replay currently supports price/TA/news and `hl_funding` blocks. Other Hyperliquid blocks, including open-interest and whale blocks, are live-monitoring primitives, not Replay primitives yet.
 - Use HL symbols for Hyperliquid perp rules, not Binance pairs.
 
 ## Prediction Markets And Broader Context
@@ -34,7 +34,7 @@ This is a practical coverage map, not a guarantee. Prefer the current API respon
 
 ## Delivery And Agent Surfaces
 
-- Alerts can run on Stingray's hosted runtime instead of a local cron job.
-- Web chat, Telegram, and WhatsApp are public API-token-safe chat or delivery surfaces when the account is linked and ready.
+- Monitors can run on Stingray's hosted runtime instead of a local cron job.
+- The Studio assistant, Telegram, and WhatsApp are public API-token-safe assistant or delivery surfaces when the account is linked and ready.
 - X status can be inspected through `GET /me/x-link`; X link-claiming and public posting are not public skill actions.
 - Slack exists as a product surface, but Slack installation is not part of the public API-token skill.

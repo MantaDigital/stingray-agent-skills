@@ -150,13 +150,13 @@ Why it matters:
 
 Capability mix:
 
-- web chat
+- Studio assistant
 - attachment handling
 - portfolio management
 
 Good flow:
 
-1. Start or use a web chat with image attachments.
+1. Start or use the Studio assistant with image attachments.
 2. Let the assistant reason over the uploaded image.
 3. Produce a proposed portfolio import or batch payload.
 4. Only write the portfolio after the user confirms.
@@ -170,7 +170,7 @@ Do not:
 
 User phrasing:
 
-- "Keep discussing this in Telegram instead of web chat."
+- "Keep discussing this in Telegram instead of Studio."
 
 Why it matters:
 
@@ -178,14 +178,14 @@ Why it matters:
 
 Capability mix:
 
-- web chat
+- Studio assistant
 - channel management
-- channel chat
+- linked-channel handoff
 
 Good flow:
 
 1. Check whether the requested channel is linked and usable.
-2. Resolve or create the channel chat.
+2. Resolve or create the channel handoff.
 3. Continue the conversation there.
 
 Do not:
@@ -293,12 +293,12 @@ Capability mix:
 - watchlist management
 - portfolio management
 - alerts management
-- web chat
+- Studio assistant
 
 Good flow:
 
 1. Resolve the target entity first.
-2. Inspect existing watchlist, portfolio, alert, and chat state.
+2. Inspect existing watchlist, portfolio, Signal, and assistant state.
 3. Summarize coverage in one view with obvious gaps.
 
 Do not:
@@ -347,13 +347,13 @@ Why it matters:
 
 Capability mix:
 
-- web chat
+- Studio assistant
 - attachment handling
 - portfolio management
 
 Good flow:
 
-1. Use chat plus attachments as the ingestion surface.
+1. Use the Studio assistant plus attachments as the ingestion surface.
 2. Read the current portfolio before proposing changes.
 3. Produce a delta-oriented import draft.
 4. Only write after the user confirms.

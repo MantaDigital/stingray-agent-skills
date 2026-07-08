@@ -114,25 +114,25 @@ Do not misread:
 - channel-state questions as chat-creation requests
 - chat requests as WhatsApp or Telegram linking requests
 
-## 5. Attachment retrieval vs generic file handling
+## 5. Assistant attachment retrieval vs generic file handling
 
 Signals:
 
 - "Download the attachment"
-- "Open the image from chat"
+- "Open the image from the assistant conversation"
 
 Interpret as:
 
-- chat attachment retrieval scoped by the owning chat
+- attachment retrieval scoped by the owning assistant conversation
 
 Start with:
 
-- `GET /v1/attachments/:attachmentId`
+- Fetch the attachment through the assistant conversation context.
 
 Do not misread as:
 
 - a generic file-storage or upload API
-- a reason to use `/v1/tools*`
+- a reason to use tool-host routes
 
 ## 6. Referral management vs attribution capture
 
@@ -245,6 +245,6 @@ Do not misread as:
 
 - Do not jump from a business request directly to the most destructive write when a read or capability check should happen first.
 - Do not collapse distinct product intents into the same route family just because the nouns overlap.
-- Do not use billing, guest lifecycle, internal admin, webhook, or `/v1/tools*` routes as fallbacks.
+- Do not use billing, guest lifecycle, internal admin, webhook, or tool-host routes as fallbacks.
 - Do not confuse "channel is linked" with "channel chat should be opened now".
 - Do not confuse "look up an asset" with "mutate watchlist, portfolio, or alerts".

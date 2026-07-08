@@ -1,33 +1,33 @@
-# Backtests (and the optional public-card share surface)
+# Replays and Optional Studio Publications
 
-This file covers **two distinct things** that share an authoring path. Treat them as separate capabilities:
+This file covers **two distinct Studio outcomes** that share an authoring path. Treat them as separate capabilities:
 
-### 1. Backtest — the core API capability
+### 1. Replay - the core Studio capability
 
-Turning a trading thesis or alert definition into a private, account-scoped historical-performance result. This is what most users actually want — *"how would this setup have played?"* The output (`widget_snapshot` row, 24h TTL) is private to the user and viewable via `GET /widgets/:id`.
+Turning a trading thesis or Signal definition into a private, account-scoped historical-performance result. This is what most users actually want: *"how would this setup have played?"* The result is private by default.
 
 Typical prompts:
 
 - "take this idea and show me how it played historically"
 - "what would this setup have returned over the last year"
-- "backtest my BTC breakout alert before I deploy it"
+- "replay my BTC breakout Signal before I deploy it"
 
-### 2. Public share card — an optional growth-surface wrapper
+### 2. Studio Publication - optional public sharing
 
-A separate Astro share page (`https://stingray.fi/cards/<id>/`) that wraps a backtest result in a public-facing chart + portrait + PnL pitch. **It exists to make backtest results easy to DM, tweet, or screenshot — it is not part of the core backtesting capability.** Treat it as a marketing/sharing convenience, not an analytical primitive.
+A public browser artifact that wraps a Replay result in a shareable strategy snapshot. **It exists to make Replay results easy to DM, post, or screenshot. It is not part of the core Replay capability.** Treat it as a sharing convenience, not an analytical primitive.
 
-Typical prompts that warrant minting a card:
+Typical prompts that warrant publishing:
 
-- "make me a card I can post on twitter"
+- "make me a public link I can post on twitter"
 - "give me a link I can DM to my friend"
-- "share this backtest publicly"
-- "run the hello-world thesis and mint a public demo card link I can open in my browser"
+- "share this Replay publicly"
+- "run the hello-world thesis and publish a public Studio demo link I can open in my browser"
 
-> ⚠️ **Default behavior: don't mint cards.** `POST /v1/cards` produces a permanently public URL (no unshare endpoint, only `PATCH` for copy edits). The default flow stops at the backtest in step 4 below. Only progress to steps 5–6 when the user has **explicitly** asked to share, post, or hand off a link. If unsure, ask: *"Do you want me to mint a public share card for this, or keep the backtest result private to your account?"*
+> **Default behavior: do not publish.** The default flow stops at the private Replay. Publish only when the user has **explicitly** asked to share, post, or hand off a browser link. If unsure, ask: *"Do you want a public Studio link for this, or should I keep the Replay private to your account?"*
 
-## Hello-world demo card
+## Hello-world Studio demo
 
-For first-run onboarding, use one generic thesis and a public demo card when the user asks for the hello-world browser link:
+For first-run onboarding, use one generic thesis and a public Studio demo link when the user asks for the hello-world browser link:
 
 ```text
 BTC pullback check: when BTCUSDT drops 3% or more in 24 hours, replay what happened next over the last 365 days.
@@ -38,9 +38,9 @@ This is the intended success moment:
 1. The user's agent helps shape the thesis.
 2. Stingray turns it into a deterministic Signal.
 3. Stingray replays the Signal against history.
-4. The agent returns a browser link to the public demo card.
+4. The agent returns a browser link to the public Studio Publication.
 
-Keep live monitoring off. Keep the card generic. Do not include portfolio details, private user theses, or private prompt text. The card is public and persistent, but this specific demo thesis is intentionally non-sensitive.
+Keep live monitoring off. Keep the Publication generic. Do not include portfolio details, private user theses, or private prompt text. The demo artifact is public and persistent, but this specific demo thesis is intentionally non-sensitive.
 
 ## Hyperliquid replay fit
 
@@ -50,11 +50,13 @@ Use Hyperliquid examples when the user asks for Hyperliquid or perp-specific wor
 - Open interest, whale-position changes, liquidations, and mark-to-liquidation distance are live-monitoring primitives today. Draft them as Signals, explain that they are live-only, and do not pitch them as historical replay demos.
 - If a Hyperliquid price/perp replay returns a venue-history or archive coverage error for a specific market, fall back to the BTC pullback hello-world or an `hl_funding` replay. Treat it as coverage, not auth.
 
-For first-run public onboarding, prefer the BTC pullback demo card unless the user explicitly asks for a Hyperliquid-specific walkthrough. It is safer for a public browser artifact because it is generic and designed to answer "what happened next?"
+For first-run public onboarding, prefer the BTC pullback Studio demo unless the user explicitly asks for a Hyperliquid-specific walkthrough. It is safer for a public browser artifact because it is generic and designed to answer "what happened next?"
 
 ## Surface summary
 
-**Backtest endpoints (core):**
+Use Studio language with the user: Idea, Evidence, Signal, Replay, Monitor, Publication. The routes below are temporary compatibility-bridge implementation details for agents until Studio is the only agent surface.
+
+**Replay bridge endpoints (core):**
 
 | Endpoint | Method | Purpose |
 |---|---|---|
@@ -63,19 +65,19 @@ For first-run public onboarding, prefer the BTC pullback demo card unless the us
 | `POST /v1/alert-drafts/:id/backtest` | POST | Run the backtest. Body: `{"backtest_lookback_days": 365}` (max 365). Returns a `backtest_result` widget snapshot + `backtest_id`. Idempotent-ish: 90-second mutex prevents concurrent duplicate backtests. |
 | `GET /widgets/:id` | GET | Fetch a stored widget (the backtest result itself, 24-hour TTL). Private to the user. |
 
-**Share-card endpoints (optional, growth surface — only when user asks to share):**
+**Publication bridge endpoints (optional, sharing surface - only when user asks to share):**
 
 | Endpoint | Method | Purpose |
 |---|---|---|
-| `POST /v1/cards` | POST | Mint a shareable card from `{draft_id, backtest_id}`. Returns `{card_id}`. Idempotent per `(user_id, backtest_snapshot_id)` — re-calling returns the same card. **Mints a permanent public URL.** |
+| `POST /v1/cards` | POST | Publish a shareable artifact from `{draft_id, backtest_id}`. Returns `{card_id}`. Idempotent per `(user_id, backtest_snapshot_id)` - re-calling returns the same artifact. **Creates a permanent public URL.** |
 | `PATCH /v1/cards/:cardId` | PATCH | Edit card copy (`strategy_name`, `figure_name`). Cannot unpublish. |
 | `POST /v1/cards/:cardId/figure-image` | POST | Upload a portrait (multipart `figure_image`) — pix2pix-styled into the dollar-bill watermark. |
-| public `https://stingray.fi/cards/<card_id>/` | — | Public Astro share page. Renders OG image, portrait watermark, PnL stats, chart. No auth needed. |
-| public `https://stingray.fi/cards/<card_id>/image.png/` | — | 1200×630 OG PNG. Renders correctly in X/Slack/WhatsApp/Telegram previews. **Trailing slash is required** — `/image.png` without it returns `404 text/html`. |
+| public `https://stingray.fi/cards/<card_id>/` | GET | Public browser page. Renders OG image, portrait watermark, PnL stats, chart. No auth needed. |
+| public `https://stingray.fi/cards/<card_id>/image.png/` | GET | 1200×630 OG PNG. Renders correctly in X/Slack/WhatsApp/Telegram previews. **Trailing slash is required** - `/image.png` without it returns `404 text/html`. |
 
 ## Canonical flow
 
-Steps 1–4 are the **core backtest flow** (private, what most users want). Steps 5–6 are the **opt-in share-card surface** — only run them when the user has explicitly asked to share, post, or generate a link.
+Steps 1-4 are the **core Replay flow** (private, what most users want). Steps 5-6 are the **opt-in Publication surface**. Only run them when the user has explicitly asked to share, post, or generate a link.
 
 The agent chat is the authoring surface for both. Drafts live as `widget_snapshot` rows; they're not created by a separate REST POST. An API token-driven workflow therefore looks like:
 
@@ -103,9 +105,9 @@ The agent chat is the authoring surface for both. Drafts live as `widget_snapsho
 
 4. **Run the backtest** — `POST /v1/alert-drafts/<draft_id>/backtest {"backtest_lookback_days": 365}`. Returns `{state, alert_id, metadata, definition, backtest_id, pnl_card_id, ...}`. `backtest_id` is the widget-snapshot id for the result.
 
-**Stop at step 4 by default.** The user has a private backtest result they can review (`GET /widgets/:id`). Steps 5–6 only run when the user has **explicitly** asked to share, post, or generate a link.
+**Stop at step 4 by default.** The user has a private Replay result they can review. Steps 5-6 only run when the user has **explicitly** asked to share, post, or generate a link.
 
-5. **(Opt-in only) Mint the card** — `POST /v1/cards {"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "<uuid>"}`. Once minted, the card lives at a public URL forever — there is no "unshare" endpoint, only edits to copy via `PATCH /v1/cards/:cardId`.
+5. **(Opt-in only) Publish** - `POST /v1/cards {"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "<uuid>"}`. Once published, the artifact lives at a public URL forever. There is no "unshare" endpoint, only edits to copy via `PATCH /v1/cards/:cardId`.
 
 6. **(Opt-in only) Share** the public URL `https://stingray.fi/cards/<card_id>/` for the full share page, or `https://stingray.fi/cards/<card_id>/image.png/` for the 1200×630 OG PNG (trailing slash required on both).
 
@@ -177,15 +179,15 @@ Some theses don't fit an alert block: pure narrative ("I'm bullish crypto this c
 - News-driven → use `news_sentiment` or `news_keyword` primitives (need `entity_id` from `POST /kg/resolve`).
 - Macro → can't backtest cleanly; decline politely.
 
-If the thesis isn't mappable to a primitive, decline rather than guess. A bad thesis → bad backtest → bad card → damaged credibility.
+If the thesis isn't mappable to a primitive, decline rather than guess. A bad thesis → bad Replay → bad Publication → damaged credibility.
 
-## Card properties worth knowing
+## Publication properties worth knowing
 
-- Cards are **idempotent per `(user_id, backtest_snapshot_id)`** — creating a second card for the same backtest returns the same `card_id`. Safe to retry.
-- Cards include the creator's `referral_url` (embedded in the share URL as `?ref=<code>`). This means card shares double as referral attribution.
-- Backtest snapshots expire after **24 hours**; the card display data is a separate persistent snapshot inside `pnl_cards.display_data`, so the card itself doesn't decay.
-- Cards can be edited after creation (`PATCH /v1/cards/:cardId`) — useful for tuning copy/summary if the first render feels off.
-- Portrait watermark (right-anchored, dollar-bill-engraved style) uses the card creator's uploaded face photo. Upload via `POST /v1/cards/:cardId/figure-image`. Optional.
+- Publications are **idempotent per `(user_id, backtest_snapshot_id)`** - creating a second public artifact for the same Replay returns the same id. Safe to retry.
+- Publications include the creator's `referral_url` (embedded in the share URL as `?ref=<code>`). This means shares double as referral attribution.
+- Private Replay snapshots expire after **24 hours**; the Publication display data is a separate persistent snapshot inside `pnl_cards.display_data`, so the public artifact itself doesn't decay.
+- Publications can be edited after creation (`PATCH /v1/cards/:cardId`) - useful for tuning copy/summary if the first render feels off.
+- Portrait watermark (right-anchored, dollar-bill-engraved style) uses the creator's uploaded face photo. Upload via `POST /v1/cards/:cardId/figure-image`. Optional.
 - OG image renders at `/cards/<card_id>/image.png/` (light variant) and `/cards/<card_id>/dark/image.png/` (dark variant). **Trailing slash is required**; the no-slash form returns `404`. X/Slack/Telegram preview caches are path-keyed, so use different paths for each variant.
 
 ## Failure modes
@@ -195,22 +197,22 @@ If the thesis isn't mappable to a primitive, decline rather than guess. A bad th
 | 404 on `/v1/alert-drafts/:id/backtest` | draft was created >30 days ago or belongs to another user | re-create the draft via chat |
 | 409 / "backtest already in progress" | 90-second mutex held by a concurrent backtest request | wait 90s and retry |
 | backtest result has zero triggers | thesis was too narrow for the lookback window, or trading pair has sparse history | widen the window or relax the trigger threshold |
-| `POST /v1/cards` returns same `card_id` on retry | idempotency key hit — not an error | use the returned card_id |
+| `POST /v1/cards` returns same `card_id` on retry | idempotency key hit - not an error | use the returned card_id |
 | card page loads but OG image 404s | missing trailing slash on `/image.png` URL | use `/cards/<id>/image.png/` with trailing slash — the no-slash form returns 404 |
 | `missing_event_subscription` from backtest | `trading_pair` in trigger doesn't have a matching `events[]` entry | add the pair to `events` (see `references/alert-definitions.md`) |
 
 ## Use with Growth work
 
-If you're using this to build shareable cards for outreach (e.g. auto-generating a backtest card per lead's public trading thesis):
+If you're using this to build shareable Publications for outreach (e.g. auto-generating a Replay artifact per lead's public trading thesis):
 
-- Do not publish the card as the lead's account; it always carries the **creator's** portrait + referral code. That's a feature, not a bug — the card is your pitch.
+- Do not publish the artifact as the lead's account; it always carries the **creator's** portrait + referral code. That's a feature, not a bug - the Publication is your pitch.
 - For scaled runs, respect the 90s backtest mutex — serialize or add jitter.
-- Hand-review each generated card before DMing / replying; the backtest may return zero-trigger results that are unimpressive.
+- Hand-review each generated Publication before DMing / replying; the Replay may return zero-trigger results that are unimpressive.
 - Track `(lead_handle, thesis_text, draft_id, backtest_id, card_id, card_url, verdict)` somewhere persistent; cards are cheap to generate but expensive to misfire.
 
 ## Token scopes required
 
-`skill_operations` (default API token scope) is sufficient for the backtest + card endpoints. Chat endpoints (`/v1/chats/web` etc.) also work with the default API token scope.
+`skill_operations` (default API token scope) is sufficient for the Replay + Publication bridge endpoints. Assistant bridge endpoints also work with the default API token scope.
 
 ## Related references
 

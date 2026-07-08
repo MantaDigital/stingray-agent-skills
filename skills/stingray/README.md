@@ -29,7 +29,7 @@ The installer may only say the skill was installed. The welcome happens in your 
 Paste this into a new agent chat:
 
 ```text
-Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the replay, then mint a public demo card link I can open in my browser. Keep live monitoring off.
+Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the Replay, then publish a public Studio demo link I can open in my browser. Keep live monitoring off.
 ```
 
 If the token is already set, the agent will help create one public auditable demo strategy and return a browser link. If the token is missing, it will guide you through setup without asking you to paste the secret into chat.
@@ -48,21 +48,21 @@ The skill deliberately does not accept tokens pasted into the agent chat — tha
 
 ## 4. Start Asking
 
-Once the token is saved, the skill calls `https://stingray.fi/api/agent` directly.
+Once the token is saved, the agent checks your Stingray Studio connection and keeps the technical route details out of the conversation unless you ask for debugging help.
 
 Best first prompt:
 
 ```text
-Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the replay, then mint a public demo card link I can open in my browser. Keep live monitoring off.
+Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the Replay, then publish a public Studio demo link I can open in my browser. Keep live monitoring off.
 ```
 
 The agent will check whether Stingray is connected, then show:
 
 ```text
 Stingray Studio is connected.
-Ready: build the BTC pullback demo: idea → deterministic Signal → replay → browser card.
+Ready: AI-assisted thesis design → deterministic Signal → private Replay → optional Studio Publication.
 Blocked: live Signal delivery outside Studio.
-Next: link Telegram when you want Signals to reach you after you leave the app.
+Next: link Telegram when you want Stingray to deliver Signals outside the app.
 ```
 
 Example prompts:
@@ -71,7 +71,7 @@ Example prompts:
 
 > "Show me the best Stingray workflows I can delegate from Codex or Claude Code with this account."
 
-> "Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not mint a public card."
+> "Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not publish a public Studio link."
 
 > "Draft a Whale Liquidation Magnet Signal for Hyperliquid BTC. Tell me which parts are supported today, which parts are live-only, and what data Stingray would need for a replay."
 
@@ -86,15 +86,15 @@ More copy-paste examples live in [`prompts.md`](prompts.md).
 - **Agent partner workflows** — live crypto indexes, venue grounding, typed rules, private replay, and hosted monitoring for Codex, Claude Code, Cursor, and other agents
 - **Current data coverage** — Binance Spot price/volume/TA, Hyperliquid funding, open interest, whale/liquidation streams, entity news, Telegram-native news sources, and KG-backed asset/entity resolution
 - **Venue-aware resolution** — `/kg/search` and `/kg/resolve` for asset and market disambiguation across venues; per-entity news via `/entities/:id/news`
-- **Composable typed alerts** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
-- **Hosted monitoring** — alert rules run on Stingray after your agent session ends, with delivery readiness checked first
-- **Backtests** — replay a thesis or alert definition against historical data (24h-TTL widget result, account-private)
+- **Composable typed Signals** — price + news + technical-indicator primitives, AND/OR combinators, validated before deploy
+- **Hosted monitoring** — Monitors run on Stingray after your agent session ends, with delivery readiness checked first
+- **Replays** — replay a thesis or Signal definition against historical data, private by default
 - **News-aware signals** — news blocks compose into alerts and trigger trees alongside price and TA
 - Watchlists and portfolios
-- Multi-channel notifications and chat through web, Telegram, and WhatsApp; X status is inspectable
-- Shareable backtest cards (opt-in)
+- Multi-channel notifications and linked-channel handoff through Studio, Telegram, and WhatsApp; X status is inspectable
+- Studio Publications, opt-in browser artifacts for sharing Replays
 - Account readiness, credits, usage, referrals, token hygiene
-- Co-development channel — request new assets, signals, datasets, or privacy-safe setup/debug reports through the same chat endpoint
+- Co-development channel — request new assets, signals, datasets, or privacy-safe setup/debug reports through the Studio assistant
 
 ## Bundle Contents
 

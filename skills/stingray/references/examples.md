@@ -1,6 +1,6 @@
 # Examples
 
-Read this file when you want concrete prompt patterns and the endpoint plan each one should trigger.
+Read this file when you want concrete prompt patterns and the product plan each one should trigger. Keep route details out of user-facing copy unless the user asks for implementation detail.
 
 ## Table of Contents
 
@@ -17,9 +17,9 @@ Read this file when you want concrete prompt patterns and the endpoint plan each
 11. Create a composite alert combining price and news
 12. Create a technical analysis alert
 13. Check and manage alert notifications
-14. Fetch a backtest result
-15. Run a backtest end-to-end
-16. Mint a public share card after the user explicitly asks
+14. Fetch a Replay result
+15. Run a Replay end-to-end
+16. Publish a Studio link after the user explicitly asks
 17. Run a Hyperliquid funding replay privately
 
 ## Example 1: Inspect capabilities before taking action
@@ -122,17 +122,18 @@ Execution plan:
 2. Explain that API token creation requires interactive registered auth
 3. Provide the creation rules from `references/token-lifecycle.md` if the user needs the exact contract
 
-## Example 10: Start a channel chat safely
+## Example 10: Continue through a linked channel safely
 
 User request:
-"Send a Telegram chat message asking for the latest BTC setup."
+"Continue this BTC research in Telegram if my Telegram channel is linked."
 
 Execution plan:
 
 1. `GET /me/access`
 2. `GET /me/telegram`
-3. `POST /v1/chats/channels/telegram`
-4. `POST /v1/chats/:chatId/messages/stream`
+3. Confirm Telegram can receive messages for this account
+4. Continue the assistant conversation through Telegram
+5. If Telegram is not ready, keep the work in Studio and give one setup step
 
 ## Example 11: Create a composite alert combining price and news
 
@@ -219,71 +220,57 @@ Execution plan:
 2. `GET /notifications?limit=20&offset=0`
 3. `POST /notifications/read` with `{"delivery_ids": [<ids from step 2>]}`
 
-## Example 14: Fetch a backtest result
+## Example 14: Fetch a Replay result
 
 User request:
-"Get the backtest result with id abc123."
+"Get the Replay result with id abc123."
 
 Execution plan:
 
-1. `GET /widgets/abc123`
-2. If 404, explain that results expire after 24 hours and suggest re-running through the chat assistant
+1. Fetch the private Replay result
+2. If it expired, explain that Replay results are private and time-limited, then offer to re-run it in Studio
 
-## Example 15: Run a backtest end-to-end (default — no card)
+## Example 15: Run a Replay end-to-end (private by default)
 
 User request:
-"Backtest BTC crossing above 70k on the 1h chart over the past year."
+"Replay BTC crossing above 70k on the 1h chart over the past year."
 
 Execution plan:
 
-1. `POST /v1/chats/web` → `chat_id`
-2. `POST /v1/chats/:chatId/messages/stream` (multipart, field `input`) with the natural-language thesis as draft-only:
+1. Check Studio access and delivery readiness.
+2. Create or reuse an Idea for the thesis.
+3. Ask the Studio assistant to shape the thesis into a draft Signal. Keep Monitor off.
+4. Run a private Replay over the requested lookback.
+5. Summarize trigger count, timing quality, and forward-return availability.
+6. Stop here unless the user explicitly asks for a public browser link.
 
-```bash
-curl -N -X POST -H "Authorization: Bearer $STINGRAY_PAT" \
-  -F "input=Create a draft alert for BTCUSDT crossing above 70000 on the 1h chart. Keep it as a draft, don't deploy yet." \
-  "$STINGRAY_API/v1/chats/$CHAT_ID/messages/stream"
-```
-
-3. `GET /v1/chats/:chatId/messages` → walk to the message where `details.tool_name == "alerts_draft"` → read `details.tool_output.widget_id` as `draft_id`.
-4. `POST /v1/alert-drafts/:draft_id/backtest` with `{"backtest_lookback_days": 365}` → `backtest_id`.
-5. `GET /widgets/:backtest_id` → display trigger count + forward returns to the user.
-6. **Stop here.** Do not call `POST /v1/cards`. The backtest result is private to the user; minting a card creates a permanent public URL — only do that when the user has explicitly asked to share.
-
-## Example 16: Mint a public share card after the user explicitly asks
+## Example 16: Publish a Studio link after the user explicitly asks
 
 User request:
-"Now make me a card I can post on twitter."
+"Now make me a public link I can share."
 
-Precondition: Example 15 was just run; you still have `draft_id` and `backtest_id`.
+Precondition: Example 15 was just run and the user has explicitly asked for a public browser artifact.
 
 Execution plan:
 
-1. `POST /v1/cards` with `{"draft_id": "...", "backtest_id": "..."}` → `card_id`.
-2. Return the public URL `https://stingray.fi/cards/<card_id>/` (full share page) or `https://stingray.fi/cards/<card_id>/image.png/` (OG PNG, trailing slash required).
-3. Optional: `POST /v1/cards/:cardId/figure-image` to upload a portrait watermark; `PATCH /v1/cards/:cardId` to edit copy after the first render.
+1. Confirm the user wants this Replay to become public.
+2. Publish a Studio Publication from the Replay.
+3. Return the browser link.
 
-Read `references/backtest-and-cards.md` for the privacy framing and card properties.
+Read `references/backtest-and-cards.md` for the privacy framing and publication properties.
 
 ## Example 17: Run a Hyperliquid funding replay privately
 
 User request:
-"Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not mint a public card."
+"Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not publish a public Studio link."
 
 Execution plan:
 
-1. `GET /me/access`. Read readiness booleans from `capabilities` if the response nests them there.
-2. `POST /v1/chats/web` → `chat_id`.
-3. `POST /v1/chats/:chatId/messages/stream` with multipart `input`:
-
-   ```text
-   Create a draft Signal for this Hyperliquid quantitative thesis: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Keep it as a draft. Do not deploy live monitoring.
-   ```
-
-4. `GET /v1/chats/:chatId/messages` and recover the `alerts_draft` `widget_id` as the draft id.
-5. `POST /v1/alert-drafts/:draft_id/backtest` with `{"backtest_lookback_days": 365}`.
-6. `GET /widgets/:backtest_id`.
-7. Report trigger count, event count, average gap, and whether forward-return samples were present. If forward returns are absent, say that directly. This is still a useful Signal audit, but it is not the same as a PnL-card demo.
+1. Check Studio access. Read readiness booleans from `capabilities` if the response nests them there.
+2. Create or reuse a Hyperliquid Idea named `ETH funding heat check`.
+3. Ask the Studio assistant to draft a Signal for ETH funding on Hyperliquid above `0.75` bps/hr. Keep Monitor off.
+4. Run a private Replay for the last 365 days.
+5. Report trigger count, event count, average gap, and whether forward-return samples were present. If forward returns are absent, say that directly. This is still a useful Signal audit, but it is not the same as the public hello-world demo.
 
 Expected draft shape:
 
@@ -301,4 +288,4 @@ Boundary:
 
 - Hyperliquid funding blocks are replayable today.
 - Hyperliquid open-interest, whale, liquidation, and mark-to-liquidation blocks are live-monitoring primitives today. Use them for draft/live Signals, not historical replay demos.
-- Do not mint a public card unless the user explicitly asks for one. For a first-run public browser artifact, prefer the BTC pullback hello-world unless the user asks for a Hyperliquid-specific walkthrough.
+- Do not publish a public Studio link unless the user explicitly asks for one. For a first-run public browser artifact, prefer the BTC pullback hello-world unless the user asks for a Hyperliquid-specific walkthrough.

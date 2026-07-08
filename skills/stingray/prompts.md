@@ -5,7 +5,7 @@ Use these prompts after the skill is installed. The first prompt checks whether 
 ## First Run
 
 ```text
-Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the replay, then mint a public demo card link I can open in my browser. Keep live monitoring off.
+Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the Replay, then publish a public Studio demo link I can open in my browser. Keep live monitoring off.
 ```
 
 ```text
@@ -27,7 +27,7 @@ What datasets and alert primitives does Stingray support today?
 ## Hyperliquid Quant
 
 ```text
-Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not mint a public card.
+Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not deploy live monitoring and do not publish a public Studio link.
 ```
 
 ```text
@@ -49,7 +49,7 @@ Use Stingray for the market-data part of this task: resolve the right BTC and ET
 ```
 
 ```text
-Turn this thesis into a typed Stingray alert rule, but keep it as a draft until I approve it: BTC breakout with volume confirmation and RSI above 60.
+Turn this thesis into a typed Stingray Signal, but keep it as a draft until I approve it: BTC breakout with volume confirmation and RSI above 60.
 ```
 
 ```text
@@ -89,21 +89,21 @@ If my Telegram account is linked, create a hosted alert for ETH funding flipping
 ```
 
 ```text
-Create a draft Hyperliquid open-interest alert for BTC OI rising 10% in 1 hour, and tell me whether this can be backtested or only monitored live.
+Create a draft Hyperliquid open-interest Signal for BTC OI rising 10% in 1 hour, and tell me whether this can be replayed or only monitored live.
 ```
 
-## Backtests
+## Replays
 
 ```text
-Backtest a BTC breakout thesis over the last year, but do not publish anything.
-```
-
-```text
-Create a public share card for the backtest I just ran.
+Replay a BTC breakout thesis over the last year, but do not publish anything.
 ```
 
 ```text
-Backtest the ETH funding-rate flip rule before activating it, and summarize fire frequency plus forward returns.
+Publish a public Studio link for the Replay I just ran.
+```
+
+```text
+Replay the ETH funding-rate flip Signal before activating it, and summarize fire frequency plus forward returns.
 ```
 
 ## Channels

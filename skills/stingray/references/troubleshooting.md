@@ -21,7 +21,7 @@ When you hit `403 api_token_not_allowed`, stop retrying and move back to `refere
 ## Dependency issues
 
 - KG routes may return `502` or `503`: the knowledge graph backend is unavailable or not configured.
-- `/health` or `/v1/tools` may reflect tool-host unavailability: those are runtime dependencies, not API token-surface issues.
+- `/health` or tool-host checks may reflect runtime dependency unavailability: those are dependency issues, not API token-surface issues.
 
 ## Alert definition validation failures
 

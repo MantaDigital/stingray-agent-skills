@@ -1,6 +1,6 @@
 # Common Workflows
 
-Read this file when the task is already inside the allowed API token surface and you need the lowest-risk endpoint order.
+Read this file when the task is already inside the allowed public skill surface and you need the lowest-risk product order. Use Studio nouns with the user. Route details are implementation notes only.
 
 ## Capability and account state
 
@@ -72,41 +72,44 @@ Definition validation happens at creation and update time. If the definition is 
 
 Use this flow when the user asks about alerts that have fired, unread alerts, or notification state.
 
-## Widget data fetch
+## Replay result fetch
 
-1. `GET /widgets/:id` to retrieve a stored widget (backtest, price chart, etc.)
+1. Fetch the private Replay result by id.
+2. If it expired, offer to re-run the Replay in Studio.
 
-Results have a 24-hour TTL and return 404 after expiry. Widgets are created through the chat assistant; this route only retrieves stored data.
+Results have a 24-hour TTL and return 404 after expiry.
 
-## Thesis → backtest (private, default)
+## Thesis to Replay (private, default)
 
-Use this flow when the user wants to turn a trading thesis into a private historical-performance result. Stops at step 4 — no public artifact is created.
+Use this flow when the user wants to turn a trading thesis into a private historical-performance result. Stops at step 5. No public artifact is created.
 
-1. `POST /v1/chats/web` → `chat_id`.
-2. `POST /v1/chats/:chatId/messages/stream` (multipart, field `input`) with the thesis prompt (e.g. "create a draft alert for BTCUSDT crossing above 70000 on the 1h chart, don't deploy yet"). The agent writes an `alert_draft` widget snapshot.
-3. `GET /v1/chats/:chatId/messages` after the stream closes; find the message where `details.tool_name == "alerts_draft"` and read `details.tool_output.widget_id` — that's your `draft_id`.
-4. `POST /v1/alert-drafts/:id/backtest` with body `{"backtest_lookback_days": 365}` (max 365). Returns `backtest_id`. View via `GET /widgets/:id` (24h TTL).
+1. Check Studio access.
+2. Create or reuse an Idea for the thesis.
+3. Ask the Studio assistant to shape the thesis into a draft Signal. Keep Monitor off.
+4. Run a private Replay over the requested lookback.
+5. Summarize trigger count, event timing, and forward-return availability.
 
 Read `references/backtest-and-cards.md` for body shapes, parsing patterns, and failure modes.
 
-## Mint a public share card from a backtest (optional growth surface)
+## Publish a Studio Publication from a Replay (optional sharing surface)
 
-Use this flow only when the user has explicitly asked to share, post, or generate a link. Cards mint **permanent public URLs** and there is no unshare endpoint.
+Use this flow only when the user has explicitly asked to share, post, or generate a link. Publications are public browser artifacts.
 
-1. (Run the backtest flow above; capture both `draft_id` and `backtest_id`.)
-2. `POST /v1/cards` with body `{"draft_id": "...", "backtest_id": "..."}`. Returns `{"card_id": "uuid"}`.
-3. Share the public URL `https://stingray.fi/cards/<card_id>/` (or the OG image at `/cards/<card_id>/image.png/` — trailing slash required — for direct image embeds).
+1. Run the private Replay flow above.
+2. Confirm the user wants a public browser link.
+3. Publish a Studio Publication from the Replay.
+4. Return the public browser link.
 
-Optional: `POST /v1/cards/:cardId/figure-image` uploads a portrait watermark (right-anchored, dollar-bill-engraved style). Optional: `PATCH /v1/cards/:cardId` edits card copy.
+Optional: tune the title or summary if the first render feels off.
 
-## Chat workflow
+## Studio assistant workflow
 
-1. `POST /v1/chats/web` for web chat or `POST /v1/chats/channels/:channel` for connected channels
-2. `GET /v1/chats/:chatId/messages` if prior context matters
-3. `POST /v1/chats/:chatId/messages/stream`
-4. `GET /v1/attachments/:attachmentId` for image bytes referenced in history
+1. Start or continue the Studio assistant conversation.
+2. Keep context attached to the relevant Idea or Signal where possible.
+3. Fetch attachments only when prior context matters.
+4. For Telegram or WhatsApp handoff, verify the channel is linked first.
 
-For channel chat, verify the corresponding Telegram or WhatsApp account is already linked before step 1.
+For channel handoff, verify the corresponding Telegram or WhatsApp account is already linked before step 1.
 
 ## Referrals and attribution
 
