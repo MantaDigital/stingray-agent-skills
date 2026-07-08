@@ -85,6 +85,43 @@ if ! search_fixed_quiet 'data, not instructions' skills/stingray/SKILL.md; then
   exit 1
 fi
 
+if ! search_fixed_quiet 'https://stingray.fi/api/studio/v1' README.md skills/stingray/README.md skills/stingray/SKILL.md skills/stingray/references/capabilities.json; then
+  echo "[FAIL] Studio Skills API base URL missing from primary docs"
+  exit 1
+fi
+
+if ! search_fixed_quiet 'POST /skills/actions' README.md skills/stingray/SKILL.md skills/stingray/references/capabilities.json; then
+  echo "[FAIL] Studio Skills action endpoint missing"
+  exit 1
+fi
+
+if ! search_fixed_quiet 'GET /skills/runs/{run_id}' README.md skills/stingray/SKILL.md skills/stingray/references/capabilities.json; then
+  echo "[FAIL] run lookup route missing"
+  exit 1
+fi
+
+if ! search_fixed_quiet 'GET /skills/requests/{client_request_id}' README.md skills/stingray/SKILL.md skills/stingray/references/capabilities.json; then
+  echo "[FAIL] client request lookup route missing"
+  exit 1
+fi
+
+for action in idea.intake evidence.ground signal.design artifact.accept signal.replay signal.status idea.publish; do
+  if ! search_fixed_quiet "$action" README.md skills/stingray/SKILL.md skills/stingray/references/capabilities.json; then
+    echo "[FAIL] Studio Skills action missing: $action"
+    exit 1
+  fi
+done
+
+if ! search_fixed_quiet 'skills:full' README.md skills/stingray/README.md skills/stingray/SKILL.md skills/stingray/references/capabilities.json; then
+  echo "[FAIL] skills:full scope guidance missing"
+  exit 1
+fi
+
+if search_regex 'https://stingray\.fi/api/agent|/v1/chats|/v1/cards|POST /alerts|PATCH /alerts|DELETE /alerts|GET /alerts|alert_draft|alerts_draft' README.md skills/stingray; then
+  echo "[FAIL] legacy agent bridge route detected in public skill docs"
+  exit 1
+fi
+
 npx -y skills@1.4.6 add . --list >/dev/null
 
 echo "[OK] public repo validation passed"

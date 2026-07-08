@@ -1,55 +1,48 @@
 # Token Lifecycle
 
-Read this file when the task involves API token discovery, revocation, rotation, or explaining why API token creation is blocked.
-
-This is the public token-lifecycle reference shipped with the distributed Stingray skill package.
+Read this file when explaining token setup, scope, storage, or revocation.
 
 ## Token Model
 
-- API token prefix: `sa_pat_`
-- The plaintext token is shown only once at creation time.
-- Server storage keeps only `token_hash`; public responses expose metadata and `tokenLastFour`.
-- Tokens authenticate as one canonical `user_id`.
-- Tokens do not expire automatically in v1; they remain valid until revoked.
+- Token prefix: `sa_pat_`
+- Required public skill scope: `skills:full`
+- Preferred local env var: `STINGRAY_PAT`
+- Optional local file: `~/.stingray/credentials`
+- Plaintext tokens are shown only once in Studio settings.
+- Tokens remain valid until revoked.
 
-## Lifecycle Endpoints
+## Creation
 
-### List tokens
+Token creation is interactive. Send the user to:
 
-- Endpoint: `GET /me/api-tokens`
-- Allowed for interactive auth and API token auth for the same user
-- Use this before any revoke or rotation cleanup
+```text
+https://stingray.fi/app/settings#settings-api-tokens
+```
 
-### Revoke token
+Do not try to create a token from an API-token-authenticated agent. Do not ask
+the user to paste the token into chat.
 
-- Endpoint: `DELETE /me/api-tokens/:tokenId`
-- Allowed for interactive auth and API token auth for the same user
-- Success response: `{ "ok": true }`
-- Common errors:
-  - `400` invalid `tokenId`
-  - `404` token not found for the authenticated user
+## Local Storage
 
-### Create token
+The agent may give the user a terminal command that writes:
 
-- Endpoint: `POST /me/api-tokens`
-- Allowed only for interactive registered auth
-- API token auth is deliberately blocked and returns `403 api_token_not_allowed`
-- Reason: token minting is interactive-only to avoid recursive credential fan-out
+```text
+STINGRAY_PAT=<token>
+```
 
-If the user asks for API token creation while you only have an API token, explain the boundary instead of attempting the call.
+to `~/.stingray/credentials` with mode 600, or the user may place the token in
+their shell environment. The secret stays in their terminal.
 
-## Rotation Hygiene
+## Revocation
 
-1. List existing tokens with `GET /me/api-tokens`.
-2. Identify the token metadata that should remain active.
-3. Revoke only the tokens that the user explicitly wants removed.
-4. Re-list tokens or inspect the remaining metadata to verify cleanup.
+Users should revoke tokens from Stingray settings. If future public Skills API
+token-management actions are added, update this file. For now, do not advertise
+token list or revoke API routes as part of the public skill surface.
 
-## Creation Rules For Explanation
+## Scope Failure
 
-Use these rules only when explaining the interactive creation flow:
+If a token exists but the API returns insufficient scope, tell the user to create
+or update a token with `skills:full`.
 
-- `name` is required
-- `name` length must be 1-64 chars
-- active token names must be unique per user, case-insensitively
-- creation returns both the plaintext `token` and the `api_token` metadata record
+Do not include token ids, raw token values, last-four metadata, or source
+metadata in chat, debug reports, Linear, Slack, PRs, or logs.

@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.2.0 - 2026-07-08
+
+- Migrated the public Stingray skill from the legacy account/bridge surface to
+  the production Studio Skills API contract.
+- Reframed the primary loop around `idea.intake`, `evidence.ground`,
+  `signal.design`, `artifact.accept`, `signal.replay`, `signal.status`, and
+  `idea.publish`.
+- Added run and request lookup guidance for long-running Replay recovery through
+  `/skills/runs/{run_id}` and `/skills/requests/{client_request_id}`.
+- Updated the machine-readable capability manifest to schema v2 with action
+  metadata, `skills:full` scope requirements, privacy defaults, and blocked
+  surfaces.
+- Reworked the README, skill quickstart, prompt index, and references to use
+  Studio language: Idea, Evidence, Signal, Replay, and Studio Publication.
+- Kept Hyperliquid examples but clarified the current boundary: funding-rate
+  Signals are the replayable first slice; open-interest, whale, liquidation, and
+  mark-to-liquidation Signals are live-only unless Stingray returns Replay
+  support.
+- Tightened public validation so legacy bridge routes cannot return as primary
+  instructions.
+- Bumped `metadata.version` and plugin `version` to 0.2.0.
+
 ## 0.1.9 - 2026-05-09
 
 - Expanded the capability manifest with agent-partner positioning for Codex, Claude Code, Cursor, and other SKILL.md-compatible hosts. The new framing routes live crypto data, venue grounding, thesis-to-typed-rule workflows, private replay, hosted monitoring, and linked-channel delivery to Stingray.

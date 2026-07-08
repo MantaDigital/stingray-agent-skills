@@ -1,68 +1,66 @@
 # Access Policy
 
-Read this file when you need to decide whether an API token-backed skill can perform a task at all.
+Read this file when deciding whether the public API-token skill can perform a
+task.
 
-This is the public boundary reference shipped with the distributed Stingray skill package.
-
-## Auth and First Check
+## Authentication
 
 - Use `Authorization: Bearer sa_pat_...`.
-- Start with `GET /me/access` when the request depends on current capabilities or linked-account prerequisites.
-- Treat `/me/access` as the authoritative capability snapshot for the authenticated user.
+- The local token is loaded from `STINGRAY_PAT` or `~/.stingray/credentials`.
+- The token must include `skills:full`.
+- The public skill base URL is `https://stingray.fi/api/studio/v1`.
 
-## Allowed API token Surface
+## Allowed Public Skill Surface
 
-- Account and state under `/me*`, except `POST /me/api-tokens`
-- Onboarding, credits, usage, growth, Telegram state, WhatsApp state, referral code, and attribution all live inside that account surface
-- WhatsApp channel-management routes via `POST /whatsapp/link-code` and `DELETE /whatsapp/link`
-- Telegram channel-management routes via `POST /telegram/link-code` and `DELETE /telegram/link`
-- X link status via `GET /me/x-link` (read-only; `POST /x/link` is interactive-only)
-- Entity news via `GET /entities/:entityId/news`
-- Entity lookup under `/kg/search` and `/kg/resolve`
-- Watchlist routes under `/watchlist*`
-- Portfolio routes under `/portfolio*`
-- Alert routes under `/alerts*`
-- Widget data fetch via `GET /widgets/:id`
-- Notification routes under `/notifications*` (list, unread count, mark read, mark all read)
-- Chat routes under `/v1/chats*`
-- Attachment download via `GET /v1/attachments/:attachmentId`
-- User-scoped growth routes via `POST /me/attribution`, `GET /me/referral-code`, and `POST /me/referral-attribution`
-- Token list and revoke via `GET /me/api-tokens` and `DELETE /me/api-tokens/:tokenId`
-- Public referral helpers via `GET /referrals/resolve/:code` and `GET /public/referrals/leaderboard` (these are public routes reachable without auth, not API token-authenticated)
+The current public skill is limited to the Studio Skills API route family:
+
+- `POST /skills/actions`
+- `GET /skills/runs/{run_id}`
+- `GET /skills/requests/{client_request_id}`
+
+Allowed actions:
+
+- `idea.intake`
+- `evidence.ground`
+- `signal.design`
+- `artifact.accept`
+- `signal.replay`
+- `signal.status`
+- `idea.publish`
+
+The token authenticates as one Studio user. The API still checks ownership for
+Ideas, staged artifacts, Signals, Replays, and Publications.
 
 ## Explicitly Blocked
 
-- `POST /me/api-tokens`
-- `/hl/authorizations*`
-- `/hl/delegation/*`
-- `/hl/approvals`
-- `/hl/orders`
-- `/hl/cancels`
-- `/x/link`
-- `/v1/billing*`
-- `/v1/guest*`
-- `/internal/*`
-- `/webhooks/*`
-- `/v1/tools*`
-- `/slack/install-url`
-- `/debug-sentry`
+Do not attempt these through the public skill:
 
-Blocked API token calls return `403` with code `api_token_not_allowed`.
+- API token creation
+- trading, order placement, order cancellation, signing, transfer, or delegated wallet work
+- Hyperliquid account authorization or account-risk operations
+- monitor enablement, pause, resume, retirement, or lifecycle mutation
+- billing, admin, guest lifecycle, internal routes, webhooks, tool-host routes, Slack install, or social posting
+- X link-claiming or public posting
+- browser Studio access outside the Skills API family
 
-## Capability Notes
+## Publication Boundary
 
-- API tokens can read account, access, credits, growth, usage, Telegram, and WhatsApp state.
-- API tokens can manage onboarding state and other account-setup flows.
-- API tokens can manage watchlists, portfolio, alerts, onboarding, attribution, referrals, Telegram links, and WhatsApp links.
-- API tokens can read alert notifications and mark them as read.
-- API tokens can fetch stored backtest results (24h TTL; 404 after expiry).
-- API tokens can use web chat for assistant work, feature requests, debug reports, and privacy-safe setup reports.
-- API tokens can use channel chat, but channel chat still requires an already linked channel identity.
-- API tokens can list and revoke tokens for the same user.
-- API tokens cannot create tokens, access billing, install Slack, link X, place or cancel orders, manage delegated wallets, or use internal/social posting routes.
+`idea.publish` creates a public Studio Publication. Use it only when the user
+explicitly asks for a public demo, share link, browser link, publish action, or
+public artifact. If the user asks only for analysis, stop at the private Replay.
 
-## Precondition Notes
+## Artifact Acceptance Boundary
 
-- Alert delivery activation requires Telegram DM deliverability.
-- Channel chat requires a linked Telegram or WhatsApp account for the target channel.
-- KG-backed flows may fail because the KG backend is unavailable; that does not mean the API token lacks access.
+`artifact.accept` is explicit confirmation, not an automatic side effect. In the
+first slice it accepts only staged `signal_candidate` artifacts and creates a new
+committed Signal. It does not update existing Signals, accept arbitrary artifact
+kinds, or enable Monitors.
+
+## Error Handling
+
+- Missing, malformed, unknown, or revoked tokens are auth failures.
+- Tokens without `skills:full` are insufficient-scope failures.
+- Idea, artifact, Signal, Replay, or Publication resources outside the token
+  owner's boundary should be treated as unavailable.
+- Do not echo token identifiers, raw tokens, token last-four metadata, or hidden
+  source metadata to the user.
