@@ -38,6 +38,21 @@ The skill deliberately does not accept tokens pasted into the agent chat — tha
 
 Once the token is saved, the skill calls `https://stingray.fi/api/agent` directly.
 
+Best first prompt:
+
+```text
+What can my Stingray account do right now?
+```
+
+The agent will check whether Stingray is connected, then show:
+
+```text
+Stingray Studio is connected.
+Ready: turn a market idea into evidence, a Signal, and a private replay in /app2.
+Blocked: live Signal delivery outside Studio.
+Next: link Telegram when you want Signals to reach you after you leave the app.
+```
+
 Example prompts:
 
 > "What can my Stingray account do?"
