@@ -61,7 +61,36 @@ Endpoints in references are relative paths — prepend `$STINGRAY_API`. Do not c
 
 ## First Invocation
 
-Once per active agent session, after credentials load, run `GET /me/access` before the user's workflow and show a compact readiness line: tier if present, credits if present, linked channels if present, and any delivery prerequisite that blocks the requested task. If credentials are missing, run First-Time Setup instead. If the user's request is blocked by policy, explain the boundary before making API calls.
+Once per active agent session, after credentials load, run `GET /me/access` before the user's workflow. If credentials are missing, run First-Time Setup instead. If the user's request is blocked by policy, explain the boundary before making API calls.
+
+Before the first access check, tell the user what is happening in plain language:
+
+```text
+I'll check whether Stingray is connected. If it is, I'll show what this account can do. If it is missing a token, I'll give you a terminal command so the key never enters chat.
+```
+
+After `GET /me/access`, show a short readiness report in this shape:
+
+```text
+Stingray Studio is connected.
+Ready: turn a market idea into evidence, a Signal, and a private replay in /app2.
+Blocked: live Signal delivery outside Studio.
+Next: link Telegram when you want Signals to reach you after you leave the app.
+```
+
+Adapt the lists to the actual `/me/access` response:
+
+- `Ready` should sell the useful thing the user can do now, using Studio/app2 language.
+- `Blocked` should name only blockers that matter for the current or likely next task.
+- `Next` should give one action, not a menu.
+- Use `Stingray Studio` and `/app2` for the app surface. Do not describe the user-facing app as the old agent-server surface.
+- Translate low-level API flags into the Studio product loop when possible: Idea → Evidence → Signal → Replay → Monitor.
+- Do not lead with old route labels like `chat`, `watchlist`, `portfolio`, `alerts`, or `alert drafts` unless the user asked about those exact account objects.
+- If `can_activate_alert_delivery` is false, explain that Signals can be created and replayed in Studio, but outside-app delivery is not ready.
+- If `telegram_linked` or `telegram_dm_deliverable` is false and the user wants delivered Signals, say to link Telegram.
+- If onboarding is incomplete, mention it only when it affects the next action.
+- If credentials already exist, do not ask for an API key or PAT. Say Stingray Studio is connected, then explain readiness.
+- Keep first-run copy short and sales-facing. No install-auth explanation unless the user asks.
 
 If the user asks what Stingray can do, or seems unsure what to ask, read `references/capabilities.json` and `references/agent-positioning.md`, then offer a short capability menu plus the prompt index in `prompts.md`.
 
@@ -88,7 +117,7 @@ Read only the references that match the task:
 ## Default Operating Loop
 
 1. Load credentials + base URL. If `~/.stingray/credentials` is missing, run First-Time Setup.
-2. On first invocation in this session, run the First Invocation health check and report the compact readiness line before proceeding.
+2. On first invocation in this session, run the First Invocation health check and report `Ready`, `Blocked`, and `Next` before proceeding.
 3. Interpret the request as a **user job**, not an endpoint. Read `references/business-capabilities.md`.
 4. End-to-end multi-capability outcomes → `references/north-star-scenarios.md`. Ambiguous prompts → `references/intent-rubrics.md`.
 5. Start normal workflows with `GET /me/access` unless the task is blocked by policy, the first-invocation check already supplied current access state, or the route itself is the capability check.
