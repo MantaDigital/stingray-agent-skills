@@ -5,8 +5,8 @@
     "email": "dev@mantadigital.io"
   },
   "metadata": {
-    "description": "Specialized crypto market agent and hosted rule runtime for coding agents",
-    "version": "0.1.9"
+    "description": "Studio-native market agent for coding agents",
+    "version": "0.2.0"
   },
   "plugins": [
     {
@@ -15,8 +15,8 @@
       "skills": [
         "./skills/stingray"
       ],
-      "description": "Specialized crypto market agent and hosted rule runtime for Codex, Claude Code, Cursor, and other agents: live indexes, venue-aware entity resolution, typed alert rules, private backtests, hosted monitoring, channel delivery, and privacy-safe setup/debug feedback. Token-scoped, opt-in, Apache-2.0.",
-      "version": "0.1.9",
+      "description": "Studio-native market agent for Codex, Claude Code, Cursor, and other agents: Ideas, Evidence, Signal design, staged Signal acceptance, private Replays, Replay status, opt-in Studio Publications, and privacy-safe setup/debug feedback. Token-scoped, opt-in, Apache-2.0.",
+      "version": "0.2.0",
       "author": {
         "name": "Stingray",
         "email": "dev@mantadigital.io"
@@ -29,17 +29,16 @@
         "research",
         "signals",
         "market-research",
-        "alerts",
-        "watchlist",
-        "portfolio",
-        "backtest",
+        "studio",
+        "ideas",
+        "replay",
         "quant"
       ],
       "tags": [
         "crypto",
         "research",
         "signals",
-        "alerts",
+        "studio",
         "quant"
       ],
       "category": "research",

@@ -1,113 +1,97 @@
 # Stingray Prompt Index
 
-Use these prompts after the skill is installed. The first prompt checks whether a token is already configured and guides setup if needed. Do not paste `sa_pat_...` tokens into agent chat.
+Copy these into a SKILL.md-compatible agent after installing Stingray.
 
 ## First Run
 
 ```text
-Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the draft Signal, run the replay, then mint a public demo card link I can open in my browser. Keep live monitoring off.
+Welcome me to Stingray. Check my API token, then run the hello-world thesis: BTC pullback check, when BTCUSDT drops 3% in 24h, replay what happened next over 365 days. Create the Studio Idea and Signal, run the Replay, then publish a public Studio demo link I can open in my browser. Keep live monitoring off.
 ```
 
 ```text
-What can my Stingray account do right now?
+What can Stingray Skills do from this agent? Use the current public skill surface, not legacy account API routes.
+```
+
+## Idea Intake
+
+```text
+Use Stingray to turn this into a Studio Idea: BTC may mean-revert after sharp intraday selloffs because forced selling tends to cluster. Keep it private for now.
 ```
 
 ```text
-Check my credits, usage, and linked delivery channels before doing anything else.
+Create a Studio Idea from this X post and tell me what Evidence or Signal details are still missing. Do not publish anything yet: <paste public post text here>
+```
+
+## Evidence Grounding
+
+```text
+Ground the current Idea with Stingray Evidence. Tell me which market, venue, timeframe, and dataset assumptions matter before we design a Signal.
 ```
 
 ```text
-Show me the best Stingray workflows I can delegate from Codex or Claude Code with this account.
+For the current Idea, check whether the data coverage is enough for a Replay. If not, tell me the nearest supported Signal shape.
+```
+
+## Signal Design
+
+```text
+Design a Signal for the current Idea. If anything important is missing, ask only the blocking questions. Otherwise stage a Signal candidate I can inspect.
 ```
 
 ```text
-What datasets and alert primitives does Stingray support today?
+Turn this thesis into a Signal candidate: when BTCUSDT drops 3% or more in 24h, test what happened next over the last 365 days.
 ```
 
-## Agent Partner Workflows
+## Accept And Replay
 
 ```text
-Use Stingray for the market-data part of this task: resolve the right BTC and ETH markets, then tell me what identifiers my coding agent should use.
-```
-
-```text
-Turn this thesis into a typed Stingray alert rule, but keep it as a draft until I approve it: BTC breakout with volume confirmation and RSI above 60.
+If the staged Signal candidate is coherent and matches the current Idea, accept it as a committed Signal and run a private Replay. Do not publish.
 ```
 
 ```text
-Before you write any local code, check whether Stingray can already host this monitoring rule for me.
+Run a private Replay for the selected Signal. If the run is still in progress, use Stingray status lookup until you can summarize the result or tell me what is blocked.
 ```
 
 ```text
-Use Stingray as the market agent for this workflow, and have my Claude setup listen to the hosted alert output instead of running a cron script.
+Read the selected Signal status and latest Replay status without asking Stingray to redesign the Signal.
 ```
 
-## Research
+## Publication
 
 ```text
-Look up Chainlink, resolve the right asset entity, and summarize the latest normalized news.
-```
-
-```text
-Find ETH and SOL, resolve the right entities, and add them to my watchlist.
+Publish a public Studio demo link for the current Idea using the committed Signal and Replay. Only publish if the current Idea is generic enough to share.
 ```
 
 ```text
-Resolve HYPE on Hyperliquid versus spot venues, then summarize the latest source-backed news.
+Keep the Replay private. Summarize the result and tell me what would be included if I later ask for a public Studio Publication.
 ```
 
-## Alerts
+## Hyperliquid
 
 ```text
-Alert me if BTC drops 5% and there is negative news within 2 hours.
-```
-
-```text
-Set up an RSI alert for ETH when RSI crosses below 30 on the 1-hour timeframe.
+Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not enable monitoring and do not publish a public Studio link.
 ```
 
 ```text
-If my Telegram account is linked, create a hosted alert for ETH funding flipping negative on Hyperliquid after you show me the parsed rule.
+Confirm that Hyperliquid OI, whale, liquidation, and mark-to-liquidation Signals are not supported in the public skill today, then offer the nearest supported funding-rate example.
+```
+
+## Recovery
+
+```text
+I think the previous Stingray action timed out. Use the last run id or client request id you recorded to recover the result before retrying.
 ```
 
 ```text
-Create a draft Hyperliquid open-interest alert for BTC OI rising 10% in 1 hour, and tell me whether this can be backtested or only monitored live.
+The previous response asked for missing input. Answer those questions and continue the same Stingray action in the same Idea context.
 ```
 
-## Backtests
+## Debug And Product Feedback
 
 ```text
-Backtest a BTC breakout thesis over the last year, but do not publish anything.
-```
-
-```text
-Create a public share card for the backtest I just ran.
+If Stingray cannot support this thesis, give me a privacy-safe Debug report I can send to the team. Do not include my API token, private account data, or full prompt text.
 ```
 
 ```text
-Backtest the ETH funding-rate flip rule before activating it, and summarize fire frequency plus forward returns.
-```
-
-## Channels
-
-```text
-Check whether Telegram and WhatsApp are linked, then continue this BTC research in whichever channel is ready.
-```
-
-```text
-Show my unread alert notifications and mark the ones I choose as read.
-```
-
-## Account State
-
-```text
-List my API tokens and help me revoke old integration tokens while keeping the current token active.
-```
-
-```text
-Ask Stingray to add a missing signal for this workflow and include the context from the failed attempt.
-```
-
-```text
-Send a privacy-safe setup report to Stingray: include my agent host, skill version, failing route, and sanitized error, but no token, portfolio, or full prompt.
+File a product feedback note in plain language: I want this external-agent workflow to support full strategy backtesting later, including entry, exit, and risk management.
 ```
