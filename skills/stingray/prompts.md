@@ -73,7 +73,7 @@ Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. 
 ```
 
 ```text
-Check whether Stingray currently supports Hyperliquid OI, whale, liquidation, or mark-to-liquidation Signals. If not, tell me they are not supported today and offer the nearest supported funding-rate example.
+Confirm that Hyperliquid OI, whale, liquidation, and mark-to-liquidation Signals are not supported in the public skill today, then offer the nearest supported funding-rate example.
 ```
 
 ## Recovery

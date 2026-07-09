@@ -26,7 +26,7 @@ The public examples should prefer Signal shapes that Stingray can replay today.
 Reliable examples include generic BTC spot movement theses and Hyperliquid
 funding-rate theses.
 
-## Live-Only Boundary
+## Unsupported Hyperliquid Primitives
 
 Hyperliquid open interest, whale movement, liquidation, and
 mark-to-liquidation primitives are not supported in the public skill today. Do

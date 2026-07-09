@@ -84,7 +84,7 @@ Example prompts:
 
 > "Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not enable monitoring and do not publish a public Studio link."
 
-> "Check whether Stingray currently supports Hyperliquid OI, whale, liquidation, or mark-to-liquidation Signals. If not, give me the nearest supported Hyperliquid funding-rate example."
+> "Confirm that Hyperliquid OI, whale, liquidation, and mark-to-liquidation Signals are not supported in the public skill today, then give me the nearest supported Hyperliquid funding-rate example."
 
 > "Continue the current Idea, answer any missing questions, accept the staged Signal if it looks reasonable, then run a private Replay."
 
