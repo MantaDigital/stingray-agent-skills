@@ -88,7 +88,7 @@ Action sequence:
 6. `signal.status` or lookup until complete
 7. Stop private.
 
-## Example 5: Hyperliquid Live-Only Boundary
+## Example 5: Unsupported Hyperliquid Primitive
 
 User:
 
@@ -98,12 +98,11 @@ Draft a Whale Liquidation Magnet Signal for Hyperliquid BTC and Replay it.
 
 Action sequence:
 
-1. `idea.intake`
-2. `evidence.ground`
-3. Explain that whale/liquidation primitives are live-only unless Stingray
-   returns Replay support.
-4. Use `signal.design` for Signal intent if the user still wants it.
-5. Do not promise historical Replay if coverage is unavailable.
+1. Explain from the skill docs that whale/liquidation primitives are not supported in the public
+   skill today.
+2. Offer the nearest supported Hyperliquid funding-rate example.
+3. Do not call `idea.intake`, `evidence.ground`, `signal.design`, or
+   `signal.replay` for the unsupported primitive.
 
 ## Example 6: Recover A Timed-Out Replay
 

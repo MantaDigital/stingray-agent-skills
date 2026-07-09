@@ -137,6 +137,11 @@ if search_regex 'https://stingray\.fi/api/agent|/v1/chats|/v1/cards|POST /alerts
   exit 1
 fi
 
+if search_regex 'live-only|live only|live_only_boundaries' README.md skills/stingray; then
+  echo "[FAIL] unsupported Hyperliquid primitives must not be described as live-only"
+  exit 1
+fi
+
 npx -y skills@1.4.6 add . --list >/dev/null
 
 echo "[OK] public repo validation passed"

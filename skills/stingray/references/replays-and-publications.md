@@ -69,8 +69,8 @@ If the user asks only for analysis, stop at the private Replay.
 ## Hyperliquid Fit
 
 - Funding-rate Signals are the safest replayable Hyperliquid example today.
-- Open interest, whale-position, liquidation, and mark-to-liquidation Signals are
-  useful design examples but live-only boundaries for now.
+- Open interest, whale-position, liquidation, and mark-to-liquidation primitives
+  are not supported in the public skill today.
 - If Stingray returns a coverage failure, report it as coverage, not auth.
 
 ## Failure Modes

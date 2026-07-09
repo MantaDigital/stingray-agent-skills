@@ -20,7 +20,7 @@ Use a privacy-safe report when:
 Keep reports short and safe:
 
 ```text
-Debug report: Hyperliquid open-interest replay was requested for BTC. Stingray treated the Signal as live-only and did not return a Replay. No token, account data, or full private prompt included.
+Debug report: Hyperliquid open-interest support was requested for BTC, but the public skill currently supports only the funding-rate Hyperliquid demo path. No token, account data, or full private prompt included.
 ```
 
 ```text

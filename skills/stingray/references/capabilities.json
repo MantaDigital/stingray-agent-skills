@@ -143,7 +143,7 @@
       "generic BTC spot movement thesis",
       "Hyperliquid ETH funding-rate threshold"
     ],
-    "live_only_boundaries": [
+    "unsupported_primitives": [
       "Hyperliquid open interest",
       "Hyperliquid whale position changes",
       "Hyperliquid liquidation flow",

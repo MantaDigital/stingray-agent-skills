@@ -23,18 +23,17 @@ Good first-slice examples:
 - price-move Signals that Stingray can stage and accept;
 - Hyperliquid funding-rate Signals, especially ETH funding thresholds.
 
-## Live-Only Boundary
+## Unsupported Hyperliquid Primitives
 
-Treat these Hyperliquid ideas as live-only unless Stingray returns explicit
-Replay support:
+Treat these Hyperliquid ideas as not supported in the public skill today:
 
 - open interest and open-interest change;
 - whale position changes;
 - liquidation flows;
 - mark-to-liquidation distance.
 
-The agent can still use these as Signal design intent, but should not promise
-historical Replay.
+The agent should not draft Signals or promise Replay for these primitives. Offer
+a funding-rate example or a privacy-safe product feedback note.
 
 ## Coverage Failures
 

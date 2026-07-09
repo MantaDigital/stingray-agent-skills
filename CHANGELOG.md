@@ -16,10 +16,10 @@
   Studio Skills API token provisioning guidance.
 - Reworked the README, skill quickstart, prompt index, and references to use
   Studio language: Idea, Evidence, Signal, Replay, and Studio Publication.
-- Kept Hyperliquid examples but clarified the current boundary: funding-rate
-  Signals are the replayable first slice; open-interest, whale, liquidation, and
-  mark-to-liquidation Signals are live-only unless Stingray returns Replay
-  support.
+- Kept Hyperliquid examples but narrowed the current boundary: funding-rate
+  Signals are the only documented Hyperliquid demo path in this public skill
+  slice; open-interest, whale, liquidation, and mark-to-liquidation primitives
+  are not currently supported.
 - Tightened public validation so legacy bridge routes cannot return as primary
   instructions.
 - Bumped `metadata.version` and plugin `version` to 0.2.0.
@@ -30,7 +30,7 @@
 - Added `skills/stingray/references/agent-positioning.md`, a focused reference for explaining why Stingray complements generic coding agents and which market workflows should be delegated to it.
 - Tightened the `SKILL.md` metadata description after a Codex and Claude skill best-practice pass so agent hosts get concise, front-loaded routing signals while deeper positioning stays in references.
 - Reworked positioning to describe Stingray as a specialized market agent and hosted rule runtime that can be used directly or as a partner for Codex/Claude, instead of implying it is only infrastructure.
-- Added current data coverage docs grounded in the latest Stingray Mono changelog and alert schema: Binance Spot price/volume/TA, Hyperliquid funding/open-interest/whale streams, entity news, Telegram news sources, and backtest limits.
+- Added data coverage docs for the then-current public skill surface. The 0.2.0 release narrows the current Hyperliquid public skill claim to funding-rate examples only.
 - Expanded co-development instructions so agents send privacy-safe `Setup report:` / `Debug report:` messages through the existing chat route rather than inventing a separate feedback endpoint.
 - Strengthened the prompt index and READMEs with higher-signal capability examples: account capability discovery, venue-aware resolution, typed alert drafting, hosted monitoring, funding-rate backtests, and channel continuity.
 - Kept the public API-token boundary explicit: delegated-wallet, order-placement, Slack install, billing, admin, guest, internal, webhook, and tool-host surfaces remain blocked from the public skill.

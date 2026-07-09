@@ -216,9 +216,10 @@ keep the current boundary visible:
 
 - Replayable first slice: funding-rate Signals such as ETH funding above
   `0.75` bps/hr on Hyperliquid.
-- Live-only boundary today: open interest, whale-position changes,
-  liquidations, and mark-to-liquidation distance. These can be discussed as
-  Signal design intent, but do not promise historical Replay support for them.
+- Not supported in the public skill today: open interest, whale-position
+  changes, liquidations, and mark-to-liquidation distance. Do not draft Signals
+  or promise Replay support for these primitives; offer funding-rate examples or
+  a privacy-safe product feedback note instead.
 - Public hello-world default: keep using the BTC pullback demo unless the user
   explicitly requests a Hyperliquid walkthrough.
 

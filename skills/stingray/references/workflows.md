@@ -57,13 +57,14 @@ Use this only when the user explicitly asked for a public demo or share link.
 5. `signal.replay`.
 6. Keep private unless the user explicitly asks for publication.
 
-## Hyperliquid Live-Only Signal
+## Unsupported Hyperliquid Primitive
 
-1. `idea.intake`.
-2. `evidence.ground`.
-3. Tell the user the primitive is live-only if applicable.
-4. `signal.design` if the user wants a candidate.
-5. Do not call `signal.replay` unless Stingray reports Replay support.
+1. Identify whether the request depends on OI, whale, liquidation, or
+   mark-to-liquidation data.
+2. Tell the user those primitives are not supported in the public skill today.
+3. Offer the nearest supported funding-rate example.
+4. Optionally produce a privacy-safe product feedback note.
+5. Do not call `signal.design` for the unsupported primitive.
 
 ## Privacy-Safe Debug Report
 

@@ -63,8 +63,8 @@ accept the Signal only if it matches the intent, then run a private Replay.
 Good:
 
 ```text
-This looks like a live-only Hyperliquid Signal today. I can design the Signal
-intent, but I should not promise a historical Replay unless Stingray returns one.
+Stingray does not currently support that Hyperliquid primitive in the public
+skill. I can offer a funding-rate example or write a product feedback note.
 ```
 
 Bad:

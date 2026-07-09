@@ -73,11 +73,7 @@ Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. 
 ```
 
 ```text
-Draft a Whale Liquidation Magnet Signal for Hyperliquid BTC. Tell me which parts are supported today, which parts are live-only, and what data Stingray would need for a Replay.
-```
-
-```text
-For Hyperliquid open interest, help me design the Signal intent, but do not claim historical Replay support unless Stingray says it is available.
+Check whether Stingray currently supports Hyperliquid OI, whale, liquidation, or mark-to-liquidation Signals. If not, tell me they are not supported today and offer the nearest supported funding-rate example.
 ```
 
 ## Recovery

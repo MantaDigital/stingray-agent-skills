@@ -91,7 +91,7 @@ The required token scope is `skills:full`.
 | **Private Replays** | Replays stay private by default and return run/resource references for later lookup. |
 | **Status recovery** | `signal.status`, run lookup, and `client_request_id` recovery make long-running work recoverable. |
 | **Studio Publications** | Public browser links are opt-in through `idea.publish` only after explicit user intent. |
-| **Hyperliquid examples** | Funding-rate Signals are the replayable first demo; OI, whale, liquidation, and mark-to-liquidation primitives are live-only boundaries for now. |
+| **Hyperliquid examples** | Funding-rate Signals are the current Hyperliquid demo path. OI, whale, liquidation, and mark-to-liquidation primitives are not supported in the public skill today. |
 | **Token hygiene** | Tokens use the `sa_pat_` prefix, require `skills:full`, and stay outside chat. |
 
 The agent reads only what it needs, scoped to the task: full reference index in

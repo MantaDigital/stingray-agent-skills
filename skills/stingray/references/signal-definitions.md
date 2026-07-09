@@ -15,7 +15,7 @@ candidate. The candidate should make these assumptions visible when possible:
 - timeframe or lookback window;
 - threshold and units;
 - whether the condition is replayable today;
-- whether the condition is live-only today.
+- whether the condition is supported and replayable today.
 
 If a required assumption is missing, the correct response is `needs_input`, not
 a guessed Signal.
@@ -29,8 +29,9 @@ funding-rate theses.
 ## Live-Only Boundary
 
 Hyperliquid open interest, whale movement, liquidation, and
-mark-to-liquidation ideas are useful Signal design examples, but should be
-treated as live-only unless Stingray returns Replay support.
+mark-to-liquidation primitives are not supported in the public skill today. Do
+not draft Signals for them as if they were available. Offer a supported
+funding-rate example or a privacy-safe product feedback note.
 
 ## Acceptance
 

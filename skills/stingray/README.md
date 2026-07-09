@@ -84,7 +84,7 @@ Example prompts:
 
 > "Use Stingray to test this Hyperliquid thesis privately: ETH funding heat check. Trigger when ETH funding on Hyperliquid rises above 0.75 bps/hr. Replay the last 365 days and report event count, average gap, and whether forward-return samples are available. Do not enable monitoring and do not publish a public Studio link."
 
-> "Draft a Whale Liquidation Magnet Signal for Hyperliquid BTC. Tell me which parts are supported today, which parts are live-only, and what data Stingray would need for a Replay."
+> "Check whether Stingray currently supports Hyperliquid OI, whale, liquidation, or mark-to-liquidation Signals. If not, give me the nearest supported Hyperliquid funding-rate example."
 
 > "Continue the current Idea, answer any missing questions, accept the staged Signal if it looks reasonable, then run a private Replay."
 
@@ -99,7 +99,7 @@ More copy-paste examples live in [`prompts.md`](prompts.md).
 - Private Replay through `signal.replay`
 - Lightweight status and recovery through `signal.status`, run lookup, and `client_request_id`
 - Opt-in public Studio Publication through `idea.publish`
-- Hyperliquid replay boundaries: funding is the reliable replayable first slice; OI, whale, liquidation, and mark-to-liquidation are live-only boundaries for now
+- Hyperliquid boundaries: funding-rate Signals are the current supported demo path; OI, whale, liquidation, and mark-to-liquidation primitives are not supported in the public skill today
 - Token isolation, token scope boundary, and privacy-safe debug reporting
 
 ## Bundle Contents

@@ -58,18 +58,18 @@ Flow:
 6. summarize event count, clustering/gap, and forward-return availability when
    returned
 
-## 5. Hyperliquid Live-Only Design
+## 5. Unsupported Hyperliquid Primitive
 
-Goal: let users explore OI, whale, liquidation, or mark-to-liquidation Signals
-without overpromising Replay.
+Goal: handle OI, whale, liquidation, or mark-to-liquidation requests honestly
+without implying current support.
 
 Flow:
 
-1. `idea.intake`
-2. `evidence.ground`
-3. explain live-only boundary
-4. `signal.design` if the user wants a candidate
-5. stop before Replay unless Stingray reports support
+1. explain from the skill docs that the primitive is not supported in the public
+   skill today
+2. offer a funding-rate Signal example or a privacy-safe product feedback note
+3. do not call `idea.intake`, `evidence.ground`, or `signal.design` merely to
+   test the unsupported primitive
 
 ## 6. External-Agent Recovery
 
