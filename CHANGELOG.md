@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.1 - 2026-07-19
+
+- Reframed the default public description as an agentic investment hypothesis
+  research engine instead of a crypto product category.
+- Kept crypto and onchain markets as honest current beta coverage examples,
+  while making the research workflow asset-class neutral.
+- Made the non-execution boundary explicit in public metadata and positioning:
+  the skill does not place orders or execute trades.
+- Bumped `metadata.version` and plugin `version` to 0.2.1.
+
 ## 0.2.0 - 2026-07-08
 
 - Migrated the public Stingray skill from the legacy account/bridge surface to
