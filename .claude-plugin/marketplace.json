@@ -15,7 +15,7 @@
       "skills": [
         "./skills/stingray"
       ],
-      "description": "Agentic investment hypothesis research engine for Codex, Claude Code, Cursor, and other agents: Ideas, Evidence, Signal design, staged Signal acceptance, private Replays, Replay status, opt-in Studio Publications, and privacy-safe setup/debug feedback. Current Replay examples cover crypto and onchain markets; trading and order execution are excluded. Token-scoped, opt-in, Apache-2.0.",
+      "description": "Agentic investment hypothesis research engine for Codex, Claude Code, Cursor, and other agents: Ideas, Evidence, Signal design, staged Signal acceptance, private Replays, Replay status, opt-in Studio Publications, and privacy-safe setup/debug feedback. Trading and order execution are excluded. Token-scoped, opt-in, Apache-2.0.",
       "version": "0.2.1",
       "author": {
         "name": "Stingray",
@@ -34,7 +34,6 @@
         "ideas",
         "replay",
         "quant",
-        "crypto",
         "onchain"
       ],
       "tags": [
@@ -43,7 +42,7 @@
         "signals",
         "studio",
         "quant",
-        "crypto"
+        "onchain"
       ],
       "category": "research",
       "license": "Apache-2.0",

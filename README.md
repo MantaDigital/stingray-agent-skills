@@ -12,9 +12,9 @@ Built for quants, analysts, and research desks who already live in their
 terminal and want an external agent to work through a product-level API instead
 of brittle local scripts.
 
-The default product positioning is asset-class neutral. Current public Replay
-examples use crypto and onchain markets, where this beta has documented
-historical coverage. The skill does not place orders or execute trades.
+The default product positioning starts with the investment hypothesis. Current
+public Replay examples use onchain markets with documented historical coverage.
+The skill does not place orders or execute trades.
 
 ## Install
 

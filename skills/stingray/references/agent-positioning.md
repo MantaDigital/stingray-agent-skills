@@ -8,10 +8,9 @@ Stingray is an agentic investment hypothesis research engine that gives Codex,
 Claude Code, Cursor, and other SKILL.md hosts a product-level research loop:
 Idea -> Evidence -> Signal -> Replay -> optional Publication.
 
-The default product positioning is asset-class neutral. Current public Replay
-examples use crypto and onchain markets because that is where this beta has
-documented historical coverage. Trading and order execution remain outside the
-public skill.
+The default product positioning starts with the investment hypothesis. Current
+public Replay examples use onchain markets with documented historical coverage.
+Trading and order execution remain outside the public skill.
 
 ## Why It Complements Generic Agents
 
