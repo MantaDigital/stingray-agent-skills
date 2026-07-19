@@ -1,6 +1,6 @@
 ---
 name: stingray
-description: Agentic investment hypothesis research engine for coding agents. Use when Codex, Claude, Cursor, or a SKILL.md host needs market Ideas, Evidence, Signal design, staged Signal acceptance, private Replays, Replay status, opt-in Studio Publications, or token-safe research. Trading and order execution are excluded.
+description: Trading strategy builder for coding agents. Use when Codex, Claude, Cursor, or a SKILL.md host needs to turn a trading idea into market Evidence, an inspectable Signal, a private Replay, Replay status, or an opt-in Studio Publication. Stingray does not place trades.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
@@ -11,12 +11,11 @@ metadata:
 
 # Stingray
 
-Stingray is an agentic investment hypothesis research engine and Studio-native
-research runtime. Use it when the user wants a coding agent to turn a market
-hypothesis into Stingray Studio Ideas, Evidence, Signals, private Replays, and
-opt-in Studio Publications. Generic coding agents can plan and orchestrate;
-Stingray owns the market context, assistant runtime, product objects, and Replay
-processing.
+Stingray is a trading strategy builder. Use it when the user wants a coding
+agent to turn a trading idea into Stingray Studio Ideas, Evidence, Signals,
+private Replays, and opt-in Studio Publications. Generic coding agents can plan
+and orchestrate. Stingray handles the market context, product objects, and
+Replay processing.
 
 ## Credentials
 

@@ -2,12 +2,11 @@
 
 ## 0.2.1 - 2026-07-19
 
-- Reframed the default public description as an agentic investment hypothesis
-  research engine instead of an asset-class category.
-- Kept current beta coverage examples in the capability documentation without
-  using them as the product category.
-- Made the non-execution boundary explicit in public metadata and positioning:
-  the skill does not place orders or execute trades.
+- Reframed the default public description as a trading strategy builder.
+- Changed the headline copy to the concrete job: write a trading idea, build an
+  inspectable Signal, and test it against historical data in a private Replay.
+- Made the scope plain in public metadata and positioning: Stingray does not
+  place trades.
 - Bumped `metadata.version` and plugin `version` to 0.2.1.
 
 ## 0.2.0 - 2026-07-08

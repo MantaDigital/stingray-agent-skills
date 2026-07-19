@@ -5,7 +5,7 @@
     "email": "dev@mantadigital.io"
   },
   "metadata": {
-    "description": "Agentic investment hypothesis research engine for coding agents",
+    "description": "Trading strategy builder for coding agents",
     "version": "0.2.1"
   },
   "plugins": [
@@ -15,7 +15,7 @@
       "skills": [
         "./skills/stingray"
       ],
-      "description": "Agentic investment hypothesis research engine for Codex, Claude Code, Cursor, and other agents: Ideas, Evidence, Signal design, staged Signal acceptance, private Replays, Replay status, opt-in Studio Publications, and privacy-safe setup/debug feedback. Trading and order execution are excluded. Token-scoped, opt-in, Apache-2.0.",
+      "description": "Trading strategy builder for Codex, Claude Code, Cursor, and other agents. Turn a trading idea into Evidence, an inspectable Signal, and a private Replay. Publish only when asked. Stingray does not place trades. Token-scoped, opt-in, Apache-2.0.",
       "version": "0.2.1",
       "author": {
         "name": "Stingray",
@@ -25,24 +25,24 @@
       "repository": "https://github.com/MantaDigital/stingray-agent-skills",
       "keywords": [
         "stingray",
-        "investment-research",
-        "hypothesis-research",
+        "trading-strategies",
+        "strategy-builder",
+        "backtesting",
         "research",
         "signals",
         "market-research",
         "studio",
         "ideas",
         "replay",
-        "quant",
-        "onchain"
+        "quant"
       ],
       "tags": [
-        "investment-research",
+        "trading-strategies",
+        "backtesting",
         "research",
         "signals",
         "studio",
-        "quant",
-        "onchain"
+        "quant"
       ],
       "category": "research",
       "license": "Apache-2.0",

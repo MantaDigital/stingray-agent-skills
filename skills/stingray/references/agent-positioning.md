@@ -4,13 +4,12 @@ Read this file when a user asks why Stingray belongs in a coding-agent workflow.
 
 ## One-Line Position
 
-Stingray is an agentic investment hypothesis research engine that gives Codex,
-Claude Code, Cursor, and other SKILL.md hosts a product-level research loop:
+Stingray is a trading strategy builder for Codex, Claude Code, Cursor, and other
+SKILL.md hosts. It turns a trading idea into a product-level research loop:
 Idea -> Evidence -> Signal -> Replay -> optional Publication.
 
-The default product positioning starts with the investment hypothesis. Current
-public Replay examples use onchain markets with documented historical coverage.
-Trading and order execution remain outside the public skill.
+Start with the trading idea and the strategy being tested. Use Studio product
+names when they help explain the next step. Stingray does not place trades.
 
 ## Why It Complements Generic Agents
 
