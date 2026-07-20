@@ -4,15 +4,18 @@ Read this file when a user asks why Stingray belongs in a coding-agent workflow.
 
 ## One-Line Position
 
-Stingray is the Studio-native market agent that gives Codex, Claude Code,
-Cursor, and other SKILL.md hosts a product-level loop for crypto market ideas:
+Stingray is a trading strategy builder for Codex, Claude Code, Cursor, and other
+SKILL.md hosts. It turns a trading idea into a product-level research loop:
 Idea -> Evidence -> Signal -> Replay -> optional Publication.
+
+Start with the trading idea and the strategy being tested. Use Studio product
+names when they help explain the next step. Stingray does not place trades.
 
 ## Why It Complements Generic Agents
 
 Generic coding agents are good at planning, editing code, searching files, and
-orchestrating local tools. They should not hand-roll crypto data ingestion,
-market entity resolution, signal persistence, Replay execution, or publication
+orchestrating local tools. They should not hand-roll market data ingestion,
+market entity resolution, signal persistence, Replay processing, or publication
 state. Stingray supplies those product objects through a small action API.
 
 Use Stingray when the user wants:

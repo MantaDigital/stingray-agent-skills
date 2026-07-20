@@ -1,21 +1,21 @@
 ---
 name: stingray
-description: Studio-native crypto market agent for coding agents. Use when Codex, Claude, Cursor, or a SKILL.md host needs Stingray Studio Ideas, Evidence, Signal design, staged Signal acceptance, private Replays, Replay status, opt-in Studio Publications, Hyperliquid signal examples, or token-safe market research.
+description: Trading strategy builder for coding agents. Use when Codex, Claude, Cursor, or a SKILL.md host needs to turn a trading idea into market Evidence, an inspectable Signal, a private Replay, Replay status, or an opt-in Studio Publication. Stingray does not place trades.
 license: Apache-2.0
 compatibility: Requires shell access and outbound HTTPS access to stingray.fi. Designed for terminal-capable SKILL.md-compatible agents.
 metadata:
   author: Stingray
   organization: MantaDigital
-  version: 0.2.0
+  version: 0.2.1
 ---
 
 # Stingray
 
-Stingray is a Studio-native market agent and hosted signal runtime. Use it when
-the user wants a coding agent to turn market context into Stingray Studio Ideas,
-Evidence, Signals, private Replays, and opt-in Studio Publications. Generic
-coding agents can plan and orchestrate; Stingray owns the market context,
-assistant runtime, product objects, and Replay execution.
+Stingray is a trading strategy builder. Use it when the user wants a coding
+agent to turn a trading idea into Stingray Studio Ideas, Evidence, Signals,
+private Replays, and opt-in Studio Publications. Generic coding agents can plan
+and orchestrate. Stingray handles the market context, product objects, and
+Replay processing.
 
 ## Credentials
 

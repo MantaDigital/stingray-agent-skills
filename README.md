@@ -1,16 +1,19 @@
 # Stingray Agent Skills
 
-**A Studio-native market agent for SKILL.md-compatible coding agents.**
+**A trading strategy builder for SKILL.md-compatible coding agents.**
 
 Stingray lets Codex, Claude Code, Cursor, Gemini CLI, Cline, Continue, Goose,
-Roo, Windsurf, and other [`SKILL.md`](https://skills.sh)-compatible agents hand
-market work to Stingray Studio. The public skill uses the production Studio
-Skills API to turn natural-language market ideas into Studio Ideas, Evidence,
-Signals, private Replays, and opt-in Studio Publications.
+Roo, Windsurf, and other [`SKILL.md`](https://skills.sh)-compatible agents build
+and test trading strategies with Stingray Studio. Write a trading idea in plain
+English. The skill turns it into an inspectable Signal, tests it against
+historical data in a private Replay, and can publish the result only when you
+ask.
 
-Built for quants, analysts, and research desks who already live in their
+Built for traders, quants, analysts, and research desks who already live in their
 terminal and want an external agent to work through a product-level API instead
 of brittle local scripts.
+
+Stingray builds and tests the strategy. It does not place trades.
 
 ## Install
 

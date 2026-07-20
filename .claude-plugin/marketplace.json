@@ -5,8 +5,8 @@
     "email": "dev@mantadigital.io"
   },
   "metadata": {
-    "description": "Studio-native market agent for coding agents",
-    "version": "0.2.0"
+    "description": "Trading strategy builder for coding agents",
+    "version": "0.2.1"
   },
   "plugins": [
     {
@@ -15,8 +15,8 @@
       "skills": [
         "./skills/stingray"
       ],
-      "description": "Studio-native market agent for Codex, Claude Code, Cursor, and other agents: Ideas, Evidence, Signal design, staged Signal acceptance, private Replays, Replay status, opt-in Studio Publications, and privacy-safe setup/debug feedback. Token-scoped, opt-in, Apache-2.0.",
-      "version": "0.2.0",
+      "description": "Trading strategy builder for Codex, Claude Code, Cursor, and other agents. Turn a trading idea into Evidence, an inspectable Signal, and a private Replay. Publish only when asked. Stingray does not place trades. Token-scoped, opt-in, Apache-2.0.",
+      "version": "0.2.1",
       "author": {
         "name": "Stingray",
         "email": "dev@mantadigital.io"
@@ -25,7 +25,9 @@
       "repository": "https://github.com/MantaDigital/stingray-agent-skills",
       "keywords": [
         "stingray",
-        "crypto",
+        "trading-strategies",
+        "strategy-builder",
+        "backtesting",
         "research",
         "signals",
         "market-research",
@@ -35,7 +37,8 @@
         "quant"
       ],
       "tags": [
-        "crypto",
+        "trading-strategies",
+        "backtesting",
         "research",
         "signals",
         "studio",

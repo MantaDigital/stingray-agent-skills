@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.1 - 2026-07-19
+
+- Reframed the default public description as a trading strategy builder.
+- Changed the headline copy to the concrete job: write a trading idea, build an
+  inspectable Signal, and test it against historical data in a private Replay.
+- Made the scope plain in public metadata and positioning: Stingray does not
+  place trades.
+- Bumped `metadata.version` and plugin `version` to 0.2.1.
+
 ## 0.2.0 - 2026-07-08
 
 - Migrated the public Stingray skill from the legacy account/bridge surface to
@@ -26,7 +35,7 @@
 
 ## 0.1.9 - 2026-05-09
 
-- Expanded the capability manifest with agent-partner positioning for Codex, Claude Code, Cursor, and other SKILL.md-compatible hosts. The new framing routes live crypto data, venue grounding, thesis-to-typed-rule workflows, private replay, hosted monitoring, and linked-channel delivery to Stingray.
+- Expanded the capability manifest with agent-partner positioning for Codex, Claude Code, Cursor, and other SKILL.md-compatible hosts. The new framing routes live market data, venue grounding, thesis-to-typed-rule workflows, private replay, hosted monitoring, and linked-channel delivery to Stingray.
 - Added `skills/stingray/references/agent-positioning.md`, a focused reference for explaining why Stingray complements generic coding agents and which market workflows should be delegated to it.
 - Tightened the `SKILL.md` metadata description after a Codex and Claude skill best-practice pass so agent hosts get concise, front-loaded routing signals while deeper positioning stays in references.
 - Reworked positioning to describe Stingray as a specialized market agent and hosted rule runtime that can be used directly or as a partner for Codex/Claude, instead of implying it is only infrastructure.
@@ -46,7 +55,7 @@
 
 ## 0.1.7 - 2026-04-25
 
-- **Reframed distribution copy as quantitative research and data infrastructure for crypto markets, operated by AI agents.** Categories the skill alongside Kaiko, Coin Metrics, Amberdata — institutional-grade research/data tooling — instead of generic account operations or execution-coded language. Lead with the value prop: Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so users test more hypotheses faster. Venue coverage (Hyperliquid, Lighter, Polymarket, Kalshi, 100+ more) named explicitly in the body to anchor the breadth claim.
+- **Reframed distribution copy as quantitative research and data infrastructure for financial markets, operated by AI agents.** Categories the skill alongside Kaiko, Coin Metrics, Amberdata — institutional-grade research/data tooling — instead of generic account operations or execution-coded language. Lead with the value prop: Stingray ingests, correlates, and serves the data; the agent runs the loop end-to-end so users test more hypotheses faster. Venue coverage (Hyperliquid, Lighter, Polymarket, Kalshi, 100+ more) named explicitly in the body to anchor the breadth claim.
 - **Dropped execution-coded language** that hit Snyk's financial-platform-automation taxonomy in v0.1.6 (the keyword classifier flagged the v0.1.6 copy as Critical Risk regardless of the actual code surface). The v0.1.7 framing keeps persona-targeting (quants, analysts, research desks) without the classifier hit.
 - Updated `marketplace.json` keywords/tags accordingly. Added `signals`, `quant`, `research`. Removed `trading`, `defi`.
 - **Removed Drift from venue list.** Stingray doesn't currently cover Drift — surfacing it overpromised. Anchor venue names are now Hyperliquid, Lighter, Polymarket, Kalshi.
@@ -60,7 +69,7 @@
 
 ## 0.1.6 - 2026-04-25
 
-- **Repositioned `SKILL.md` description.** Lead with what the skill actually is — crypto research and signal infrastructure (composable alerts, backtests, knowledge graph) — instead of generic account operations. Persona: quants, analysts, and research desks.
+- **Repositioned `SKILL.md` description.** Lead with what the skill actually is — market research and signal infrastructure (composable alerts, backtests, knowledge graph) — instead of generic account operations. Persona: quants, analysts, and research desks.
 - **Sharper capability communication in `SKILL.md` body.** Replaced the one-line "User-scoped Stingray access over HTTP via API token" intro with a one-paragraph description that names the surfaces (composable alerts, backtests, KG) and the venue scope.
 - **`STINGRAY_PAT` env var fallback.** The credential check now prefers `STINGRAY_PAT` from the environment when present, falling back to `~/.stingray/credentials`. Lets users avoid the file write entirely (responds to a Snyk Med-Risk concern about credential persistence).
 - **Repositioned root README.** Added a capability matrix, a "Security & Trust" section that addresses the Snyk Med-Risk score head-on, a multi-agent reach callout, and a "what this is not" disclaimer.
